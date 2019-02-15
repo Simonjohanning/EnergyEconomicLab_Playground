@@ -6,22 +6,28 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
-import { ProsumerComponent } from './prosumer/prosumer.component';
-import { WelcomeComponent } from './welcome/welcome.component';
+import {CoreModule} from './core/core.module';
+import {ResearcherModule} from './researcher/researcher.module';
+import {PublicActorModule} from './public-actor/public-actor.module';
+import {GridOperatorModule} from './grid-operator/grid-operator.module';
+import {ProsumerModule} from './prosumer/prosumer.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ProsumerComponent,
-    WelcomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false})
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}),
+    CoreModule,
+    ResearcherModule,
+    PublicActorModule,
+    GridOperatorModule,
+    ProsumerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Prosumer} from '../Prosumer';
+import {Prosumer} from '../core/data-types/Prosumer';
 import { ActivatedRoute} from '@angular/router';
 import { Location} from '@angular/common';
-import {ExperimentInstanceLoaderService} from '../experiment-instance-loader.service';
+import {ExperimentInstanceLoaderService} from '../core/experiment-instance-loader.service';
 
 @Component({
   selector: 'app-prosumer',

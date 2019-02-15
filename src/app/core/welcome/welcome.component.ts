@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Prosumer} from '../Prosumer';
+import {Prosumer} from '../data-types/Prosumer';
 import {ExperimentInstanceLoaderService} from '../experiment-instance-loader.service';
 import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-welcome',
@@ -25,5 +26,17 @@ export class WelcomeComponent implements OnInit {
 
   loginProsumer(id: number): void {
     this.router.navigate(['ProsumerView/', id]);
+  }
+
+  loginGridOperator(): void {
+    this.router.navigate(['GridOperatorView/']);
+  }
+
+  loginPublicActor(): void {
+    this.router.navigate(['PublicActorView/']);
+  }
+
+  loginExperimentDesigner(): void {
+    this.router.navigate(['ExperimentDesignerView/']);
   }
 }

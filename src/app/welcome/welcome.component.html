@@ -1,7 +1,0 @@
-<h4>Select your role</h4>
-<select [(ngModel)]="selectedProsumer">
-  <option *ngFor="let prosumer of prosumers" [ngValue]="prosumer" (change)="loginProsumer(prosumer.id)">Prosumer {{prosumer.id}}
-</select>
-<div>
-<button (click)="loginProsumer(selectedProsumer.id)">Login prosumer {{selectedProsumer.id}}</button>
-</div>

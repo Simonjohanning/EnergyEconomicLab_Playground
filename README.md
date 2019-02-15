@@ -13,4 +13,4 @@ Following [Tomas Trajan](https://medium.com/@tomastrajan/6-best-practices-pro-ti
 
 ## User Manual
 
-While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [userManual](respective documentation).
+While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [[userManual]].

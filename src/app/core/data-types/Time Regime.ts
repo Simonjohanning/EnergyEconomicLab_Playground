@@ -1,0 +1,4 @@
+enum TimeRegime {
+  DISCRETE,
+  CONTINUOUS,
+}

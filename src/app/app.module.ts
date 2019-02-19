@@ -11,6 +11,8 @@ import {ResearcherModule} from './researcher/researcher.module';
 import {PublicActorModule} from './public-actor/public-actor.module';
 import {GridOperatorModule} from './grid-operator/grid-operator.module';
 import {ProsumerModule} from './prosumer/prosumer.module';
+import {DataProvisionService} from './core/data-provision.service';
+import {ExperimentStateService} from './core/experiment-state.service';
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import {ProsumerModule} from './prosumer/prosumer.module';
     GridOperatorModule,
     ProsumerModule
   ],
-  providers: [],
+  providers: [DataProvisionService, ExperimentStateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

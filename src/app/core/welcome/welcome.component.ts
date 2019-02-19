@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Prosumer} from '../data-types/Prosumer';
 import {ExperimentInstanceLoaderService} from '../experiment-instance-loader.service';
 import {Router} from '@angular/router';
+import {DataProvisionService} from '../data-provision.service';
+import {ExperimentStateService} from '../experiment-state.service';
 
 
 @Component({
@@ -11,16 +13,21 @@ import {Router} from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  prosumers: Prosumer[];
+  /*prosumers: Prosumer[];*/
+  loginCode: string;
+  errorCode: string;
 
   constructor(private loader: ExperimentInstanceLoaderService,
-              private router: Router) {  }
+              private router: Router,
+              private data: DataProvisionService,
+              private state: ExperimentStateService) {  }
 
   ngOnInit() {
-    this.getProsumers();
+    // this.getProsumers();
+    this.errorCode = '';
   }
 
-  getProsumers(): void {
+ /* getProsumers(): void {
     this.loader.getProsumers().subscribe(prosumers => this.prosumers = prosumers);
   }
 
@@ -38,5 +45,39 @@ export class WelcomeComponent implements OnInit {
 
   loginExperimentDesigner(): void {
     this.router.navigate(['ExperimentDesignerView/']);
+  }*/
+
+  login(): void {
+    this.errorCode = 'Attempting to login';
+    const loginInformation = this.loginCode.split('_');
+    this.data.experimentId = parseInt(loginInformation[0], 10);
+    this.state.experimentTime = 0;
+    switch (loginInformation[1]) {
+      case 'Prosumer': {
+        this.data.storage =  (parseInt(loginInformation[0], 10), parseInt(loginInformation[2], 10));
+        this.router.navigate(['ProsumerView/', loginInformation[2]]);
+        break;
+      }
+      case 'GridOperator': {
+        this.router.navigate(['GridOperatorView/']);
+        break;
+      }
+      case 'PublicActor': {
+        this.router.navigate(['PublicActorView/']);
+        break;
+      }
+      case 'ExperimentDesigner': {
+        this.router.navigate(['ExperimentDesignerView/']);
+        break;
+      }
+      default: {
+        this.errorCode = 'actor ' + loginInformation[1] + ' does not exist.';
+      }
+    }
+  }
+
+  loginWCode(code: string): void {
+    this.loginCode = code;
+    this.login();
   }
 }

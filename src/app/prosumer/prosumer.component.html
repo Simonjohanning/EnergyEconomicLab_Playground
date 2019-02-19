@@ -1,1 +1,16 @@
-You are Prosumer {{prosumer.name}} with the id {{prosumer.id}}
+<div class="well">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="prosumer">
+      You are Prosumer {{prosumer.name}} with the id {{prosumer.id}}
+    </div>
+      <div *ngIf="experimentId">
+        You are participating in experiment {{experimentId}}.
+    </div>
+    </div>
+    <div class="col">
+      <app-time></app-time>
+    </div>
+  </div></div>
+
+<app-persistent-resource-display></app-persistent-resource-display>

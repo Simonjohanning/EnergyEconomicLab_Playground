@@ -18,3 +18,10 @@ Due to the authors lack of experience with Angular CLI, it is however not clear 
 ## User Manual
 
 While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [user manual](docs/userManual.md).
+
+## Application State
+
+Since the application also serves as a learning environment for Angular CLI for the author, no consistent style exists when several options are available.
+Instead, different solutions or concepts are used to help evaluate which one is most appropriate for use.
+
+The application is furthermore not yet connected to external APIs, so much data is test data from static, hard-coded data structures.

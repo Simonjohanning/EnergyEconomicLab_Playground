@@ -1,7 +1,7 @@
 export class Prosumer {
 
     id: number;
-    name: string;
+    name?: string;
 
 }
 

@@ -1,10 +1,14 @@
-import {DER} from './DER';
+export class StorageUnit {
+  constructor(
+    readonly  model: string,
+    readonly  storageCapacity: number,
+    readonly feedinPower: number,
+    readonly feedoutPower: number,
+    readonly cycleEfficiency: number,
+    private currentSOC: number
+  ) {}
 
-export class StorageUnit extends DER {
-  model: string;
-  storageCapacity: number;
-  feedinPower: number;
-  feedoutPower: number;
-  cycleEfficiency: number;
-  currentSOC: number;
+  public changeStorage(currentTime: number, chargeChange: number) {
+
+  }
 }

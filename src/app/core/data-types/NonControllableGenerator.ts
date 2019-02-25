@@ -1,5 +1,7 @@
-export interface NonControllableGenerator {
-  model: string;
-  peakPower: number;
-  projectedGeneration: number[];
+export class NonControllableGenerator {
+  constructor(
+    readonly model: string,
+    readonly peakPower: number,
+    readonly projectedGeneration: number[]
+  ) {}
 }

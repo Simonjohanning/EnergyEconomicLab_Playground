@@ -1,5 +1,5 @@
 import {Prosumer} from './Prosumer';
 
-export class ExperimentDescription {
+export interface ExperimentDescription {
   prosumers: Prosumer[];
 }

@@ -15,7 +15,17 @@ const httpOptions = {
 
 @Injectable({providedIn: 'root'})
 export class ExperimentInstanceLoaderService {
+/* For building objects out of http request:
+this.http.get('...')
+    .map(res => {
+      var data = res.json();
+      return data.map(d => {
+        return new Object(d.prop1,
+          d.prop2, ...);
+      });
+    });
 
+ */
   constructor(
     private http: HttpClient) {
   }
@@ -98,37 +108,33 @@ export class ExperimentInstanceLoaderService {
   }
   getCGenerator(): ControllableGenerator {
     const model = 'controllable Generator #2';
-    const currentGeneration = 1.2;
     const maximalGeneration = 2.0;
-    const operationStatus = false;
     const minimalDowntime = 0.3;
     const minimalUptime = 0.4;
     const rampingParameter = 0.2;
     const heatCouplingNumber = 1.3;
-    return {
+    return new ControllableGenerator(
       model,
-      currentGeneration,
       maximalGeneration,
-      operationStatus,
       minimalDowntime,
       minimalUptime,
       rampingParameter,
       heatCouplingNumber
-    };
+    );
   }
   getLoad1(): Load {
     const model = 'Load1';
     const loadProfile =  [1.2, 1.3, 0.4];
     const relativeControllability = 0.2;
     const temporalShiftingCapability = 0.7;
-    return {model, loadProfile, relativeControllability, temporalShiftingCapability};
+    return new Load(model, loadProfile, relativeControllability, temporalShiftingCapability);
   }
   getLoad2(): Load {
     const model = 'Load2';
     const loadProfile = [1.3, 1.1, 0.7];
     const relativeControllability = 0.2;
     const temporalShiftingCapability = 0.7;
-    return {model, loadProfile, relativeControllability, temporalShiftingCapability};
+    return new Load(model, loadProfile, relativeControllability, temporalShiftingCapability);
   }
   getStorage(): StorageUnit {
     const model = 'CoolStore';
@@ -137,6 +143,6 @@ export class ExperimentInstanceLoaderService {
     const feedoutPower = 0.3;
     const cycleEfficiency = 0.9;
     const currentSOC = 0.2;
-    return {model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, currentSOC};
+    return new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, currentSOC);
   }
 }

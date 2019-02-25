@@ -1,0 +1,30 @@
+<h4>Relevant Bids:</h4>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table">
+      <thead>
+      <tr>
+        <th><i>Delivery Time</i></th>
+        <th><i class=".icon-time">Duration</i></th>
+        <th><i class=".icon-shopping-cart">Price</i> </th>
+        <th><i>Power</i></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bidToDisplay of relevantBids" [ngClass]="{'highlight': selectedRowIndex == bidToDisplay.id}"
+            (click)="highlight(bidToDisplay)">
+          <td>{{bidToDisplay.deliveryTime}}</td>
+          <td>{{bidToDisplay.duration}} </td>
+          <td>{{bidToDisplay.price}} </td>
+          <td>{{bidToDisplay.power}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="panel panel-default">
+  <app-bid-detail [bid]="relevantBids[selectedRowIndex]"></app-bid-detail>
+</div>
+<div class="panel panel-default">
+  <app-committed-transactions></app-committed-transactions>
+</div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {P2PBid} from '../../core/data-types/P2PBid';
 import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
 import {ExperimentStateService} from '../../core/experiment-state.service';
@@ -12,6 +12,7 @@ import {TimeService} from '../../core/time.service';
 export class BidDetailComponent implements OnInit {
 
   @Input() bid: P2PBid;
+  @Output() removeComponent: EventEmitter<any> = new EventEmitter();
   constructor(private bts: BlockchainTransactionService,
               private sessionData: ExperimentStateService,
               private timeService: TimeService) { }
@@ -21,6 +22,7 @@ export class BidDetailComponent implements OnInit {
 
   public purchase(): void {
     this.bts.commitToP2PBid(this.sessionData.getCurrentProsumer(), this.timeService.getCurrentTime(), this.bid);
+    this.removeComponent.emit();
   }
 
 }

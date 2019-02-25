@@ -11,8 +11,7 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let bidToDisplay of relevantBids" [ngClass]="{'highlight': selectedRowIndex == bidToDisplay.id}"
-            (click)="highlight(bidToDisplay)">
+        <tr *ngFor="let bidToDisplay of relevantBids" [ngStyle]="{'background': (bidToDisplay === selectedBid) ? '#42A948' : '#FFFFFF'}" (click)="highlight(bidToDisplay)">
           <td>{{bidToDisplay.deliveryTime}}</td>
           <td>{{bidToDisplay.duration}} </td>
           <td>{{bidToDisplay.price}} </td>
@@ -23,7 +22,7 @@
   </div>
 </div>
 <div class="panel panel-default">
-  <app-bid-detail [bid]="relevantBids[selectedRowIndex]"></app-bid-detail>
+  <app-bid-detail [bid]="selectedBid" (removeComponent)="resetBid()"></app-bid-detail>
 </div>
 <div class="panel panel-default">
   <app-committed-transactions></app-committed-transactions>

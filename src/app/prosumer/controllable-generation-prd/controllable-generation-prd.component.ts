@@ -10,6 +10,7 @@ import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
 export class ControllableGenerationPRDComponent implements OnInit {
 
   @Input() resource: ControllableGenerator;
+  private showResource = true;
 
   constructor() {}
   ngOnInit() {

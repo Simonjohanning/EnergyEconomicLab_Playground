@@ -9,6 +9,7 @@ import {Load} from '../../core/data-types/Load';
 export class LoadPRDComponent implements OnInit {
 
   @Input() resource: Load;
+  private showResource = true;
 
   constructor() { }
 

@@ -9,6 +9,7 @@ import {NonControllableGenerator} from '../../core/data-types/NonControllableGen
 export class NonControllableGenerationPRDComponent implements OnInit {
 
   @Input() resource: NonControllableGenerator;
+  private showResource = true;
 
   constructor() { }
 

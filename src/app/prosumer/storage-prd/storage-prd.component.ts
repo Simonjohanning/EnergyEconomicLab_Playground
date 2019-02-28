@@ -9,6 +9,7 @@ import {StorageUnit} from '../../core/data-types/StorageUnit';
 export class StoragePRDComponent implements OnInit {
 
   @Input() resource: StorageUnit;
+  private showResource = true;
 
   constructor() { }
 

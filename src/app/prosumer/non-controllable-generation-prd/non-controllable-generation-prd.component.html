@@ -1,8 +1,8 @@
 <div class="panel panel-primary">
-  <div class="panel-heading">
+  <div class="panel-heading" (click)="this.showResource = !this.showResource">
     <h3 class="panel-title">Generator: {{resource.model}}</h3>
   </div>
-  <div class="panel-body">
+  <div class="panel-body" *ngIf="showResource">
     <p>
       peak power: {{resource.peakPower}}
     </p>

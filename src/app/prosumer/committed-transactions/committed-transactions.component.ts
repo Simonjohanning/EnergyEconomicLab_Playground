@@ -12,9 +12,13 @@ import {Observable} from 'rxjs';
 export class CommittedTransactionsComponent implements OnInit {
 
   respectiveBids: P2PBid[] = [];
-  constructor(private bts: BlockchainTransactionService) { }
+  constructor(private bts: BlockchainTransactionService) {
+    this.bts.getCommitedBids().forEach(bid => this.respectiveBids.push(bid));
+  }
 
   ngOnInit() {
-    this.bts.committedBidSubject.subscribe(bid => this.respectiveBids.push(bid));
+    this.bts.committedBidSubject.subscribe(bid => {
+      this.respectiveBids.push(bid);
+    });
   }
 }

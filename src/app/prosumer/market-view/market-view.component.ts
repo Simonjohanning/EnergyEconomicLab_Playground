@@ -14,7 +14,7 @@ export class MarketViewComponent implements OnInit {
   private  relevantBids: P2PBid[] = [];
   private selectedBid: P2PBid;
   private minTime = 0;
-  private maxTime = 5;
+  private maxTime = 85;
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
               private sessionData: ExperimentStateService) { this.sessionData.setDefaultProsumer(); }
@@ -23,7 +23,7 @@ export class MarketViewComponent implements OnInit {
     // this.bts.commitedBidSubject.subscribe(bidArray => this.respectiveBids = bidArray);
     /*this.relevantBids = this.bts.getBids(this.timeService.getCurrentTime(), this.timeService.getCurrentTime() + 10);*/
     this.bts.openBidSubject.subscribe(openBids => {
-      console.log('New open bids next in market view');
+      console.log('New open bids next in market view: ' + openBids.length + ' open bids.');
       this.relevantBids = openBids.filter(bid => this.conformsToFilter(bid));
     });
     this.relevantBids = this.bts.getOpenBids();

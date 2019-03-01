@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MarketComponent implements OnInit {
 
+  private currentView = 'MarketView';
   constructor() { }
 
   ngOnInit() {
   }
 
+  private changeView(newView: string): void {
+    this.currentView = newView;
+  }
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
 import {Observable} from 'rxjs';
 import {ExperimentInstanceLoaderService} from '../../core/experiment-instance-loader.service';
+import {TimeService} from '../../core/time.service';
 
 @Component({
   selector: 'app-persistent-resource-display',
@@ -11,11 +12,14 @@ import {ExperimentInstanceLoaderService} from '../../core/experiment-instance-lo
 export class PersistentResourceDisplayComponent implements OnInit {
 
   @Input() prosumerInstance: Observable<ProsumerInstance>;
-
-  constructor(private loader: ExperimentInstanceLoaderService) {}
+  private currentTime: number;
+  constructor(private loader: ExperimentInstanceLoaderService,
+              private timeService: TimeService) {}
 
   ngOnInit() {
     this.prosumerInstance = this.loader.getProsumerData();
+    this.timeService.timeEmitter.subscribe(time => this.currentTime = time);
+    this.currentTime = this.timeService.getCurrentTime();
   }
 
 }

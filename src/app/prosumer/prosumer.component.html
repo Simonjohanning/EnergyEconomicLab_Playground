@@ -14,9 +14,18 @@
   </div></div>
 <div class="row">
   <div class="col-md-8">
-    <app-persistent-resource-display></app-persistent-resource-display>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title" (click)="this.showPRD = !this.showPRD">Persistent Resource Display</h3>
+      </div>
+      <div *ngIf="showPRD" class="panel-body">
+        <app-persistent-resource-display></app-persistent-resource-display>
+      </div>
+    </div>
   </div>
+</div>
+<div class="row">
   <div class="col-md-8">
-    <app-market-view></app-market-view>
+    <app-market></app-market>
   </div>
 </div>

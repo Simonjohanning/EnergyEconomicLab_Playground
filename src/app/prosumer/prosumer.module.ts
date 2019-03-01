@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProsumerComponent} from './prosumer.component';
 import {SharedModule} from '../shared/shared.module';
 import {CoreModule} from '../core/core.module';
@@ -13,9 +13,9 @@ import { FeedInPointDisplayComponent } from './feed-in-point-display/feed-in-poi
 import {CommittedTransactionsComponent} from './committed-transactions/committed-transactions.component';
 import {MarketComponent} from './market/market.component';
 import {MarketEntryComponent} from './market-entry/market-entry.component';
-import {BidCreatorComponent} from './bid-creator/bid-creator.component';
 import {BidDetailComponent} from './bid-detail/bid-detail.component';
 import {MarketViewComponent} from './market-view/market-view.component';
+import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component';
 
 @NgModule({
   declarations: [
@@ -26,15 +26,16 @@ import {MarketViewComponent} from './market-view/market-view.component';
     LoadPRDComponent,
     StoragePRDComponent,
     FeedInPointDisplayComponent,
-    BidCreatorComponent,
     MarketViewComponent,
     MarketEntryComponent,
     MarketComponent,
     BidDetailComponent,
-    CommittedTransactionsComponent],
+    CommittedTransactionsComponent,
+    P2PBidEditorComponent],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     CoreModule
   ],

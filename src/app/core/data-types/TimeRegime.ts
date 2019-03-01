@@ -1,4 +1,4 @@
-enum TimeRegime {
+export enum TimeRegime {
   DISCRETE,
   CONTINUOUS,
 }

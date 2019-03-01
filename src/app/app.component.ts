@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TimeService} from './core/time.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'lab Playground';
+  constructor(private timeService: TimeService) {}
+  private proceedTime() {
+    this.timeService.advanceTime(1);
+  }
 }

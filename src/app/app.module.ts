@@ -13,6 +13,7 @@ import {GridOperatorModule} from './grid-operator/grid-operator.module';
 import {ProsumerModule} from './prosumer/prosumer.module';
 import {DataProvisionService} from './core/data-provision.service';
 import {ExperimentStateService} from './core/experiment-state.service';
+import {TimeService} from './core/time.service';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {ExperimentStateService} from './core/experiment-state.service';
     GridOperatorModule,
     ProsumerModule
   ],
-  providers: [DataProvisionService, ExperimentStateService],
+  providers: [DataProvisionService, ExperimentStateService, TimeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from 'rxjs';
+import {P2PMarketDesign} from './data-types/P2PMarketDesign';
+import { TimeRegime } from './data-types/TimeRegime';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +10,16 @@ export class MockEDMService {
 
   constructor() { }
   getExperimentLength(): Observable<number> {
-    return of(3);
+    return of(120);
   }
   getTimeRegime(): Observable<TimeRegime> {
     const regime = TimeRegime.DISCRETE;
     return of(regime);
+  }
+  getTimeStepLength(): Observable<number> {
+    const stepLength = 3;
+    console.log('returning observable of stepLength');
+    return of(stepLength);
   }
   getCO2Price(): Observable<number[]> {
     const price = [0.2, 0.2, 0.4];
@@ -35,5 +42,18 @@ export class MockEDMService {
     if (parseInt(id, 10) < 10) { return of ('role1');
     } else {
       return of('role2'); }
+  }
+  getP2PMarketDescription(experimentId: number): Observable<P2PMarketDesign> {
+    return of({
+      bidClosure: 5,
+      timeSliceLength: 2,
+      minBidSize: 0.5,
+      maxPrice: -1
+    });
+  }
+
+  getAccellerationFactor(): Observable<number> {
+    const accellerationFactor = 10;
+    return of(accellerationFactor);
   }
 }

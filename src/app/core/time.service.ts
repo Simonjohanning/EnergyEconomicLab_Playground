@@ -63,4 +63,8 @@ export class TimeService {
       });
     });
   }
+
+  public getEndTime(): number {
+    return this.endTime;
+  }
 }

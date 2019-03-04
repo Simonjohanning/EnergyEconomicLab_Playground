@@ -17,7 +17,7 @@ export class MockEDMService {
     return of(regime);
   }
   getTimeStepLength(): Observable<number> {
-    const stepLength = 3;
+    const stepLength = 300;
     console.log('returning observable of stepLength');
     return of(stepLength);
   }

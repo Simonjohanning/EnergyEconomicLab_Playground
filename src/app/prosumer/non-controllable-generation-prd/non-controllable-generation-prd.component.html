@@ -9,8 +9,8 @@
     <p>
       projected generation: {{resource.projectedGeneration}}
     </p>
-    <!--<div [hidden]="!myLineChart">-->
-      <canvas #canvas>{{myLineChart}}</canvas>
-
+    <div [hidden]="!projectedGenerationChart">
+      <canvas #canvas>{{projectedGenerationChart}}</canvas>
+    </div>
   </div>
 </div>

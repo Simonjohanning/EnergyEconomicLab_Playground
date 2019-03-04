@@ -9,8 +9,8 @@
     <p>
       Rel. Controllability: {{resource.relativeControllability}}
     </p>
-    <p>
-      Load Profile: {{resource.loadProfile}}
-    </p>
+    <div [hidden]="!loadChart">
+      <canvas #canvas>{{loadChart}}</canvas>
+    </div>
   </div>
 </div>

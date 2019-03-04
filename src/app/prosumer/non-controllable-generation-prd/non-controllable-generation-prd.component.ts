@@ -11,10 +11,9 @@ export class NonControllableGenerationPRDComponent implements OnInit, AfterViewI
 
   @Input() resource: NonControllableGenerator;
   @ViewChild('canvas') canvas: ElementRef;
-  public context: CanvasRenderingContext2D;
   private showResource = true;
-  private myLineChart: Chart;
-  private labels = [0, 1, 2];
+  private projectedGenerationChart: Chart;
+  private labels;
 
   constructor(private cd: ChangeDetectorRef) {
   }
@@ -30,20 +29,35 @@ export class NonControllableGenerationPRDComponent implements OnInit, AfterViewI
 
   loadGraph(): void {
     //TODO fix reload panel issue
-    this.context = ( <HTMLCanvasElement> this.canvas.nativeElement).getContext('2d');
-    this.myLineChart = new Chart(this.context, {
+    this.labels = this.resource.projectedGeneration.map(currentValue => ('t = ' + this.resource.projectedGeneration.indexOf(currentValue)));
+    this.projectedGenerationChart = new Chart((this.canvas.nativeElement as HTMLCanvasElement).getContext('2d'), {
       type: 'line',
       data: {
         labels: this.labels,
         datasets: [{
           label: 'projected generation',
-          data: [0.5, 1.2, 1.1]
-        }],
-        xAxisID: 'time step',
-        yAxisID: 'projected generation (kW)'
+          data: this.resource.projectedGeneration
+        }]
       },
       options: {
-        label: 'Projected generation of resource'
+        legend: {
+          display: true
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'time step'
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'projected generation (kW)'
+            }
+          }]
+        },
+        labelString: 'Projected generation of resource'
       }
     });
     this.cd.detectChanges();
@@ -51,6 +65,6 @@ export class NonControllableGenerationPRDComponent implements OnInit, AfterViewI
 
   updatePanel(): void {
     this.showResource = !this.showResource;
-    if(this.showResource) { this.loadGraph(); }
+    if (this.showResource) { this.loadGraph(); }
   }
 }

@@ -1,7 +1,7 @@
 <div *ngIf="prosumerInstance | async; let prosumerInstance; else loading">
   Tokens: {{prosumerInstance.numTokens}}
 <app-feed-in-point-display [feedInPoint]="prosumerInstance.feedInCoordinates"></app-feed-in-point-display>
-Time: {{currentTime}}
+<app-residual-load [prosumerInstance]="prosumerInstance"></app-residual-load>
 <p *ngFor="let resource of prosumerInstance.controllableGenerators">
   <app-controllable-generation-prd [resource]="resource"></app-controllable-generation-prd>
 </p>

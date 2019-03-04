@@ -1,0 +1,9 @@
+<h3>Available residual load</h3>
+<div [hidden]="!loadPlot">
+  <canvas #canvas>{{loadPlot}}</canvas>
+</div>
+<div [hidden]="loadPlot">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

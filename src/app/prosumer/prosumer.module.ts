@@ -16,6 +16,7 @@ import {MarketEntryComponent} from './market-entry/market-entry.component';
 import {BidDetailComponent} from './bid-detail/bid-detail.component';
 import {MarketViewComponent} from './market-view/market-view.component';
 import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component';
+import { ResidualLoadComponent } from './residual-load/residual-load.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component
     MarketComponent,
     BidDetailComponent,
     CommittedTransactionsComponent,
-    P2PBidEditorComponent],
+    P2PBidEditorComponent,
+    ResidualLoadComponent],
   imports: [
     CommonModule,
     FormsModule,

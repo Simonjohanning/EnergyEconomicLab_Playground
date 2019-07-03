@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Coordinates} from '../../core/data-types/Coordinates';
 
 @Component({
   selector: 'app-feed-in-point-display',

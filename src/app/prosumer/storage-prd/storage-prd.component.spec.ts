@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StoragePRDComponent } from './storage-prd.component';
+import {StorageUnit} from '../../core/data-types/StorageUnit';
 
 describe('StoragePRDComponent', () => {
   let component: StoragePRDComponent;
@@ -16,6 +17,8 @@ describe('StoragePRDComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoragePRDComponent);
     component = fixture.componentInstance;
+    const storUn = new StorageUnit('tester', 4.3, 1.1, 1.1, .97, .4);
+    component.resource = storUn;
     fixture.detectChanges();
   });
 

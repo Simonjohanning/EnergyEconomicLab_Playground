@@ -1,6 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProsumerComponent } from './prosumer.component';
+import {CoreModule} from '../core/core.module';
+import {PersistentResourceDisplayComponent} from './persistent-resource-display/persistent-resource-display.component';
+import {MarketComponent} from './market/market.component';
+import {Prosumer} from '../core/data-types/Prosumer';
+import {ExperimentInstanceLoaderService} from '../core/experiment-instance-loader.service';
+import {FeedInPointDisplayComponent} from './feed-in-point-display/feed-in-point-display.component';
+import {ResidualLoadComponent} from './residual-load/residual-load.component';
+import {ControllableGenerationPRDComponent} from './controllable-generation-prd/controllable-generation-prd.component';
+import {NonControllableGenerationPRDComponent} from './non-controllable-generation-prd/non-controllable-generation-prd.component';
+import {LoadPRDComponent} from './load-prd/load-prd.component';
+import {StoragePRDComponent} from './storage-prd/storage-prd.component';
+import {P2PBidEditorComponent} from './p2p-bid-editor/p2p-bid-editor.component';
+import {MarketViewComponent} from './market-view/market-view.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {BidDetailComponent} from './bid-detail/bid-detail.component';
+import {CommittedTransactionsComponent} from './committed-transactions/committed-transactions.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ProsumerComponent', () => {
   let component: ProsumerComponent;
@@ -8,7 +26,8 @@ describe('ProsumerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProsumerComponent ]
+      imports: [CoreModule, ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule],
+      declarations: [ ProsumerComponent, PersistentResourceDisplayComponent, MarketComponent, FeedInPointDisplayComponent, ResidualLoadComponent, ControllableGenerationPRDComponent, NonControllableGenerationPRDComponent, LoadPRDComponent, StoragePRDComponent, P2PBidEditorComponent, MarketViewComponent, BidDetailComponent, CommittedTransactionsComponent ]
     })
     .compileComponents();
   }));

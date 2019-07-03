@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NonControllableGenerationPRDComponent } from './non-controllable-generation-prd.component';
+import {NonControllableGenerator} from '../../core/data-types/NonControllableGenerator';
 
 describe('NonControllableGenerationPRDComponent', () => {
   let component: NonControllableGenerationPRDComponent;
@@ -16,6 +17,8 @@ describe('NonControllableGenerationPRDComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NonControllableGenerationPRDComponent);
     component = fixture.componentInstance;
+    const ncGen = new NonControllableGenerator('tester', 4.3, [.3, .2, .4, .5]);
+    component.resource = ncGen;
     fixture.detectChanges();
   });
 

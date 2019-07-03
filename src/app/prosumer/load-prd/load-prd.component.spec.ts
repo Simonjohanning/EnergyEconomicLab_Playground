@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoadPRDComponent } from './load-prd.component';
+import {Load} from '../../core/data-types/Load';
 
 describe('LoadPRDComponent', () => {
   let component: LoadPRDComponent;
@@ -16,6 +17,8 @@ describe('LoadPRDComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoadPRDComponent);
     component = fixture.componentInstance;
+    const load = new Load('testmodel', [.3, .4, .5, .7], .4, .2);
+    component.resource = load;
     fixture.detectChanges();
   });
 

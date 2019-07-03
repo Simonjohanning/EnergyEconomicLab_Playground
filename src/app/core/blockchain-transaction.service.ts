@@ -77,6 +77,7 @@ export class BlockchainTransactionService {
 
   public getCommitedBids(): P2PBid[] { return this.committedBids; }
   public getOpenBids(): P2PBid[] { return this.openBids; }
+  public getMockBids(): P2PBid[] { return this.mockBids; }
 
   getUnusedBidId(): number {
     this.freeBidId++;

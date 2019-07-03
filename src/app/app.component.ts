@@ -7,7 +7,7 @@ import {TimeService} from './core/time.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'lab Playground';
+  title = 'labPlayground';
   constructor(private timeService: TimeService) {}
   private proceedTime() {
     this.timeService.advanceTime(1);

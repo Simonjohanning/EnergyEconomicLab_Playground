@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MarketViewComponent } from './market-view.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BidDetailComponent} from '../bid-detail/bid-detail.component';
+import {CommittedTransactionsComponent} from '../committed-transactions/committed-transactions.component';
 
 describe('MarketViewComponent', () => {
   let component: MarketViewComponent;
@@ -8,7 +11,8 @@ describe('MarketViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MarketViewComponent ]
+      imports: [FormsModule, ReactiveFormsModule],
+      declarations: [ MarketViewComponent, BidDetailComponent, CommittedTransactionsComponent ]
     })
     .compileComponents();
   }));

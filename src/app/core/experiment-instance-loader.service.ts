@@ -8,6 +8,8 @@ import {ControllableGenerator} from './data-types/ControllableGenerator';
 import {Load} from './data-types/Load';
 import {StorageUnit} from './data-types/StorageUnit';
 import {Coordinates} from './data-types/Coordinates';
+import {BlockchainTransactionService} from './blockchain-transaction.service';
+import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,7 +29,7 @@ this.http.get('...')
 
  */
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient, private bts: BlockchainTransactionService) {
   }
 
    getStaticProsumers(): Prosumer[] {
@@ -144,5 +146,14 @@ this.http.get('...')
     const cycleEfficiency = 0.9;
     const currentSOC = 0.2;
     return new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, currentSOC);
+  }
+
+  getMockPublicActorData(): TransactionFeeEntry[] {
+    const feeEntries = [];
+    this.bts.getOpenBids().forEach(currentBid => {
+      const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingBid: currentBid};
+      feeEntries.push(entry);
+    });
+    return feeEntries;
   }
 }

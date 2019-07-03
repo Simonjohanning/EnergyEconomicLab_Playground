@@ -27,6 +27,10 @@ export class WelcomeComponent implements OnInit {
     this.errorCode = '';
   }
 
+  printStuff(): void {
+    console.log('stuff');
+  }
+
  /* getProsumers(): void {
     this.loader.getProsumers().subscribe(prosumers => this.prosumers = prosumers);
   }
@@ -80,4 +84,6 @@ export class WelcomeComponent implements OnInit {
     this.loginCode = code;
     this.login();
   }
+
+
 }

@@ -64,6 +64,11 @@ Specification of the different asset types, their data, vizualization and dispat
 
 While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [user manual](docs/userManual.md).
 
+## Developers Guide
+
+Since the Energy Economics Lab this playground is meant to be preliminary research for is envisioned to be a versatile tool for the investigation of a number of use cases and research questions, considerable need for software development effort is foreseen. 
+With this recognition, and in accordance to the views of the core author, collaborative, open source development is to be encouraged. In order to motivate other developers and help them understand the structure, thoughts and technical aspects of this project, a [developers guide](docs/developersGuide.md) will be developed.  
+
 ## Application State
 
 Since the application also serves as a learning environment for Angular CLI for the author, no consistent style exists when several options are available.

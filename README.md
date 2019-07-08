@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground.svg?style=svg)](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground)
+
 # LabPlayground
 
 The Energy Economic Lab Playground is an experimental research infrastructure development project that is meant for the project author to play around with technologies the author is not very familiar with (in particular with Angular CLI). 

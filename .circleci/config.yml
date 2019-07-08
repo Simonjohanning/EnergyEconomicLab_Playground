@@ -1,17 +1,11 @@
-version: 2
+version: 2.0
 jobs:
   build:
-    working_directory: ~/my-project
     docker:
-      - image: circleci/node:8-browsers
+      - image: alpine:3.7
     steps:
-      - checkout
-      - restore_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
-      - save_cache:
-          key: AngularCircleCI-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - "node_modules"
-      - run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-      - run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+      - run:
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'

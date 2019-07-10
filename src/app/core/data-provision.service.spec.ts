@@ -9,4 +9,6 @@ describe('DataProvisionService', () => {
     const service: DataProvisionService = TestBed.get(DataProvisionService);
     expect(service).toBeTruthy();
   });
+  xdescribe('Provision of data test', () => {
+  });
 });

@@ -9,4 +9,12 @@ describe('HelperService', () => {
     const service: HelperService = TestBed.get(HelperService);
     expect(service).toBeTruthy();
   });
+
+  xdescribe('Array aggregation test', () => {
+
+  });
+
+  xdescribe('Rounding number tests', () => {
+
+  });
 });

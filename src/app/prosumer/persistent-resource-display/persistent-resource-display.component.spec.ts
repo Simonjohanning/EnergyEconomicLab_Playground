@@ -13,10 +13,13 @@ import {NonControllableGenerationPRDComponent} from '../non-controllable-generat
 import {LoadPRDComponent} from '../load-prd/load-prd.component';
 import {StoragePRDComponent} from '../storage-prd/storage-prd.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('PersistentResourceDisplayComponent', () => {
   let component: PersistentResourceDisplayComponent;
   let fixture: ComponentFixture<PersistentResourceDisplayComponent>;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,10 +35,18 @@ describe('PersistentResourceDisplayComponent', () => {
     const load = new Load('testmodel', [.3, .4, .5, .7], .4, .2);
     const prosInst = new ProsumerInstance([],[],[load],[], {x: 3, y: 4}, 100);
     component.prosumerInstance = of(prosInst);
-    fixture.detectChanges();
+    el = fixture.debugElement.query(By.css('div'));
+    // tslint:disable-next-line:no-debugger
+    debugger;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Tokens shown when prosumer loaded', () => {
+    // expect(el.nativeElement.textContent.trim()).toBe('  Loading stuff...');
+    fixture.detectChanges();
+    expect(el.nativeElement.textContent.trim()).toBe('tokens: 100');
   });
 });

@@ -9,4 +9,13 @@ describe('ExperimentStateService', () => {
     const service: ExperimentStateService = TestBed.get(ExperimentStateService);
     expect(service).toBeTruthy();
   });
+
+  xdescribe('State change tests', () => {
+    xit('Time progress test', () => {
+    });
+
+    xit('Prosumer change test', () => {
+    });
+  });
+
 });

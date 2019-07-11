@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground.svg?style=svg)](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground)
+[![codecov](https://codecov.io/gh/Simonjohanning/EnergyEconomicLab_Playground/branch/master/graph/badge.svg)](https://codecov.io/gh/Simonjohanning/EnergyEconomicLab_Playground)
 
 # LabPlayground
 

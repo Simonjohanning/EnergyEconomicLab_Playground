@@ -9,3 +9,4 @@ jobs:
           command: |
             echo 'Hello World!'
             echo 'This is the delivery pipeline'
+            echo 'export CODECOV_TOKEN="d0a2a28e-148e-421b-8c5e-24fcd7aa2958"' >> $BASH_ENV

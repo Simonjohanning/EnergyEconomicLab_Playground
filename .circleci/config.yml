@@ -1,4 +1,6 @@
 version: 2.0
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -9,4 +11,7 @@ jobs:
           command: |
             echo 'Hello World!'
             echo 'This is the delivery pipeline'
-            echo 'export CODECOV_TOKEN="d0a2a28e-148e-421b-8c5e-24fcd7aa2958"' >> $BASH_ENV
+            echo 'export CODECOV_TOKEN=d0a2a28e-148e-421b-8c5e-24fcd7aa2958' >> $BASH_ENV
+      - codecov/upload:
+          file: ./coverage/labPlayground/index.html
+          token: d0a2a28e-148e-421b-8c5e-24fcd7aa2958

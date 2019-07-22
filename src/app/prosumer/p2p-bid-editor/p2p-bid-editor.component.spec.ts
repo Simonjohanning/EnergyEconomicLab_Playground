@@ -24,4 +24,55 @@ describe('P2PBidEditorComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Form validation works', () => {
+    xit('Valid bid is accepted', () => {
+
+    });
+
+    xit('Start invalid bid is rejected', () => {
+
+    });
+
+    xit('Duration invalid bid is rejected', () => {
+
+    });
+
+    xit('Power invalid bid is rejected', () => {
+
+    });
+
+    xit('Price invalid bid is rejected', () => {
+
+    });
+
+  });
+
+  xdescribe('Error messages shown correctly', () => {
+    xit('Valid bid creates no shown error msg', () => {
+
+    });
+
+    xit('Start invalid bid gives respective error message', () => {
+
+    });
+
+    xit('Duration invalid bid gives respective error message', () => {
+
+    });
+
+    xit('Power invalid bid gives respective error message', () => {
+
+    });
+
+    xit('Price invalid bid gives respective error message', () => {
+
+    });
+
+  });
+
+  xdescribe('Valid bid submission works', () => {
+
+  });
 });
+

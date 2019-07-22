@@ -28,4 +28,18 @@ describe('MarketComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Current view shows respective view', () => {
+    xit('Current view shows market view on appropriate setting', () => {
+
+    });
+
+    xit('Current view shows bid view on appropriate setting', () => {
+
+    });
+  });
+
+  xdescribe('Current view toggles between the views', () => {
+
+  });
 });

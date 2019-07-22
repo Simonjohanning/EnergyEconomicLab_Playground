@@ -24,6 +24,4 @@
     <small *ngIf="bidForm.get('price').errors  && bidForm.get('price').touched" class="form-text text-muted">Error: {{bidForm.get('price').errors.priceIssue}}</small>
   </div>
   <button type="submit" class="btn btn-primary" *ngIf="bidForm.valid">Submit Offer</button>
-  <button type="submit" class="btn btn-danger" *ngIf="!bidForm.valid" (click)="printStuff()">Bid Invalid</button>
-  <button class="btn btn-warning" (click)="printStuff()">FooBar</button>
 </form>

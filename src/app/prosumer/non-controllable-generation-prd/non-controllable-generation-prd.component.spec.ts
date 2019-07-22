@@ -25,4 +25,23 @@ describe('NonControllableGenerationPRDComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Non-controllable generation Resource is displayed correctly', () => {
+    xit(' Peak Power is displayed', () => {
+
+    });
+
+    xit('Projected Generation is displayed', () => {
+
+    });
+
+  });
+
+  xdescribe('Toggle element / resource display hiding works', () => {
+
+  });
+
+  xdescribe('Chart is displayed properly', () => {
+
+  });
 });

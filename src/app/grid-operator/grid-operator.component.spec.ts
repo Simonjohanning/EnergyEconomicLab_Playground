@@ -22,4 +22,8 @@ describe('GridOperatorComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Grid operator display elements are displayed', () => {
+
+  });
 });

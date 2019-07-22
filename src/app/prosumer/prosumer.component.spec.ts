@@ -41,4 +41,50 @@ describe('ProsumerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Prosumer information is displayed correctly', () => {
+    xit('Prosumer name is displayed correctly', () => {
+
+    });
+
+    xit('Prosumer id is displayed correctly', () => {
+
+    });
+
+    xit('nothing is displayed while waiting on Prosumer', () => {
+
+    });
+  });
+
+  xdescribe('Prosumer gets infered correctly from path', () => {
+
+  });
+
+  xdescribe('Experiment information is displayed correctly', () => {
+    xit('Experiment id is displayed correctly', () => {
+
+    });
+
+    xit('nothing is displayed while waiting on experiment', () => {
+
+    });
+  });
+
+  xdescribe('Time elements are displayed correctly', () => {
+
+  });
+
+  xdescribe('PRD are displayed correctly', () => {
+    xit('Toggle works properly', () => {
+
+    });
+
+    xit('PRD element works propertly', () => {
+
+    });
+  });
+
+  xdescribe('Market view is displayed correctly', () => {
+
+  });
 });

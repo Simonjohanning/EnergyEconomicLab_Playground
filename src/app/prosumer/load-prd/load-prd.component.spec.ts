@@ -25,4 +25,24 @@ describe('LoadPRDComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Load Resource is displayed correctly', () => {
+    xit(' Temp. Shifting cap is displayed', () => {
+
+    });
+
+    xit(' Rel. Controllability is displayed', () => {
+
+    });
+
+  });
+
+  xdescribe('Toggle element / resource display hiding works', () => {
+
+  });
+
+  xdescribe('Chart is displayed properly', () => {
+
+  });
+
 });

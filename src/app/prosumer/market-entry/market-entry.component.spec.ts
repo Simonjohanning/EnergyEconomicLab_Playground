@@ -32,4 +32,8 @@ describe('MarketEntryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Market entry is diplayed correctly', () => {
+
+  });
 });

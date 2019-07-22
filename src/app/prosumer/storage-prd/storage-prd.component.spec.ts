@@ -25,4 +25,30 @@ describe('StoragePRDComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Storage Resource is displayed correctly', () => {
+    xit('State-of-charge is displayed', () => {
+
+    });
+
+    xit('Cycle Efficiency is displayed', () => {
+
+    });
+
+    xit('Feedout power is displayed', () => {
+
+    });
+
+    xit('Feedin power is displayed', () => {
+
+    });
+  });
+
+  xdescribe('Toggle element / resource display hiding works', () => {
+
+  });
+
+  xdescribe('SOC-Chart is displayed properly', () => {
+
+  });
 });

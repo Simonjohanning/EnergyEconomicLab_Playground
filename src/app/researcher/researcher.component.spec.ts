@@ -22,4 +22,20 @@ describe('ResearcherComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Researcher time management works', () => {
+    xit('Researcher can progress time', () => {
+
+    });
+
+    xit('Experiment time is displayed accordingly', () => {
+
+    });
+  });
+
+  xdescribe('Experiment information is displayed correctly', () => {
+    xit('Experiment ID is displayed correctly', () => {
+
+    });
+  });
 });

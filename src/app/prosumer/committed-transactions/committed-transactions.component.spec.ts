@@ -22,4 +22,14 @@ describe('CommittedTransactionsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Committed transactions are displayed accordingly', () => {
+    xit('A committed transaction is displayed properly', () => {
+
+    });
+
+    xit('Committed transactions are fetched properly from BTS', () => {
+
+    });
+  });
 });

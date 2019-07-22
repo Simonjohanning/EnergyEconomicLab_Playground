@@ -27,4 +27,25 @@ describe('ResidualLoadComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Residual load is displayed properly', () => {
+    xit('Chart loads properly', () => {
+
+    });
+
+    xit('Loading elements shows while waiting on chart', () => {
+
+    });
+  });
+
+  xdescribe('Residual load is calculated properly', () => {
+    xit('Load is calculated as inverted generation', () => {
+
+    });
+
+    xit('Residual load is calculated as aggregated generation and load', () => {
+
+    });
+  });
+
 });

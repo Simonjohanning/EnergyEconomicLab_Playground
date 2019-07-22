@@ -22,4 +22,18 @@ describe('BidDetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Bids are displayed properly', () => {
+
+  });
+
+  xdescribe('Displayed bids are purchased on button interaction', () => {
+    xit('BTS is called properly', () => {
+
+    });
+
+    xit('Display element is removed on activation', () => {
+
+    });
+  });
 });

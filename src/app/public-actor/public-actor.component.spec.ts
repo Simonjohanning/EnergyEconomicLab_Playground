@@ -25,4 +25,33 @@ describe('PublicActorComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Experiment information is displayed correctly', () => {
+    xit('Experiment id is displayed correctly', () => {
+
+    });
+
+    xit('nothing is displayed while waiting on experiment', () => {
+
+    });
+  });
+
+  xdescribe('Transactions are displayed correctly', () => {
+    xit('Placeholder is shown with no transactions', () => {
+
+    });
+    xdescribe('Individual transactions are displayed correctly', () => {
+      xit('Payer id is shown correctly', () => {
+
+      });
+
+      xit('Amount is shown correctly', () => {
+
+      });
+
+      xit('ID of corresponding bid is shown correctly', () => {
+
+      });
+    });
+  })
 });

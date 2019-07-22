@@ -9,4 +9,9 @@ describe('MockEDMService', () => {
     const service: MockEDMService = TestBed.get(MockEDMService);
     expect(service).toBeTruthy();
   });
+
+  xdescribe('test of individual data provision services via mock interface', () => {
+
+  });
 });
+

@@ -26,4 +26,42 @@ describe('MarketViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Market view is displayed properly', () => {
+
+  });
+
+  xdescribe('Form validation works', () => {
+
+  });
+
+  xdescribe('Form submission works', () => {
+
+  });
+
+  xdescribe('Slider are constricted through the entries and simulation time', () => {
+
+  });
+
+  xdescribe('Bids are filtered according to the slider settings', () => {
+
+  });
+
+  xdescribe('Bid detail is displayed accordingly', () => {
+
+  });
+
+  xdescribe('Committed transactions are shown', () => {
+
+  });
+
+  xdescribe('Bid selection works', () => {
+    xit('Selected bid highlighting works', () => {
+
+    });
+
+    xit('Selected bid details are displayed accordingly', () => {
+
+    });
+  })
 });

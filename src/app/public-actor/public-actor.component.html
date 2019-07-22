@@ -16,5 +16,6 @@
     <td>{{transactionToDisplay.amount}}</td>
     <td>{{transactionToDisplay.correspondingBid.id}}</td>
   </tr>
+  <div *ngIf="transactionFeeData.length === 0">No transactions occured yet</div>
   </tbody>
 </table>

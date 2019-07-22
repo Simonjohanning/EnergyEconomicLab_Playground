@@ -27,4 +27,8 @@ describe('FeedInPointDisplayComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  xdescribe('Feed in point coordinates are displayed accordingly', () => {
+
+  });
 });

@@ -9,4 +9,12 @@ describe('TransactionClearingService', () => {
     const service: TransactionClearingService = TestBed.get(TransactionClearingService);
     expect(service).toBeTruthy();
   });
+
+  xdescribe('valid transactions are cleared properly', () => {
+
+  });
+
+  xdescribe('invalid transactions are rejected', () => {
+
+  });
 });

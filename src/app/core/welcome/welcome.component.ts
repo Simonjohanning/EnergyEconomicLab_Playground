@@ -51,6 +51,8 @@ export class WelcomeComponent implements OnInit {
     this.router.navigate(['ExperimentDesignerView/']);
   }*/
 
+ // TODO include experiment registration functionality
+  // TODO include signaling readiness functionality
   login(): void {
     this.errorCode = 'Attempting to login';
     const loginInformation = this.loginCode.split('_');

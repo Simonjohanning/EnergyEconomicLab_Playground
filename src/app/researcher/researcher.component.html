@@ -5,3 +5,15 @@
 <div>
   passed time: {{state.experimentTime}}
 </div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title" (click)="this.hideExperimentEditor = !this.hideExperimentEditor">Experiment Design Editor</h3>
+      </div>
+      <div *ngIf="!hideExperimentEditor" class="panel-body">
+        <app-experiment-editor></app-experiment-editor>
+      </div>
+    </div>
+  </div>
+</div>

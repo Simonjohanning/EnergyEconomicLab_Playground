@@ -1,0 +1,32 @@
+<h3>Current Prosumers</h3>
+<table class="table">
+  <thead>
+  <tr>
+    <th><i>Prosumer ID</i></th>
+    <th><i>Prosumer name</i></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let prosumer of prosumerList">
+    <td>{{prosumer.id}}</td>
+    <td>{{prosumer.name}}</td>
+    <button (click)="removeProsumer(prosumer)">remove</button>
+  </tr>
+  </tbody>
+</table>
+<form [formGroup]="prosumerAddForm">
+  <div class="form-group">
+    <label for="prosumerId">ID</label>
+    <input type="number" class="form-control" id="prosumerId" aria-describedby="idHelp" formControlName="id" value="{{idSuggestion}}" required>
+    <small id="idHelp" *ngIf="(!prosumerAddForm.get('id').errors) || prosumerAddForm.get('id').untouched" class="form-text text-muted">The ID of the prosumer to add</small>
+    <small *ngIf="prosumerAddForm.get('id').errors  && prosumerAddForm.get('id').touched" class="form-text text-muted">Error: {{prosumerAddForm.get('id').errors.idIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="prosumerName">Name</label>
+    <input type="text" class="form-control" id="prosumerName" aria-describedby="nameHelp" formControlName="name" required>
+    <small id="nameHelp" *ngIf="(!prosumerAddForm.get('name').errors) || prosumerAddForm.get('name').untouched" class="form-text text-muted">The name of the prosumer to add</small>
+    <small *ngIf="prosumerAddForm.get('name').errors  && prosumerAddForm.get('name').touched" class="form-text text-muted">Error: {{prosumerAddForm.get('name').errors.nameIssue}}</small>
+  </div>
+  <button *ngIf="prosumerAddForm.valid" (click)="addProsumer()" [disabled]="!prosumerAddForm.valid">Add Prosumer</button>
+</form>

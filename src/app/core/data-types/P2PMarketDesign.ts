@@ -3,4 +3,5 @@ export interface P2PMarketDesign {
   timeSliceLength: number;
   minBidSize: number;
   maxPrice: number;
+  feeAmount: number;
 }

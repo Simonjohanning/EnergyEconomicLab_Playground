@@ -10,8 +10,12 @@ import {ExperimentStateService} from '../core/experiment-state.service';
 })
 export class ResearcherComponent implements OnInit {
 
+  // TODO settle on experiment description strategy and formalism; make everything consistent with regards to this
+
   private experimentId: number;
   private passedTime: number;
+  private hideExperimentEditor: boolean;
+
   constructor(
     private data: DataProvisionService,
     private state: ExperimentStateService) { }
@@ -19,6 +23,7 @@ export class ResearcherComponent implements OnInit {
   ngOnInit() {
     this.experimentId = this.data.experimentId;
     this.passedTime = this.state.experimentTime;
+    this.hideExperimentEditor = true;
   }
 
   proceedTime(): void {

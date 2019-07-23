@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {P2PMarketDesign} from './data-types/P2PMarketDesign';
 import { TimeRegime } from './data-types/TimeRegime';
+import {ExperimentDescription} from './data-types/ExperimentDescription';
 
 @Injectable({
   providedIn: 'root'
@@ -48,12 +49,18 @@ export class MockEDMService {
       bidClosure: 5,
       timeSliceLength: 2,
       minBidSize: 0.5,
-      maxPrice: -1
+      maxPrice: -1,
+      feeAmount: .1
     });
   }
 
   getAccellerationFactor(): Observable<number> {
     const accellerationFactor = 10;
     return of(accellerationFactor);
+  }
+
+  // TODO do something meaningful
+  addExperimentDescription(descriptionToStore: ExperimentDescription): void{
+    console.log('Attempting to store ' + descriptionToStore);
   }
 }

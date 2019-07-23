@@ -17,6 +17,8 @@ import {BidDetailComponent} from './bid-detail/bid-detail.component';
 import {MarketViewComponent} from './market-view/market-view.component';
 import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component';
 import { ResidualLoadComponent } from './residual-load/residual-load.component';
+import { FeedInObligationDisplayComponent } from './feed-in-obligation-display/feed-in-obligation-display.component';
+import { FeeLevyDisplayComponent } from '../prosumer/fee-levy-display/fee-levy-display.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ResidualLoadComponent } from './residual-load/residual-load.component';
     BidDetailComponent,
     CommittedTransactionsComponent,
     P2PBidEditorComponent,
-    ResidualLoadComponent],
+    ResidualLoadComponent,
+    FeedInObligationDisplayComponent,
+    FeeLevyDisplayComponent],
   imports: [
     CommonModule,
     FormsModule,

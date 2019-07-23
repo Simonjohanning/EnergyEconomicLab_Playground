@@ -11,7 +11,15 @@
     <div class="col">
       <app-time></app-time>
     </div>
+    <div class="col">
+      <app-fee-levy-display [prosumer]="prosumer" [experimentId]="experimentId"></app-fee-levy-display>
+    </div>
   </div></div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <app-feed-in-obligation-display [prosumer]="prosumer"></app-feed-in-obligation-display>
+    </div></div></div>
 <div class="row">
   <div class="col-md-8">
     <div class="panel panel-primary">

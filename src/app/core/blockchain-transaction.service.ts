@@ -14,42 +14,9 @@ import {DataProvisionService} from './data-provision.service';
 })
 export class BlockchainTransactionService {
   private freeBidId = 5;
-  private mockBids: P2PBid[] = [
-    {
-      id: 1,
-      provider: {id: 1},
-      deliveryTime: 81,
-      duration: 3,
-      price: 2,
-      power: 1.5
-    },
-    {
-      id: 2,
-      provider: {id: 1},
-      deliveryTime: 12,
-      duration: 2,
-      price: 1.6,
-      power: 1.5
-    },
-    {
-      id: 3,
-      provider: {id: 1},
-      deliveryTime: 33,
-      duration: 1,
-      price: 2.2,
-      power: 1.5
-    },
-    {
-      id: 4,
-      provider: {id: 1},
-      deliveryTime: 13,
-      duration: 2,
-      price: 2.1,
-      power: 1.5
-    }
-  ];
+
   private committedBids: P2PBid[] = [];
-  private openBids: P2PBid[] = this.mockBids;
+  private openBids: P2PBid[];
   public committedBidSubject: Subject<P2PBid> = new Subject<P2PBid>();
   public openBidSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
   private transactions: BCTransaction[] = [];
@@ -58,6 +25,7 @@ export class BlockchainTransactionService {
   constructor(private timeService: TimeService,
               private edmService: MockEDMService,
               private data: DataProvisionService) {
+    this.openBids = this.data.getMockBids();
     this.timeService.timeEmitter.subscribe(currentTime => {
       this.openBids = this.openBids.filter(currentBid => !this.bidExpired(currentBid));
       this.openBidSubject.next(this.openBids);
@@ -77,7 +45,6 @@ export class BlockchainTransactionService {
 
   public getCommitedBids(): P2PBid[] { return this.committedBids; }
   public getOpenBids(): P2PBid[] { return this.openBids; }
-  public getMockBids(): P2PBid[] { return this.mockBids; }
 
   getUnusedBidId(): number {
     this.freeBidId++;

@@ -1,0 +1,46 @@
+<div class="spanNav-row" id="spanNav-row">
+  <select name="storageUnits" [(ngModel)]="selectedModel" (change)="setParameters()">
+    <option *ngFor="let currentStorageUnit of storageUnits" [selected]="selectedModel === currentStorageUnit.model">{{currentStorageUnit.model}}</option>
+  </select>
+  <button class="btn btn-danger" (click)="resetParameters()">reset</button>
+</div>
+{{selectedModel}}
+<form [formGroup]="storageForm">
+  <div class="form-group">
+    <label for="model">Model</label>
+    <input type="string" class="form-control" id="model" aria-describedby="modelHelp" formControlName="draftModel" required>
+    <small id="modelHelp" *ngIf="(!storageForm.get('draftModel').errors)" class="form-text text-muted">The name of the model</small>
+    <small *ngIf="storageForm.get('draftModel').errors" class="form-text text-muted">Error: {{storageForm.get('draftModel').errors.modelError}}</small>
+  </div>
+  <div class="form-group">
+    <label for="storageCapacity">Storage Capacity</label>
+    <input type="number" class="form-control" id="storageCapacity" aria-describedby="storageCapacityHelp" formControlName="draftStorageCapacity" required>
+    <small id="storageCapacityHelp" *ngIf="(!storageForm.get('draftStorageCapacity').errors)" class="form-text text-muted">The storage capacity of the asset (in kWh)</small>
+    <small *ngIf="storageForm.get('draftStorageCapacity').errors" class="form-text text-muted">Error: {{storageForm.get('draftStorageCapacity').errors.storageCapacityError}}</small>
+  </div>
+  <div class="form-group">
+    <label for="feedinPower">Feedin Power</label>
+    <input type="number" class="form-control" id="feedinPower" aria-describedby="feedinPowerHelp" formControlName="draftFeedinPower" required>
+    <small id="feedinPowerHelp" *ngIf="(!storageForm.get('draftFeedinPower').errors)" class="form-text text-muted">The maximal power intake capacity of the asset (in kW)</small>
+    <small *ngIf="storageForm.get('draftFeedinPower').errors" class="form-text text-muted">Error: {{storageForm.get('draftFeedinPower').errors.feedinPowerError}}</small>
+  </div>
+  <div class="form-group">
+    <label for="feedoutPower">Feedout Power</label>
+    <input type="number" class="form-control" id="feedoutPower" aria-describedby="feedoutPowerHelp" formControlName="draftFeedoutPower" required>
+    <small id="feedoutPowerHelp" *ngIf="(!storageForm.get('draftFeedoutPower').errors)" class="form-text text-muted">The maximal power outtake capacity of the asset (in kW)</small>
+    <small *ngIf="storageForm.get('draftFeedoutPower').errors" class="form-text text-muted">Error: {{storageForm.get('draftFeedoutPower').errors.feedoutPowerError}}</small>
+  </div>
+  <div class="form-group">
+    <label for="cycleEfficiency">Cycle Efficiency</label>
+    <input type="number" class="form-control" id="cycleEfficiency" aria-describedby="cycleEfficiencyHelp" formControlName="draftCycleEfficiency" required>
+    <small id="cycleEfficiencyHelp" *ngIf="(!storageForm.get('draftCycleEfficiency').errors)" class="form-text text-muted">The efficiency of a charging cycle (fraction kept after losses from feedin, storage and feedout)</small>
+    <small *ngIf="storageForm.get('draftCycleEfficiency').errors" class="form-text text-muted">Error: {{storageForm.get('draftCycleEfficiency').errors.cycleEfficiencyError}}</small>
+  </div>
+  <div class="form-group">
+    <label for="initialSOC">Initial SOC (State of Charge)</label>
+    <input type="number" class="form-control" id="initialSOC" aria-describedby="initialSOC" formControlName="draftInitialSOC" required>
+    <small id="initialSOCHelp" *ngIf="(!storageForm.get('draftInitialSOC').errors)" class="form-text text-muted">The state of charge the asset is instantiated with (fraction of total capacity)</small>
+    <small *ngIf="storageForm.get('draftInitialSOC').errors" class="form-text text-muted">Error: {{storageForm.get('draftInitialSOC').errors.initialSOCError}}</small>
+  </div>
+  <button class="btn btn-success" *ngIf="storageForm.valid && !storageForm.pristine" (click)="storeStorageTemplate()">Store Template</button>
+</form>

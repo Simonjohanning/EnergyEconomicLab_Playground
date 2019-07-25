@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Prosumer} from '../../core/data-types/Prosumer';
 import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
 import {MockEDMService} from '../../core/mock-edm.service';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
+import {LoadEditorComponent} from '../load-editor/load-editor.component';
+import {StorageEditorComponent} from '../storage-editor/storage-editor.component';
+import {ControllableGenerator} from '../../core/data-types/ControllableGenerator';
+import {CGEditorComponent} from '../cgeditor/cgeditor.component';
+import {NCGEditorComponent} from '../ncgeditor/ncgeditor.component';
 
 @Component({
   selector: 'app-prosumer-editor',
@@ -14,6 +19,14 @@ export class ProsumerEditorComponent implements OnInit {
 
   public prosumerList: Prosumer[] = new Array<Prosumer>();
   public prosumeSubject: Subject<Prosumer[]>  = new Subject<Prosumer[]>();
+  private selectedProsumer: Prosumer = null;
+  private selectedPill = 'Loads';
+
+  @ViewChild(LoadEditorComponent) loadEditor: LoadEditorComponent;
+  @ViewChild(StorageEditorComponent) storageEditor: StorageEditorComponent;
+  @ViewChild(CGEditorComponent) cgEditor: CGEditorComponent;
+  @ViewChild(NCGEditorComponent) ncgEditor: NCGEditorComponent;
+
   private idSuggestion: number;
   private prosumerAddForm  = new FormGroup(
     {
@@ -22,6 +35,10 @@ export class ProsumerEditorComponent implements OnInit {
     });
 
   constructor(private edmService: MockEDMService) {
+    this.prosumerList.push({
+      name: 'defProsumer',
+      id: 12
+    });
   }
 
   ngOnInit() {

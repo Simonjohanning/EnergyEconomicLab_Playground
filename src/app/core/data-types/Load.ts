@@ -1,12 +1,15 @@
-export class Load {
+import {DispatchableAsset} from './DispatchableAsset';
+
+export class Load extends DispatchableAsset{
   private recentFlexibilityUse: boolean;
   private currentLoad: number;
   constructor(
-    readonly  model: string,
+    readonly model: string,
     readonly loadProfile: number[],
     readonly relativeControllability: number,
     readonly temporalShiftingCapability: number
   ) {
+    super(model);
     this.recentFlexibilityUse = false;
     this.currentLoad = loadProfile[0];
   }

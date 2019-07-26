@@ -27,7 +27,19 @@
         <h3 class="panel-title" (click)="this.showPRD = !this.showPRD">Persistent Resource Display</h3>
       </div>
       <div *ngIf="showPRD" class="panel-body">
-        <app-persistent-resource-display></app-persistent-resource-display>
+        <app-persistent-resource-display [prosumerInstance]="prosumerInstance"></app-persistent-resource-display>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title" (click)="this.showAssetDispatch = !this.showAssetDispatch">Asset Dispatch</h3>
+      </div>
+      <div *ngIf="showAssetDispatch" class="panel-body">
+        <app-asset-dispatch [prosumerInstance]="prosumerInstance" [timeService]="timeService"></app-asset-dispatch>
       </div>
     </div>
   </div>

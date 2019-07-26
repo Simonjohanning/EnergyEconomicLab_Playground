@@ -1,4 +1,6 @@
-export class ControllableGenerator {
+import {DispatchableAsset} from './DispatchableAsset';
+
+export class ControllableGenerator extends DispatchableAsset{
   private operationStatus: boolean;
   private lastOperationStatusSwitch: number;
   private currentGeneration: number;
@@ -11,7 +13,9 @@ export class ControllableGenerator {
     readonly minimalUptime: number,
     readonly rampingParameter: number,
     readonly heatCouplingNumber: number
-  ) {}
+  ) {
+    super(model);
+  }
 
   /**
    * Method that sets the generation of the generator if the requested generation

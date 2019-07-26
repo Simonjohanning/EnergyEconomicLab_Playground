@@ -19,6 +19,10 @@ import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component
 import { ResidualLoadComponent } from './residual-load/residual-load.component';
 import { FeedInObligationDisplayComponent } from './feed-in-obligation-display/feed-in-obligation-display.component';
 import { FeeLevyDisplayComponent } from '../prosumer/fee-levy-display/fee-levy-display.component';
+import { AssetDispatchComponent } from '../prosumer/asset-dispatch/asset-dispatch.component';
+import { CGDispatchComponent } from '../prosumer/cgdispatch/cgdispatch.component';
+import { StorageDispatchComponent } from '../prosumer/storage-dispatch/storage-dispatch.component';
+import { LoadDispatchComponent } from '../prosumer/load-dispatch/load-dispatch.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { FeeLevyDisplayComponent } from '../prosumer/fee-levy-display/fee-levy-d
     P2PBidEditorComponent,
     ResidualLoadComponent,
     FeedInObligationDisplayComponent,
-    FeeLevyDisplayComponent],
+    FeeLevyDisplayComponent,
+    AssetDispatchComponent,
+    CGDispatchComponent,
+    StorageDispatchComponent,
+    LoadDispatchComponent],
   imports: [
     CommonModule,
     FormsModule,

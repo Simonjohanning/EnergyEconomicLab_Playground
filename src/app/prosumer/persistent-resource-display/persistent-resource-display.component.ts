@@ -11,13 +11,12 @@ import {TimeService} from '../../core/time.service';
 })
 export class PersistentResourceDisplayComponent implements OnInit {
 
-  @Input() prosumerInstance: Observable<ProsumerInstance>;
+  @Input() prosumerInstance: ProsumerInstance;
   private currentTime: number;
   constructor(private loader: ExperimentInstanceLoaderService,
               private timeService: TimeService) {}
 
   ngOnInit() {
-    this.prosumerInstance = this.loader.getProsumerData();
     this.timeService.timeEmitter.subscribe(time => this.currentTime = time);
     this.currentTime = this.timeService.getCurrentTime();
   }

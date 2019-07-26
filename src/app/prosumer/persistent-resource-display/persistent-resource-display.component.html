@@ -1,4 +1,4 @@
-<div *ngIf="prosumerInstance | async; let prosumerInstance; else loading">
+<div *ngIf="prosumerInstance">
   Tokens: {{prosumerInstance.numTokens}}
 <app-feed-in-point-display [feedInPoint]="prosumerInstance.feedInCoordinates"></app-feed-in-point-display>
 <app-residual-load [prosumerInstance]="prosumerInstance"></app-residual-load>
@@ -15,6 +15,6 @@
   <app-storage-prd [resource]="currentStorage"></app-storage-prd>
 </p>
 </div>
-<ng-template #loading>
+<div *ngIf="!prosumerInstance">
   Loading stuff...
-</ng-template>
+</div>

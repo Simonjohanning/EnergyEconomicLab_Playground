@@ -5,6 +5,8 @@ import { Location} from '@angular/common';
 import {ExperimentInstanceLoaderService} from '../core/experiment-instance-loader.service';
 import {DataProvisionService} from '../core/data-provision.service';
 import {TimeService} from '../core/time.service';
+import {ProsumerInstance} from '../core/data-types/ProsumerInstance';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-prosumer',
@@ -16,12 +18,17 @@ export class ProsumerComponent implements OnInit {
   private prosumer: Prosumer;
   private experimentId: number;
   private showPRD = false;
+  private showAssetDispatch = false;
+  private prosumerInstance: Observable<ProsumerInstance>;
 
   constructor( private route: ActivatedRoute,
                private loader: ExperimentInstanceLoaderService,
                private location: Location,
                private data: DataProvisionService,
-               private timeService: TimeService) { }
+               private timeService: TimeService)
+  {
+    this.prosumerInstance = this.loader.getProsumerData();
+  }
 
   ngOnInit() {
     this.getProsumer();

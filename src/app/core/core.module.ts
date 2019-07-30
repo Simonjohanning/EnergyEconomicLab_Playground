@@ -6,6 +6,7 @@ import {SharedModule} from '../shared/shared.module';
 import { TimeComponent } from './time/time.component';
 import {ExperimentStateService} from './experiment-state.service';
 import {TimeService} from './time.service';
+import {TimeStepValidator} from './TimeStepValidator';
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import {TimeService} from './time.service';
     SharedModule
   ],
   exports: [TimeComponent],
-  providers: [ExperimentStateService, TimeService]
+  providers: [ExperimentStateService, TimeService, TimeStepValidator]
 })
 export class CoreModule { }

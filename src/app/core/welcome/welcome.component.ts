@@ -4,6 +4,7 @@ import {ExperimentInstanceLoaderService} from '../experiment-instance-loader.ser
 import {Router} from '@angular/router';
 import {DataProvisionService} from '../data-provision.service';
 import {ExperimentStateService} from '../experiment-state.service';
+import {RDFAnnotationService} from '../rdfannotation.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class WelcomeComponent implements OnInit {
   /*prosumers: Prosumer[];*/
   loginCode: string;
   errorCode: string;
+  rdfString = '';
 
   constructor(private loader: ExperimentInstanceLoaderService,
               private router: Router,
@@ -87,5 +89,32 @@ export class WelcomeComponent implements OnInit {
     this.login();
   }
 
-
+  // TODO remove test function for annotation service
+  printTestRDF() {
+    try{
+      this.rdfString = RDFAnnotationService.createPrimer(['dct', 'dcat', 'org', 'rdf', 'rdfs', 'owl', 'xsd', 'skos', 'foaf', 'iirm', 'vcard', 'eur', 'dcatde']);
+      this.rdfString += RDFAnnotationService.getAuthorVcardString('Simon');
+      const dataSetKeywordMap = new Map<string, string[]>();
+      dataSetKeywordMap.set('de', ['Spotmarkt', 'Strompreis']);
+      dataSetKeywordMap.set('en', ['spot market', 'electricity price']);
+      this.rdfString += RDFAnnotationService.createDataSetEntry(
+        'iirm:Spot2015',
+        'EEX hourly Spotmarket data for the year 2015 in Euro/MWh',
+        'Price series Spotmarket EEX 2015',
+        'iirm:SimonJohanning',
+        'iirm:Spot2015Distribution',
+        dataSetKeywordMap,
+        '<eur:data-theme/ENER>',
+        '\<http://dcat-ap.de/def/politicalGeocoding/stateKey/14\>'
+      );
+      this.rdfString += RDFAnnotationService.createDistributionEntry(
+      'iirm:Spot2015Distribution',
+      '<http://beispiel.de>',
+      'Price series Spotmarket EEX 2015 Distribution',
+      '<http://dcat-ap.de/def/licenses/cc-by-de/3.0>'
+    );
+    } catch (e) {
+      console.log('Deriving the RDF data resulted in the following error: ' + e);
+    }
+  }
 }

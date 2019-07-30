@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {AbstractControl, ValidatorFn} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {MockEDMService} from './mock-edm.service';
 import {P2PMarketDesign} from './data-types/P2PMarketDesign';
-import {ExperimentInstanceLoaderService} from './experiment-instance-loader.service';
 import {DataProvisionService} from './data-provision.service';
 import {TimeService} from './time.service';
 import {ExperimentStateService} from './experiment-state.service';
@@ -17,13 +16,7 @@ export class BidValidationService {
               private dataProvisionService: DataProvisionService,
               private timeService: TimeService,
               private ets: ExperimentStateService) {
-    this.edmService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pmd => this.p2pMarketDesign = p2pmd);
-    /*this.p2pMarketDesign = {
-      bidClosure: 5,
-      timeSliceLength: 2,
-      minBidSize: 3,
-      maxPrice: 5
-    };*/
+    DataProvisionService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pmd => this.p2pMarketDesign = p2pmd);
   }
 
   public fitValidator(control: AbstractControl) {
@@ -39,7 +32,7 @@ export class BidValidationService {
   public durationValidator(control: AbstractControl) {
 
     if (control.value !== this.p2pMarketDesign.timeSliceLength) {
-      console.log('control: '+control.value+' timeSliceLength: '+this.p2pMarketDesign.timeSliceLength);
+      console.log('control: ' + control.value + ' timeSliceLength: ' + this.p2pMarketDesign.timeSliceLength);
       const durationIssueString = ('Duration of the bid must be ' + this.p2pMarketDesign.timeSliceLength);
       return { durationIssue: durationIssueString};
     } else {
@@ -66,11 +59,14 @@ export class BidValidationService {
       return null;
     }
   }
+
+  // TODO implement
   public checkBidValidity(value: any) {
     console.log(value);
     return true;
   }
 
+  // TODO implement
   getBidValidityErrors(value: any) {
     console.log(value);
     return '';

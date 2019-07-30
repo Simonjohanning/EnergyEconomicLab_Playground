@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MockEDMService} from '../../core/mock-edm.service';
 import {ProsumerEditorComponent} from '../prosumer-editor/prosumer-editor.component';
 import {P2pMarketdesignEditorComponent} from '../p2p-marketdesign-editor/p2p-marketdesign-editor.component';

@@ -1,93 +1,47 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {P2PMarketDesign} from './data-types/P2PMarketDesign';
-import { TimeRegime } from './data-types/TimeRegime';
 import {ExperimentDescription} from './data-types/ExperimentDescription';
 import {Load} from './data-types/Load';
-import {ExperimentInstanceLoaderService} from './experiment-instance-loader.service';
 import {ControllableGenerator} from './data-types/ControllableGenerator';
 import {NonControllableGenerator} from './data-types/NonControllableGenerator';
 import {StorageUnit} from './data-types/StorageUnit';
 import {DataProvisionService} from './data-provision.service';
+import {ExperimentDescriptionService} from '../shared/experiment-description.service';
+import {ExperimentInstance} from './data-types/ExperimentInstance';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MockEDMService {
 
-  constructor(private data: DataProvisionService) { }
-  getExperimentLength(): Observable<number> {
-    return of(120);
-  }
-  getTimeRegime(): Observable<TimeRegime> {
-    const regime = TimeRegime.DISCRETE;
-    return of(regime);
-  }
-  getTimeStepLength(): Observable<number> {
-    const stepLength = 300;
-    console.log('returning observable of stepLength');
-    return of(stepLength);
-  }
-  getCO2Price(): Observable<number[]> {
-    const price = [0.2, 0.2, 0.4];
-    return of(price);
-  }
-  getGasPrice(): Observable<number[]> {
-    const price = [0.2, 0.2, 0.4];
-    return of(price);
-  }
-  getPrognosisVisibilityScheme(): Observable<string> {
-    return of('default');
-  }
-  getScheduleVisibilityScheme(): Observable<string> {
-    return of('default');
-  }
-  getBidVisibilityScheme(): Observable<string> {
-    return of('default');
-  }
-  getRole(id: string): Observable<string> {
-    if (parseInt(id, 10) < 10) { return of ('role1');
-    } else {
-      return of('role2'); }
-  }
-  getP2PMarketDescription(experimentId: number): Observable<P2PMarketDesign> {
-    return of({
-      bidClosure: 5,
-      timeSliceLength: 2,
-      minBidSize: 0.5,
-      maxPrice: -1,
-      feeAmount: .1
-    });
-  }
+  constructor(
+    private data: DataProvisionService,
+    private eds: ExperimentDescriptionService
+  ) { }
 
-  getAccellerationFactor(): Observable<number> {
-    const accellerationFactor = 10;
-    return of(accellerationFactor);
-  }
-
-  // TODO do something meaningful
-  addExperimentDescription(descriptionToStore: ExperimentDescription): void{
-    console.log('Attempting to store ' + descriptionToStore);
-  }
-
-  getConfiguredLoads(): Observable<Load[]> {
-    const loadsToReturn: Load[] = this.data.getLoads();
+  static getConfiguredLoads(): Observable<Load[]> {
+    const loadsToReturn: Load[] = DataProvisionService.getLoads();
     return of(loadsToReturn);
   }
 
-  getConfiguredStorages(): Observable<StorageUnit[]> {
-    const storagesToReturn: StorageUnit[] = this.data.getStorages();
+  static getConfiguredStorages(): Observable<StorageUnit[]> {
+    const storagesToReturn: StorageUnit[] = DataProvisionService.getStorages();
     return of(storagesToReturn);
   }
 
-  getConfiguredCGs(): Observable<ControllableGenerator[]> {
-    const cgsToReturn: ControllableGenerator[] = this.data.getControllableGenerators();
+  static getConfiguredCGs(): Observable<ControllableGenerator[]> {
+    const cgsToReturn: ControllableGenerator[] = DataProvisionService.getControllableGenerators();
     return of(cgsToReturn);
   }
 
-  getConfiguredNCGs(): Observable<NonControllableGenerator[]> {
-    const ncgsToReturn: NonControllableGenerator[] = this.data.getNonControllableGenerators();
+  static getConfiguredNCGs(): Observable<NonControllableGenerator[]> {
+    const ncgsToReturn: NonControllableGenerator[] = DataProvisionService.getNonControllableGenerators();
     return of(ncgsToReturn);
+  }
+
+  // TODO do something meaningful
+  addExperimentDescription(descriptionToStore: ExperimentDescription): void {
+    console.log('Attempting to store ' + descriptionToStore);
   }
 
   addNewLoad(load: Load): void {
@@ -105,6 +59,25 @@ export class MockEDMService {
 
   addNewStorage(storage: StorageUnit): void {
     console.log('Storage ' + storage.model + ' added as mock functionality');
+  }
+
+  getExperimentInstanceIDSet(): Observable<Set<number>> {
+    const numberSet = new Set<number>();
+    console.log('trying to get the experiment instance IDs, with instances ' + this.data.getMockExperimentInstances());
+    this.data.getMockExperimentInstances().forEach(currentElement => {
+      numberSet.add(currentElement.experimentID);
+    });
+    return of (numberSet);
+  }
+
+  getExperimentDescriptions(): ExperimentDescription[] {
+    const mockData: ExperimentDescription[] = new Array<ExperimentDescription>();
+    mockData[0] = this.data.getED();
+    return mockData;
+  }
+
+  addExperimentInstance(instanceToAdd: ExperimentInstance) {
+    console.log('Attempting to store ' + instanceToAdd);
   }
 }
 

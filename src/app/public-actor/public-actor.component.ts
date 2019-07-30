@@ -18,7 +18,7 @@ export class PublicActorComponent implements OnInit {
 
   ngOnInit() {
     this.experimentId = this.data.experimentId;
-    this.transactionFeeData = this.loader.getMockPublicActorData();
+    this.transactionFeeData = this.data.getMockPublicActorData();
   }
 
 }

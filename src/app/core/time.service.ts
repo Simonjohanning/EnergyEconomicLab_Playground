@@ -3,6 +3,7 @@ import {interval, Observable, Subject} from 'rxjs';
 import {MockEDMService} from './mock-edm.service';
 import {map} from 'rxjs/operators';
 import {TimeRegime} from './data-types/TimeRegime';
+import {DataProvisionService} from './data-provision.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,17 @@ export class TimeService {
   private endTime: number;
   constructor(private edmService: MockEDMService) {
     this.currentTime = 0;
-    this.edmService.getTimeRegime().subscribe(timeRegime => {
+    DataProvisionService.getTimeRegime().subscribe(timeRegime => {
       console.log('time regime set to ' + timeRegime);
       if (timeRegime === TimeRegime.DISCRETE) {
-        this.discretePeriodicEmittance(this.edmService.getTimeStepLength());
+        this.discretePeriodicEmittance(DataProvisionService.getTimeStepLength());
       } else if (timeRegime === TimeRegime.CONTINUOUS) {
-        this.continuousPeriodicEmittance(this.edmService.getAccellerationFactor());
+        this.continuousPeriodicEmittance(DataProvisionService.getAccellerationFactor());
       } else {
         console.error('Time Regime ' + timeRegime + ' is invalid!!!');
       }
     });
-    this.edmService.getExperimentLength().subscribe(expLength => this.endTime = expLength);
+    DataProvisionService.getExperimentLength().subscribe(expLength => this.endTime = expLength);
   }
 
   public getCurrentTime(): number {

@@ -30,7 +30,7 @@ export class BlockchainTransactionService {
       this.openBids = this.openBids.filter(currentBid => !this.bidExpired(currentBid));
       this.openBidSubject.next(this.openBids);
     });
-    this.edmService.getP2PMarketDescription(data.experimentId).subscribe(p2pMarketDesign => this.p2pMarketDesign = p2pMarketDesign);
+    DataProvisionService.getP2PMarketDescription(data.experimentId).subscribe(p2pMarketDesign => this.p2pMarketDesign = p2pMarketDesign);
   }
 
   public commitToP2PBid(buyer: Prosumer, timeOfPurchase: number, committedBid: P2PBid) {

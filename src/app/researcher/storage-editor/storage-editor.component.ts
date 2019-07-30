@@ -172,7 +172,7 @@ export class StorageEditorComponent implements OnInit {
         this.storageForm.get('draftFeedinPower').setValue(currentStorage.feedinPower);
         this.storageForm.get('draftFeedoutPower').setValue(currentStorage.feedoutPower);
         this.storageForm.get('draftCycleEfficiency').setValue(currentStorage.cycleEfficiency);
-        this.storageForm.get('draftInitialSOC').setValue(currentStorage.currentSOC);
+        this.storageForm.get('draftInitialSOC').setValue(currentStorage.initialSOC);
       }
     });
   }

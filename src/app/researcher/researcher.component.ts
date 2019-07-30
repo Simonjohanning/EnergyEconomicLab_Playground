@@ -14,7 +14,7 @@ export class ResearcherComponent implements OnInit {
 
   private experimentId: number;
   private passedTime: number;
-  private hideExperimentEditor: boolean;
+  private editorToShow: string;
 
   constructor(
     private data: DataProvisionService,
@@ -23,7 +23,7 @@ export class ResearcherComponent implements OnInit {
   ngOnInit() {
     this.experimentId = this.data.experimentId;
     this.passedTime = this.state.experimentTime;
-    this.hideExperimentEditor = false;
+    this.editorToShow = 'DesignEditor';
   }
 
   proceedTime(): void {

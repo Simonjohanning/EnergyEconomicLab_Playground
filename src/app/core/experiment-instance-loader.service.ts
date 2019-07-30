@@ -2,14 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Prosumer} from './data-types/Prosumer';
-import {NonControllableGenerator} from './data-types/NonControllableGenerator';
 import {ProsumerInstance} from './data-types/ProsumerInstance';
-import {ControllableGenerator} from './data-types/ControllableGenerator';
-import {Load} from './data-types/Load';
-import {StorageUnit} from './data-types/StorageUnit';
-import {Coordinates} from './data-types/Coordinates';
 import {BlockchainTransactionService} from './blockchain-transaction.service';
-import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
 import {DataProvisionService} from './data-provision.service';
 
 const httpOptions = {
@@ -35,7 +29,7 @@ this.http.get('...')
     private data: DataProvisionService) {
   }
 
-   getStaticProsumers(): Prosumer[] {
+   static getStaticProsumers(): Prosumer[] {
     let prosumerArray: Prosumer[];
     prosumerArray = [
       { id: 1, name: 'Mr. Nice' },
@@ -44,14 +38,25 @@ this.http.get('...')
     return prosumerArray;
   }
 
-  staticgetExperimentTime(): Observable<number> {
+  static getExperimentTime(): Observable<number> {
     return of(0);
+  }
+
+  static getProsumerData(): Observable<ProsumerInstance> {
+    let prosumerInstance: ProsumerInstance;
+    prosumerInstance = new ProsumerInstance(
+      DataProvisionService.getControllableGenerators(),
+      DataProvisionService.getNonControllableGenerators(),
+      DataProvisionService.getLoads(),
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100);
+    return of(prosumerInstance);
   }
 
   urlBuilder(selector: string): string {
     return ('api/' + selector);
   }
-
   getProsumers(): Observable<Prosumer[]> {
     return this.http.get<Prosumer[]>(this.urlBuilder('prosumers'));
   }
@@ -60,15 +65,6 @@ this.http.get('...')
     console.log(['Trying to get Prosumer ', url]);
     return this.http.get<Prosumer>(url);
   }
-
-  getProsumerData(): Observable<ProsumerInstance> {
-    let prosumerInstance: ProsumerInstance;
-    prosumerInstance = new ProsumerInstance(this.data.getControllableGenerators(), this.data.getNonControllableGenerators(), this.data.getLoads(), this.data.getStorages(), this.data.getCoordinates(), 100);
-    return of(prosumerInstance);
-  }
-
-
-
  /* getStaticProsumerData(): ProsumerInstance {
     /!*let respectiveProsumer: Prosumer;*!/
     let feedInCoordinates: Coordinates;
@@ -82,6 +78,4 @@ this.http.get('...')
     this.prosumerInstance = {controllableGenerators, nonControllableGenerators, loads, storage, feedInCoordinates, numTokens};
     return this.prosumerInstance;
   }*/
-
-
 }

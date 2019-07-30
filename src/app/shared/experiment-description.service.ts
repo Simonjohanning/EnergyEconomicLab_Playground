@@ -18,14 +18,15 @@ export class ExperimentDescriptionService {
   getExperimentDescription(experimentType: number): ExperimentDescription {
     if (experimentType === 0) {
       return {
-        prosumers: [],
+        prosumers: new Array(),
         p2pMarketDesign: {
           bidClosure: 10,
           timeSliceLength: 1,
           minBidSize: 1,
           maxPrice: 10000,
           feeAmount: .1
-        }
+        },
+        description: 'mock experiment description for type 0'
       };
     }
   }

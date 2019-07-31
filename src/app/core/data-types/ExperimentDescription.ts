@@ -2,6 +2,8 @@ import {Prosumer} from './Prosumer';
 import {P2PMarketDesign} from './P2PMarketDesign';
 
 /**
+ * A data type that describes an experiments configuration as a blue print to run concrete instances in
+ *
  * @param prosumer The prosumers participating in the experiment
  * @param p2pMarketDesign The market design of the experiment
  * @param description A textual description of the experiment

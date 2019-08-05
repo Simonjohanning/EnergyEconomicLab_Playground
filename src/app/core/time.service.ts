@@ -25,7 +25,9 @@ export class TimeService {
         console.error('Time Regime ' + timeRegime + ' is invalid!!!');
       }
     });
-    DataProvisionService.getExperimentLength().subscribe(expLength => this.endTime = expLength);
+    DataProvisionService.getExperimentLength().subscribe(expLength =>
+      this.endTime = expLength
+    );
   }
 
   public getCurrentTime(): number {
@@ -43,6 +45,9 @@ export class TimeService {
           const intervalCounter = interval(1000 * stepLength);
           console.log(intervalCounter);
           intervalCounter.subscribe(nextStep => {
+            if (this.currentTime === 0) {
+              this.timeEmitter.next(0);
+            }
             if (this.endTime) {
               if (this.currentTime < this.endTime) {
                 this.advanceTime(1);

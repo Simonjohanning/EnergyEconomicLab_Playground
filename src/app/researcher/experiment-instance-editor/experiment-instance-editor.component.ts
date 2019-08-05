@@ -60,6 +60,10 @@ export class ExperimentInstanceEditorComponent implements OnInit {
         return {
           idError: ('id ' + control.value + ' already used for another experiment instance. Please select an unused one')
         };
+      } else if ((control.value < 0) || (!Number.isInteger(control.value))) {
+        return {
+          idError: 'id has to be a non-negative integer'
+        };
       } else {
         return null;
       }

@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/docs/typedoc
 
 # dependencies
 /node_modules

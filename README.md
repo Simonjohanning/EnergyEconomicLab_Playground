@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground.svg?style=svg)](https://circleci.com/gh/Simonjohanning/EnergyEconomicLab_Playground)
 [![codecov.io](https://codecov.io/gh/Simonjohanning/EnergyEconomicLab_Playground/branch/master/graph/badge.svg)](https://codecov.io/gh/Simonjohanning/EnergyEconomicLab_Playground)
+[![Gitter chat](https://badges.gitter.im/Simonjohanning/EnergyEconomics_LabChain.png)](https://gitter.im/EnergyEconomics_LabChain/community)
 
 # LabPlayground
 
@@ -21,7 +22,7 @@ Due to the authors lack of experience with Angular CLI, it is however not clear 
 ## Components
 
 The Playground is embedded in a project using two further components: An open data platform (located within the [WindNODE Energiedatenmarktplatz](https://datenmarkt.windnode.de/dataset)) and a blockchain layer within the WindNODE Blockchain Smart Energy project (internal documents only).
-The other components are mostly developed indepently from this component, and will be joined according to (yet internal) interface specifications. 
+The other components are mostly developed independently from this component, and will be joined according to (yet internal) interface specifications. 
 Within this project, these components are represented by the [Mock EDM Service](src/app/core/mock-edm.service.ts) and the [Blockchain Transaction Service](src/app/core/blockchain-transaction.service.ts), which will function as the interface at a later stage (probably with some respective refactoring).    
 
 ...other components 
@@ -37,7 +38,7 @@ Upon insering a code in the input field and logging in, the user is routed to th
  
 The UI components are organized as follows (with a detailed description found below or in the respective documentation files):
 
-![UI component organization](docs/LabChain_UI_Components.png "UI components").  
+![UI component organization](docs/resources/LabChain_UI_Components.png "UI components").  
 
 #### Prosumer components
 
@@ -65,12 +66,12 @@ Specification of the different asset types, their data, vizualization and dispat
 
 ## User Manual
 
-While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [user manual](docs/userManual.md).
+While being an experimental project / playground, and thus not intended for users other than the core developer, I can't prevent you from trying it out yourselves, so the Angular-generated readme information for the usage of the software is put in the [user manual](docs/resources/userManual.md).
 
 ## Developers Guide
 
 Since the Energy Economics Lab this playground is meant to be preliminary research for is envisioned to be a versatile tool for the investigation of a number of use cases and research questions, considerable need for software development effort is foreseen. 
-With this recognition, and in accordance to the views of the core author, collaborative, open source development is to be encouraged. In order to motivate other developers and help them understand the structure, thoughts and technical aspects of this project, a [developers guide](docs/developersGuide.md) will be developed.  
+With this recognition, and in accordance to the views of the core author, collaborative, open source development is to be encouraged. In order to motivate other developers and help them understand the structure, thoughts and technical aspects of this project, a [developers guide](docs/resources/developersGuide.md) will be developed.  
 
 ## Application State
 

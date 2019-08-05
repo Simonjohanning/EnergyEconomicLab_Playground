@@ -45,6 +45,7 @@ this.http.get('...')
   static getProsumerData(): Observable<ProsumerInstance> {
     let prosumerInstance: ProsumerInstance;
     prosumerInstance = new ProsumerInstance(
+      new Prosumer(1, 'mock prosumer'),
       DataProvisionService.getControllableGenerators(),
       DataProvisionService.getNonControllableGenerators(),
       DataProvisionService.getLoads(),

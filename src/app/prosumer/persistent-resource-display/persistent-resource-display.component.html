@@ -1,20 +1,22 @@
-<div *ngIf="prosumerInstance">
-  Tokens: {{prosumerInstance.numTokens}}
-<app-feed-in-point-display [feedInPoint]="prosumerInstance.feedInCoordinates"></app-feed-in-point-display>
-<app-residual-load [prosumerInstance]="prosumerInstance"></app-residual-load>
-<p *ngFor="let resource of prosumerInstance.controllableGenerators">
-  <app-controllable-generation-prd [resource]="resource"></app-controllable-generation-prd>
+<p *ngIf="prosumerInstance">
+  Tokens: {{prosumerInstance.amountTokens}}
 </p>
-<p *ngFor="let currentNCg of prosumerInstance.nonControllableGenerators">
-  <app-non-controllable-generation-prd [resource]="currentNCg"></app-non-controllable-generation-prd>
-</p>
-<p *ngFor="let load of prosumerInstance.loads">
-  <app-load-prd [resource]="load"></app-load-prd>
-</p>
-<p *ngFor="let currentStorage of prosumerInstance.storage">
-  <app-storage-prd [resource]="currentStorage"></app-storage-prd>
-</p>
-</div>
+<app-feed-in-point-display [prosumerObservable]="prosumerInstanceObservable"></app-feed-in-point-display>
+<app-residual-load [prosumerObservable]="prosumerInstanceObservable"></app-residual-load>
+  <span *ngIf="prosumerInstance">
+    <p *ngFor="let resource of prosumerInstance.controllableGenerators">
+      <app-controllable-generation-prd [resource]="resource"></app-controllable-generation-prd>
+    </p>
+    <p *ngFor="let currentNCg of prosumerInstance.nonControllableGenerators">
+      <app-non-controllable-generation-prd [resource]="currentNCg"></app-non-controllable-generation-prd>
+    </p>
+    <p *ngFor="let load of prosumerInstance.loads">
+      <app-load-prd [resource]="load"></app-load-prd>
+    </p>
+    <p *ngFor="let currentStorage of prosumerInstance.storage">
+      <app-storage-prd [resource]="currentStorage"></app-storage-prd>
+    </p>
+  </span>
 <div *ngIf="!prosumerInstance">
   Loading stuff...
 </div>

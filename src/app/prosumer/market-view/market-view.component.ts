@@ -51,7 +51,7 @@ export class MarketViewComponent implements OnInit {
     this.bidFilterForm.get('minPower').setValue(0);
     this.bidFilterForm.get('maxPower').setValue(1000);
     this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds(form));
-    this.edmService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pMarketDescription => {
+    DataProvisionService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pMarketDescription => {
       if (p2pMarketDescription.maxPrice === -1) {
         this.marketMaxPrice = 10000;
       } else { this.marketMaxPrice = p2pMarketDescription.maxPrice; }
@@ -59,12 +59,13 @@ export class MarketViewComponent implements OnInit {
   }
 
   private checkBounds(form) {
-    if (this.latestChangeSlider === 'maxFeedInTime') { this.checkMaxFIT(); }
-    else if (this.latestChangeSlider === 'minFeedInTime') { this.checkMinFIT(); }
-    else if (this.latestChangeSlider === 'maxDuration') { this.checkMaxDuration(); }
-    else if (this.latestChangeSlider === 'minDuration') { this.checkMinDuration(); }
-    else if (this.latestChangeSlider === 'maxPower') { this.checkMaxPower(); }
-    else if (this.latestChangeSlider === 'minPower') { this.checkMinPower(); }
+    if (this.latestChangeSlider === 'maxFeedInTime') { this.checkMaxFIT();
+    } else if (this.latestChangeSlider === 'minFeedInTime') { this.checkMinFIT();
+    } else if (this.latestChangeSlider === 'maxDuration') { this.checkMaxDuration();
+    } else if (this.latestChangeSlider === 'minDuration') { this.checkMinDuration();
+    } else if (this.latestChangeSlider === 'maxPower') { this.checkMaxPower();
+    } else if (this.latestChangeSlider === 'minPower') { this.checkMinPower();
+    }
     this.syncBids();
   }
 

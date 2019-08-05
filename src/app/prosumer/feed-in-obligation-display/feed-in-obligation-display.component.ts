@@ -5,6 +5,7 @@ import {forEach} from '@angular/router/src/utils/collection';
 import {ExperimentInstance} from '../../core/data-types/ExperimentInstance';
 import {ExperimentInstanceLoaderService} from '../../core/experiment-instance-loader.service';
 import {Prosumer} from '../../core/data-types/Prosumer';
+import {DataProvisionService} from '../../core/data-provision.service';
 
 @Component({
   selector: 'app-feed-in-obligation-display',
@@ -18,7 +19,6 @@ export class FeedInObligationDisplayComponent implements OnInit {
   private obligationPlot: Chart;
   private obligationSeries: number[];
   constructor(private bts: BlockchainTransactionService,
-              private eil: ExperimentInstanceLoaderService,
               private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class FeedInObligationDisplayComponent implements OnInit {
   }
 
   private calculateObligation(): void {
-    const simulationLength = this.eil.staticgetExperimentTime().subscribe(noElements => {
+    const simulationLength = DataProvisionService.getExperimentLength().subscribe(noElements => {
       this.obligationSeries = new Array(noElements);
     });
     this.bts.committedBidSubject.subscribe(commitedBid => {

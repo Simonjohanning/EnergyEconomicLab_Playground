@@ -25,9 +25,8 @@ export class ProsumerComponent implements OnInit {
                private loader: ExperimentInstanceLoaderService,
                private location: Location,
                private data: DataProvisionService,
-               private timeService: TimeService)
-  {
-    this.prosumerInstance = this.loader.getProsumerData();
+               private timeService: TimeService) {
+    this.prosumerInstance = ExperimentInstanceLoaderService.getProsumerData();
   }
 
   ngOnInit() {

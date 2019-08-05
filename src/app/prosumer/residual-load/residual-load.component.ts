@@ -2,6 +2,7 @@ import {Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, ChangeDe
 import { Chart } from 'chart.js';
 import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
 import {HelperService} from '../../core/helper.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-residual-load',
@@ -10,14 +11,18 @@ import {HelperService} from '../../core/helper.service';
 })
 export class ResidualLoadComponent implements OnInit, AfterViewInit {
 
-  @Input() prosumerInstance: ProsumerInstance;
+  @Input() prosumerObservable: Observable<ProsumerInstance>;
   @ViewChild('canvas') canvas: ElementRef;
   private loadPlot: Chart;
   private residualLoadSeries = [];
+  public prosumerInstance: ProsumerInstance;
   constructor(private cd: ChangeDetectorRef,
               private helper: HelperService) { }
 
   ngOnInit() {
+    this.prosumerObservable.subscribe(loadedProsumerInstance => {
+      this.prosumerInstance = loadedProsumerInstance;
+    });
     this.calculateResidualLoad();
   }
 

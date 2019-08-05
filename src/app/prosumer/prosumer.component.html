@@ -27,7 +27,7 @@
         <h3 class="panel-title" (click)="this.showPRD = !this.showPRD">Persistent Resource Display</h3>
       </div>
       <div *ngIf="showPRD" class="panel-body">
-        <app-persistent-resource-display [prosumerInstance]="prosumerInstance"></app-persistent-resource-display>
+        <app-persistent-resource-display [prosumerInstanceObservable]="prosumerInstance"></app-persistent-resource-display>
       </div>
     </div>
   </div>

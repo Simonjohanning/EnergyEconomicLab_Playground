@@ -12,9 +12,7 @@ export class DispatchableAsset {
   public scheduledGeneration: number[];
 
   // TODO think about whether to encapsulate timeService in here (better checking, but shouldn't be part of the asset (?))
-  constructor(
-    readonly model: string) {
-  }
+  constructor(readonly model: string) {}
 
   /**
    * Method to schedule the generation of the respective asset.

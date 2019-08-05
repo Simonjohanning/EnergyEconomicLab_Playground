@@ -17,28 +17,16 @@ import {Prosumer} from './Prosumer';
  * @param numTokens A variable to to keep track of the monetary resources of the test subject within the simulation
  */
 export class ProsumerInstance {
-  respectiveProsumer: Prosumer;
-  controllableGenerators: ControllableGenerator[];
-  nonControllableGenerators: NonControllableGenerator[];
-  loads: Load[];
-  storage: StorageUnit[];
-  feedInCoordinates: Coordinates;
-  numTokens: number;
+  amountTokens: number;
   constructor(
-    respectiveProsumer: Prosumer,
-    controllableGenerators: ControllableGenerator[],
-    nonControllableGenerators: NonControllableGenerator[],
-    loads: Load[],
-    storage: StorageUnit[],
-    feedInCoordinates: Coordinates,
+    readonly respectiveProsumer: Prosumer,
+    readonly controllableGenerators: ControllableGenerator[],
+    readonly nonControllableGenerators: NonControllableGenerator[],
+    readonly loads: Load[],
+    readonly storage: StorageUnit[],
+    readonly feedInCoordinates: Coordinates,
     numTokens: number
   ) {
-    this.respectiveProsumer = respectiveProsumer;
-    this.controllableGenerators = controllableGenerators;
-    this.nonControllableGenerators = nonControllableGenerators;
-    this.loads = loads;
-    this.storage = storage;
-    this.feedInCoordinates = feedInCoordinates;
-    this.numTokens = numTokens;
+    this.amountTokens = numTokens;
   }
 }

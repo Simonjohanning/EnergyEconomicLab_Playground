@@ -7,18 +7,20 @@
  */
 
 export class Prosumer {
-    id: number;
-    name?: string;
+  /** The numerical identification of the Prosumer */
+  id: number;
+  /** A string with a more human readable identifier for the Prosumer */
+  name?: string;
 
-    constructor(
-      id,
-      name?
-    ) {
-      this.id = id;
-      if (name !== undefined) {
-        this.name = name;
-      }
+  constructor(
+    id,
+    name?
+  ) {
+    this.id = id;
+    if (name !== undefined) {
+      this.name = name;
     }
+  }
 
 }
 

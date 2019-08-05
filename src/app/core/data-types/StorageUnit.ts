@@ -12,6 +12,9 @@ import {DispatchableAsset} from './DispatchableAsset';
  * @param initialSOC The percentage of charge already in the storage unit at the beginning of the simulation
  */
 export class StorageUnit extends DispatchableAsset {
+  /** history of the storage unit in amount of charge for each point in time within the simulation */
+  public storageHistory: Array<number>;
+
   constructor(
     readonly model: string,
     readonly storageCapacity: number,
@@ -21,12 +24,13 @@ export class StorageUnit extends DispatchableAsset {
     readonly initialSOC: number
   ) {
     super(model);
-
-    this.storageHistory = [initialSOC];
+    this.storageHistory = new Array<number>();
+    console.log('initializing storage ' + model + ' with history ' + this.storageHistory);
+    this.storageHistory[0] = initialSOC;
+    this.storageHistory[1] = initialSOC * 0.9;
+    console.log('storage history of ' + model + ' is ' + this.storageHistory + ' with its first entry of ' + this.storageHistory[0] + ' and second entry ' + this.storageHistory[1]);
   }
 
-  // history of the storage unit in amount of charge for each point in time within the simulation
-  public storageHistory: number[];
 
   // TODO include validation (?)
   /**
@@ -37,5 +41,6 @@ export class StorageUnit extends DispatchableAsset {
    */
   public changeStorage(currentTime: number, chargeChange: number) {
     this.storageHistory[currentTime] = (this.storageHistory[currentTime - 1] + chargeChange);
+    console.log('Updating storage unit ' + this.model + ' to ' + this.storageHistory[currentTime]);
   }
 }

@@ -10,7 +10,10 @@ import {P2PBid} from './P2PBid';
  * @param correspondingBid The bid in the electricity market the transaction fee was applied on (more precisely the bid used in the trade)
  */
 export interface TransactionFeeEntry {
+  /** The actor that paid the respective transaction fee to the appropriate actor */
   payer: Prosumer;
+  /** The amount of transaction fee payed for the respective transaction */
   amount: number;
+  /** The bid in the electricity market the transaction fee was applied on (more precisely the bid used in the trade) */
   correspondingBid: P2PBid;
 }

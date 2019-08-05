@@ -7,6 +7,8 @@ import {ExperimentDescription} from './ExperimentDescription';
  * @param instanceOfExperiment The respective experiment blue print the experiment is based upon
  */
 export class ExperimentInstance {
+  /** The identificator of the respective experiment (as a number) */
   experimentID: number;
+  /** The respective experiment blue print the experiment is based upon */
   instanceOfExperiment: ExperimentDescription;
 }

@@ -9,7 +9,10 @@ import {P2PMarketDesign} from './P2PMarketDesign';
  * @param description A textual description of the experiment
  */
 export interface ExperimentDescription {
+  /** The prosumers participating in the experiment */
   prosumers: Prosumer[];
+  /** The market design of the experiment */
   p2pMarketDesign: P2PMarketDesign;
+  /** A textual description of the experiment */
   description: string;
 }

@@ -37,7 +37,7 @@ export class NCGEditorComponent implements OnInit {
    * @param mes The service accessing the EDM data base
    */
   constructor(private mes: MockEDMService) {
-    this.mes.getConfiguredNCGs().subscribe(retrievedNCGs => {
+    MockEDMService.getConfiguredNCGs().subscribe(retrievedNCGs => {
       this.ncgs = retrievedNCGs;
       this.ncgSubject.next(this.ncgs);
     });

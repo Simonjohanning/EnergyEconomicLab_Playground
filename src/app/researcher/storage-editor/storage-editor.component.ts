@@ -44,7 +44,7 @@ export class StorageEditorComponent implements OnInit {
    * @param mes The service accessing the EDM data base
    */
   constructor(private mes: MockEDMService) {
-    this.mes.getConfiguredStorages().subscribe(retrievedStorageUnits => {
+    MockEDMService.getConfiguredStorages().subscribe(retrievedStorageUnits => {
       this.storageUnits = retrievedStorageUnits;
       this.storageUnitSubject.next(this.storageUnits);
     });

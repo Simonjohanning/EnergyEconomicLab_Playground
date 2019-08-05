@@ -39,7 +39,7 @@ export class LoadEditorComponent implements OnInit {
    * @param mes The service accessing the EDM data base
    */
   constructor(private mes: MockEDMService) {
-    this.mes.getConfiguredLoads().subscribe(retrievedLoads => {
+    MockEDMService.getConfiguredLoads().subscribe(retrievedLoads => {
       this.loads = retrievedLoads;
       this.loadSubject.next(this.loads);
     });

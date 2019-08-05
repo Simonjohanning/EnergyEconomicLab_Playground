@@ -43,7 +43,7 @@ export class CGEditorComponent implements OnInit {
    * @param mes The service accessing the EDM data base
    */
   constructor(private mes: MockEDMService) {
-    this.mes.getConfiguredCGs().subscribe(retrievedCGs => {
+    MockEDMService.getConfiguredCGs().subscribe(retrievedCGs => {
       this.cgs = retrievedCGs;
       this.cgSubject.next(this.cgs);
     });

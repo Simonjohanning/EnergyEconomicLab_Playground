@@ -8,6 +8,7 @@ import {P2PMarketDesign} from './data-types/P2PMarketDesign';
 import {MockEDMService} from './mock-edm.service';
 import {ExperimentInstance} from './data-types/ExperimentInstance';
 import {DataProvisionService} from './data-provision.service';
+import {ExperimentStateService} from './experiment-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +25,14 @@ export class BlockchainTransactionService {
 
   constructor(private timeService: TimeService,
               private edmService: MockEDMService,
+              private state: ExperimentStateService,
               private data: DataProvisionService) {
     this.openBids = this.data.getMockBids();
     this.timeService.timeEmitter.subscribe(currentTime => {
       this.openBids = this.openBids.filter(currentBid => !this.bidExpired(currentBid));
       this.openBidSubject.next(this.openBids);
     });
-    DataProvisionService.getP2PMarketDescription(data.experimentId).subscribe(p2pMarketDesign => this.p2pMarketDesign = p2pMarketDesign);
+    DataProvisionService.getP2PMarketDescription(state.experimentID).subscribe(p2pMarketDesign => this.p2pMarketDesign = p2pMarketDesign);
   }
 
   public commitToP2PBid(buyer: Prosumer, timeOfPurchase: number, committedBid: P2PBid) {

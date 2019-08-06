@@ -8,11 +8,16 @@ export class ExperimentStateService {
 
   public experimentTime: number;
   private currentProsumer: Prosumer;
+  public experimentID: number;
+  public actorID: number;
+
   private prosumers: Prosumer[] = [
     {id: 1, name: 'Hans'},
     {id: 2, name: 'Jutta'}
   ];
-  constructor() { }
+  constructor() {
+    this.actorID = null;
+  }
 
   getCurrentProsumer(): Prosumer {
     return this.currentProsumer;

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
-import {DataProvisionService} from '../core/data-provision.service';
 import {ExperimentStateService} from '../core/experiment-state.service';
 
 @Component({
@@ -17,11 +15,10 @@ export class ResearcherComponent implements OnInit {
   private editorToShow: string;
 
   constructor(
-    private data: DataProvisionService,
     private state: ExperimentStateService) { }
 
   ngOnInit() {
-    this.experimentId = this.data.experimentId;
+    this.experimentId = this.state.experimentID;
     this.passedTime = this.state.experimentTime;
     this.editorToShow = 'DesignEditor';
   }

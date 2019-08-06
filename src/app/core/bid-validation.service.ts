@@ -9,6 +9,7 @@ import {ExperimentStateService} from './experiment-state.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class BidValidationService {
 
   private p2pMarketDesign: P2PMarketDesign;
@@ -16,7 +17,7 @@ export class BidValidationService {
               private dataProvisionService: DataProvisionService,
               private timeService: TimeService,
               private ets: ExperimentStateService) {
-    DataProvisionService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pmd => this.p2pMarketDesign = p2pmd);
+    DataProvisionService.getP2PMarketDescription(this.ets.experimentID).subscribe(p2pmd => this.p2pMarketDesign = p2pmd);
   }
 
   public fitValidator(control: AbstractControl) {

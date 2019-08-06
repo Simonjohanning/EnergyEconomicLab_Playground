@@ -3,6 +3,7 @@ import {Location} from '@angular/common';
 import {DataProvisionService} from '../core/data-provision.service';
 import {ExperimentInstanceLoaderService} from '../core/experiment-instance-loader.service';
 import {TransactionFeeEntry} from '../core/data-types/TransactionFeeEntry';
+import {ExperimentStateService} from '../core/experiment-state.service';
 
 @Component({
   selector: 'app-public-actor',
@@ -14,10 +15,10 @@ export class PublicActorComponent implements OnInit {
   private transactionFeeData: TransactionFeeEntry[];
   constructor(
     private data: DataProvisionService,
-    private loader: ExperimentInstanceLoaderService) { }
+    private ess: ExperimentStateService) { }
 
   ngOnInit() {
-    this.experimentId = this.data.experimentId;
+    this.experimentId = this.ess.experimentID;
     this.transactionFeeData = this.data.getMockPublicActorData();
   }
 

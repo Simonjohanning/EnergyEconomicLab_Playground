@@ -6,7 +6,6 @@ import {ExperimentStateService} from '../../core/experiment-state.service';
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {MockEDMService} from '../../core/mock-edm.service';
 import {DataProvisionService} from '../../core/data-provision.service';
-import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
 
 @Component({
   selector: 'app-market-view',
@@ -51,7 +50,7 @@ export class MarketViewComponent implements OnInit {
     this.bidFilterForm.get('minPower').setValue(0);
     this.bidFilterForm.get('maxPower').setValue(1000);
     this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds(form));
-    DataProvisionService.getP2PMarketDescription(this.dataProvisionService.experimentId).subscribe(p2pMarketDescription => {
+    DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       if (p2pMarketDescription.maxPrice === -1) {
         this.marketMaxPrice = 10000;
       } else { this.marketMaxPrice = p2pMarketDescription.maxPrice; }

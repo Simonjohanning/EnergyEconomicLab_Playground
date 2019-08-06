@@ -12,11 +12,17 @@ import {RDFAnnotationService} from '../rdfannotation.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit {
 
-  /*prosumers: Prosumer[];*/
+/**
+ * Component to show the login page of the experiment, where participants select their respective role within the simulation.
+ * Allows participants to be forwarded to the respective path with the experiment code they receive for the experiment
+ */
+export class WelcomeComponent implements OnInit {
+  /** The code participants enter for joining the experiment. Login code consists of the experiment ID, the role and (if applicable) the participant ID of the participant, as separated by "_" */
   loginCode: string;
-  errorCode: string;
+  /** Variable to hold a potentially relevant error code */
+  errorCode = '';
+  /** Variable to hold a test string for testing RDF generation capabilities (will be removed eventually) */
   rdfString = '';
 
   constructor(private loader: ExperimentInstanceLoaderService,
@@ -25,44 +31,26 @@ export class WelcomeComponent implements OnInit {
               private state: ExperimentStateService) {  }
 
   ngOnInit() {
-    // this.getProsumers();
-    this.errorCode = '';
   }
-
-  printStuff(): void {
-    console.log('stuff');
-  }
-
- /* getProsumers(): void {
-    this.loader.getProsumers().subscribe(prosumers => this.prosumers = prosumers);
-  }
-
-  loginProsumer(id: number): void {
-    this.router.navigate(['ProsumerView/', id]);
-  }
-
-  loginGridOperator(): void {
-    this.router.navigate(['GridOperatorView/']);
-  }
-
-  loginPublicActor(): void {
-    this.router.navigate(['PublicActorView/']);
-  }
-
-  loginExperimentDesigner(): void {
-    this.router.navigate(['ExperimentDesignerView/']);
-  }*/
 
  // TODO include experiment registration functionality
   // TODO include signaling readiness functionality
+  /**
+   * Attempts to login the respective actor based on the login code they provide (as held in the login code).
+   * Routes the client to the respective view for their role and provides the experiment and (if applicable) participant ID to the respective component.
+   * Stores stateful information contained in the login code in the respective ExperimentStateService
+   */
   login(): void {
     this.errorCode = 'Attempting to login';
+    // Constant to store the components of the login information
     const loginInformation = this.loginCode.split('_');
-    this.data.experimentId = parseInt(loginInformation[0], 10);
+    // The experiment ID is stored in the first part of the login code
+    this.state.experimentID = parseInt(loginInformation[0], 10);
     this.state.experimentTime = 0;
+    // Select the appropriate routing based on the role of the respective actor
     switch (loginInformation[1]) {
       case 'Prosumer': {
-        this.data.storage =  (parseInt(loginInformation[0], 10), parseInt(loginInformation[2], 10));
+        this.state.actorID =  parseInt(loginInformation[2], 10);
         this.router.navigate(['ProsumerView/', loginInformation[2]]);
         break;
       }
@@ -84,6 +72,11 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Method to let the respective agent login with a given code, by setting the code automatically and referring to the respective login method
+   *
+   * @param code The login code the client uses
+   */
   loginWCode(code: string): void {
     this.loginCode = code;
     this.login();

@@ -16,10 +16,11 @@ import {P2PMarketDesign} from './data-types/P2PMarketDesign';
 @Injectable({
   providedIn: 'root'
 })
-export class DataProvisionService {
 
-  public storage: any;
-  public experimentId: number;
+/**
+ * Service to provide (stateless) data. For stateful data, the experiment state service is used.
+ */
+export class DataProvisionService {
   private mockBids: P2PBid[] = [
     {
       id: 1,

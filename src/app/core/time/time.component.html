@@ -2,5 +2,5 @@
 <div class="progress">
   <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.aria-valuenow]="progress*100" aria-valuemin="0" [attr.aria-valuemax]="100.0" [style.width]="(progress*100) + '%'">{{(progress*100).toFixed(2)}}%</div>
 </div>
-<div *ngIf="timeRegime === discreteRegime"> discrete time:{{experimentTime}} /{{experimentLength | async}}</div>
-<div *ngIf="timeRegime === continousRegime"> continuous time: {{dateView | date:'HH:mm:ss'}}/{{experimentLength | async}},{{experimentTime}}/{{experimentLengthNumber}} ({{experimentTime/experimentLengthNumber}})</div>
+<div *ngIf="timeRegime === discreteRegime"> discrete time:{{experimentTime}} /{{experimentLength}}</div>
+<div *ngIf="timeRegime === continousRegime"> continuous time: {{dateView | date:'HH:mm:ss'}}/{{experimentLength}},{{experimentTime}}/{{experimentLength}} ({{experimentTime/experimentLength}})</div>

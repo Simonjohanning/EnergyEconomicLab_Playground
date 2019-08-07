@@ -3,9 +3,9 @@ import {BlockchainTransactionService} from '../../core/blockchain-transaction.se
 import {TimeService} from '../../core/time.service';
 import {P2PBid} from '../../core/data-types/P2PBid';
 import {ExperimentStateService} from '../../core/experiment-state.service';
-import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
-import {MockEDMService} from '../../core/mock-edm.service';
+import {FormControl, FormGroup} from '@angular/forms';
 import {DataProvisionService} from '../../core/data-provision.service';
+import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
 
 @Component({
   selector: 'app-market-view',
@@ -16,7 +16,9 @@ export class MarketViewComponent implements OnInit {
 
   private  relevantBids: P2PBid[] = [];
   private selectedBid: P2PBid;
+  private p2pMarketDesign: P2PMarketDesign;
   private marketMaxPrice: number;
+  private maxBidSize: number;
   private bidFilterForm = new FormGroup(
     {
       maxPrice: new FormControl(''),
@@ -31,33 +33,37 @@ export class MarketViewComponent implements OnInit {
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
               private sessionData: ExperimentStateService,
-              private edmService: MockEDMService,
-              private dataProvisionService: DataProvisionService) { this.sessionData.setDefaultProsumer(); }
+              private dataProvisionService: DataProvisionService) {
+    this.sessionData.setDefaultProsumer();
+  }
 
   ngOnInit() {
-    // this.bts.commitedBidSubject.subscribe(bidArray => this.respectiveBids = bidArray);
-    /*this.relevantBids = this.bts.getBids(this.timeService.getCurrentTime(), this.timeService.getCurrentTime() + 10);*/
     this.bts.openBidSubject.subscribe(openBids => {
       console.log('New open bids next in market view: ' + openBids.length + ' open bids.');
       this.relevantBids = openBids.filter(bid => this.conformsToFilter(bid));
     });
-    this.relevantBids = this.bts.getOpenBids();
-    this.bidFilterForm.get('maxPrice').setValue(0);
-    this.bidFilterForm.get('minFeedInTime').setValue(0);
-    this.bidFilterForm.get('maxFeedInTime').setValue(100);
-    this.bidFilterForm.get('minDuration').setValue(0);
-    this.bidFilterForm.get('maxDuration').setValue(100);
-    this.bidFilterForm.get('minPower').setValue(0);
+    DataProvisionService.getExperimentLength().subscribe(length => {
+      this.bidFilterForm.get('maxFeedInTime').setValue(length);
+      this.bidFilterForm.get('maxDuration').setValue(length);
+    });
     this.bidFilterForm.get('maxPower').setValue(1000);
-    this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds(form));
+    this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds());
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
+      this.p2pMarketDesign = p2pMarketDescription;
+      this.bidFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.bidClosure);
+      this.bidFilterForm.get('minDuration').setValue(this.p2pMarketDesign.timeSliceLength);
+      this.bidFilterForm.get('minPower').setValue(this.p2pMarketDesign.minBidSize);
       if (p2pMarketDescription.maxPrice === -1) {
         this.marketMaxPrice = 10000;
       } else { this.marketMaxPrice = p2pMarketDescription.maxPrice; }
+      this.bidFilterForm.get('maxPrice').setValue(this.marketMaxPrice);
+    });
+    this.dataProvisionService.getMaxBidSize().subscribe(size => {
+      this.maxBidSize = size;
     });
   }
 
-  private checkBounds(form) {
+  private checkBounds() {
     if (this.latestChangeSlider === 'maxFeedInTime') { this.checkMaxFIT();
     } else if (this.latestChangeSlider === 'minFeedInTime') { this.checkMinFIT();
     } else if (this.latestChangeSlider === 'maxDuration') { this.checkMaxDuration();
@@ -69,28 +75,19 @@ export class MarketViewComponent implements OnInit {
   }
 
   syncBids(): void {
-    this.relevantBids = this.bts.getOpenBids().filter(bid => this.conformsToFilter(bid));;
-    /*console.log(this.relevantBids.length + ' bid left after filtering, with ' + this.bts.getOpenBids().length + ' bids provided by the bts');*/
+    this.relevantBids = this.bts.getOpenBids().filter(bid => this.conformsToFilter(bid));
   }
 
   private conformsToFilter(bidToFilter: P2PBid): boolean {
-    /*console.log('testing bid ' + bidToFilter + ' for conformance');bidToFilter.duration > this.bidFilterForm.value.minDuration*/
     if ((bidToFilter.deliveryTime < this.bidFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxFeedInTime)) {
-      /*console.log('delivery time violation: Delivery time is '+bidToFilter.deliveryTime+ ', whereas min is '+this.bidFilterForm.value.minFeedInTime+' and max is '+this.bidFilterForm.value.maxFeedInTime);*/
       return false;
     } else if ((bidToFilter.power < this.bidFilterForm.value.minPower) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxPower)) {
-      /*console.log('power violation: power is '+bidToFilter.power+ ', whereas min is '+this.bidFilterForm.value.minPower+' and max is '+this.bidFilterForm.value.maxPower);*/
       return false;
     } else if ((bidToFilter.duration < this.bidFilterForm.value.minDuration) || (bidToFilter.duration > this.bidFilterForm.value.maxDuration)) {
-      /*console.log('duration violation: Duration is '+bidToFilter.duration+ ', whereas min is '+this.bidFilterForm.value.minDuration+' and max is '+this.bidFilterForm.value.maxDuration);
-      console.log('bidToFilter.duration < this.bidFilterForm.value.minDuration is '+(bidToFilter.duration < this.bidFilterForm.value.minDuration));
-      console.log('bidToFilter.duration > this.bidFilterForm.value.minDuration is '+(bidToFilter.duration > this.bidFilterForm.value.maxDuration));*/
       return false;
     } else if (bidToFilter.price > this.bidFilterForm.value.maxPrice) {
-      /*console.log('Price violation: Price is '+bidToFilter.price+ ', whereas max is '+this.bidFilterForm.value.maxPrice);*/
       return false;
     } else {
-      /*console.log(bidToFilter.id + ' conforms to filter');*/
       return true;
     }
   }
@@ -98,9 +95,7 @@ export class MarketViewComponent implements OnInit {
   highlight(bidToDisplay: P2PBid) {
       this.selectedBid = bidToDisplay;
   }
-  public updateBids(): void {
-    this.relevantBids = this.bts.getOpenBids();
-  }
+
   public resetBid(): void {
     this.selectedBid = null;
   }

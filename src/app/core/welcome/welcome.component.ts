@@ -46,7 +46,6 @@ export class WelcomeComponent implements OnInit {
     const loginInformation = this.loginCode.split('_');
     // The experiment ID is stored in the first part of the login code
     this.state.experimentID = parseInt(loginInformation[0], 10);
-    this.state.experimentTime = 0;
     // Select the appropriate routing based on the role of the respective actor
     switch (loginInformation[1]) {
       case 'Prosumer': {

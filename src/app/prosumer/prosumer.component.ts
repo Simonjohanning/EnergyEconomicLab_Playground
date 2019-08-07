@@ -7,6 +7,7 @@ import {TimeService} from '../core/time.service';
 import {ProsumerInstance} from '../core/data-types/ProsumerInstance';
 import {Observable} from 'rxjs';
 import {ExperimentStateService} from '../core/experiment-state.service';
+import {DataProvisionService} from '../core/data-provision.service';
 
 @Component({
   selector: 'app-prosumer',
@@ -26,7 +27,7 @@ export class ProsumerComponent implements OnInit {
                private location: Location,
                private ess: ExperimentStateService,
                private timeService: TimeService) {
-    this.prosumerInstance = ExperimentInstanceLoaderService.getProsumerData();
+    this.prosumerInstance = DataProvisionService.getProsumerData();
   }
 
   ngOnInit() {

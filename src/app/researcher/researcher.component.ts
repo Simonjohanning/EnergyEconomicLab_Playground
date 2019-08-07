@@ -19,11 +19,6 @@ export class ResearcherComponent implements OnInit {
 
   ngOnInit() {
     this.experimentId = this.state.experimentID;
-    this.passedTime = this.state.experimentTime;
     this.editorToShow = 'DesignEditor';
-  }
-
-  proceedTime(): void {
-    this.state.proceedTime(1);
   }
 }

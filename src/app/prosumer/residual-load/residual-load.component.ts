@@ -1,7 +1,7 @@
 import {Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { Chart } from 'chart.js';
 import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
-import {HelperService} from '../../core/helper.service';
+import {HelperService} from '../../share/helper.service';
 import {Observable} from 'rxjs';
 
 @Component({

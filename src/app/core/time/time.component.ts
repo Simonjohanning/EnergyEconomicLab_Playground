@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ExperimentStateService} from '../experiment-state.service';
 import {MockEDMService} from '../mock-edm.service';
-import {Observable} from 'rxjs';
 import {TimeService} from '../time.service';
 import {TimeRegime} from '../data-types/TimeRegime';
-import {HelperService} from '../helper.service';
 import {DataProvisionService} from '../data-provision.service';
 
 @Component({

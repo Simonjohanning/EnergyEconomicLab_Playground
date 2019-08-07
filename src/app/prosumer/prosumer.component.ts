@@ -21,6 +21,7 @@ export class ProsumerComponent implements OnInit {
   private showPRD = false;
   private showAssetDispatch = false;
   private prosumerInstance: Observable<ProsumerInstance>;
+  private currentView = 'MarketView';
 
   constructor( private route: ActivatedRoute,
                private loader: ExperimentInstanceLoaderService,
@@ -40,6 +41,10 @@ export class ProsumerComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.loader.getProsumer(id)
       .subscribe(prosumer => this.prosumer = prosumer);
+  }
+
+  private changeView(newView: string): void {
+    this.currentView = newView;
   }
 
 }

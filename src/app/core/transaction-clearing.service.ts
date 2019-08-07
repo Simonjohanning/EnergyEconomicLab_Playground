@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {P2PBid} from './data-types/P2PBid';
 import {ProsumerInstance} from './data-types/ProsumerInstance';
-import {Subject} from 'rxjs';
+import {ReplaySubject} from 'rxjs';
 import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
 
 @Injectable({
@@ -14,12 +14,14 @@ import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
  */
 export class TransactionClearingService {
 
+  /** The set of bids already cleared formerly by the service */
   private clearedBids: Set<P2PBid>;
-  public newlyClearedBidEmitter: Subject<TransactionFeeEntry>;
+  /** An emitter that informs its observers on fee entries of newly cleared transactions */
+  public newlyClearedBidEmitter: ReplaySubject<TransactionFeeEntry>;
 
   constructor() {
     this.clearedBids = new Set<P2PBid>();
-    this.newlyClearedBidEmitter = new Subject<TransactionFeeEntry>();
+    this.newlyClearedBidEmitter = new ReplaySubject<TransactionFeeEntry>();
   }
 
   /**
@@ -33,6 +35,7 @@ export class TransactionClearingService {
    * @param transactionFeeAmount The amount of transaction fee to be retained
    */
   clearBidCommitment(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid, transactionFeeAmount: number): void {
+    console.log('TCS being called');
     if (!this.clearedBids.has(committedBid)) {
       buyer.amountTokens -= committedBid.price;
       committedBid.provider.amountTokens += (committedBid.price * (1 - transactionFeeAmount));
@@ -42,7 +45,9 @@ export class TransactionClearingService {
         correspondingBid: committedBid
       };
       committedBid.provider.addIncurredFee(transactionFee);
+      console.log('adding ' + committedBid + ' to cleared bid');
       this.clearedBids.add(committedBid);
+      console.log('emitting transFee');
       this.newlyClearedBidEmitter.next(transactionFee);
     }
   }

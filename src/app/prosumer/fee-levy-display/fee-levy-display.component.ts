@@ -23,7 +23,12 @@ export class FeeLevyDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.tcs.newlyClearedBidEmitter.subscribe(transactionFeeEntry => {
-      this.respectiveTransactionFees.push(transactionFeeEntry);
+      console.log('Receiving emission from bid emmitter, with payer being ' + transactionFeeEntry.payer.respectiveProsumer.name);
+      if (this.prosumer === transactionFeeEntry.payer) {
+        console.log('I is payer');
+        this.respectiveTransactionFees.push(transactionFeeEntry);
+        console.log(transactionFeeEntry);
+      }
     });
   }
 }

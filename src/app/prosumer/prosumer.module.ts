@@ -11,7 +11,6 @@ import { LoadPRDComponent } from './load-prd/load-prd.component';
 import { StoragePRDComponent } from './storage-prd/storage-prd.component';
 import { FeedInPointDisplayComponent } from './feed-in-point-display/feed-in-point-display.component';
 import {CommittedTransactionsComponent} from './committed-transactions/committed-transactions.component';
-import {MarketComponent} from './market/market.component';
 import {MarketEntryComponent} from './market-entry/market-entry.component';
 import {BidDetailComponent} from './bid-detail/bid-detail.component';
 import {MarketViewComponent} from './market-view/market-view.component';
@@ -23,6 +22,8 @@ import { AssetDispatchComponent } from '../prosumer/asset-dispatch/asset-dispatc
 import { CGDispatchComponent } from '../prosumer/cgdispatch/cgdispatch.component';
 import { StorageDispatchComponent } from '../prosumer/storage-dispatch/storage-dispatch.component';
 import { LoadDispatchComponent } from '../prosumer/load-dispatch/load-dispatch.component';
+import {TransactionClearingService} from '../core/transaction-clearing.service';
+import {BlockchainTransactionService} from '../core/blockchain-transaction.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,6 @@ import { LoadDispatchComponent } from '../prosumer/load-dispatch/load-dispatch.c
     FeedInPointDisplayComponent,
     MarketViewComponent,
     MarketEntryComponent,
-    MarketComponent,
     BidDetailComponent,
     CommittedTransactionsComponent,
     P2PBidEditorComponent,
@@ -55,6 +55,10 @@ import { LoadDispatchComponent } from '../prosumer/load-dispatch/load-dispatch.c
   ],
   exports: [
     ControllableGenerationPRDComponent
+  ],
+  providers: [
+    BlockchainTransactionService,
+    TransactionClearingService
   ]
 })
 export class ProsumerModule { }

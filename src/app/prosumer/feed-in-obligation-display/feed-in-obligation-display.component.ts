@@ -1,11 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { Chart } from 'chart.js';
 import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
-import {forEach} from '@angular/router/src/utils/collection';
-import {ExperimentInstance} from '../../core/data-types/ExperimentInstance';
-import {ExperimentInstanceLoaderService} from '../../core/experiment-instance-loader.service';
-import {Prosumer} from '../../core/data-types/Prosumer';
 import {DataProvisionService} from '../../core/data-provision.service';
+import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
 
 @Component({
   selector: 'app-feed-in-obligation-display',
@@ -15,7 +12,7 @@ import {DataProvisionService} from '../../core/data-provision.service';
 export class FeedInObligationDisplayComponent implements OnInit {
 
   @ViewChild('canvas') canvas: ElementRef;
-  @Input() prosumer: Prosumer;
+  @Input() prosumer: ProsumerInstance;
   private obligationPlot: Chart;
   private obligationSeries: number[];
   constructor(private bts: BlockchainTransactionService,

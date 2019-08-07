@@ -12,19 +12,25 @@ import {ExperimentDescriptionService} from '../shared/experiment-description.ser
 import {Observable, of} from 'rxjs';
 import {TimeRegime} from './data-types/TimeRegime';
 import {P2PMarketDesign} from './data-types/P2PMarketDesign';
+import {Prosumer} from './data-types/Prosumer';
+import {ProsumerInstance} from './data-types/ProsumerInstance';
 
 @Injectable({
   providedIn: 'root'
 })
 
 /**
- * Service to provide (stateless) data. For stateful data, the experiment state service is used.
+ * Service to provide (stateless) data.
+ * This service is predominantly used for providing mock data that will eventually be provided by the EDM service, and will be discarded at the latest in production.
+ * Methods are all getter methods that provide mock data, so none will be documented further.
+ * Stateful data (on the experiment) is provided by the experiment state service.
  */
 export class DataProvisionService {
+  maxBidSize = 10000;
   private mockBids: P2PBid[] = [
     {
       id: 1,
-      provider: {id: 1},
+      provider: this.getMockProsumerInstance(),
       deliveryTime: 81,
       duration: 3,
       price: 2,
@@ -32,7 +38,7 @@ export class DataProvisionService {
     },
     {
       id: 2,
-      provider: {id: 1},
+      provider: this.getMockProsumerInstance(),
       deliveryTime: 12,
       duration: 2,
       price: 1.6,
@@ -40,7 +46,7 @@ export class DataProvisionService {
     },
     {
       id: 3,
-      provider: {id: 1},
+      provider: this.getMockProsumerInstance(),
       deliveryTime: 33,
       duration: 1,
       price: 2.2,
@@ -48,7 +54,7 @@ export class DataProvisionService {
     },
     {
       id: 4,
-      provider: {id: 1},
+      provider: this.getMockProsumerInstance(),
       deliveryTime: 13,
       duration: 2,
       price: 2.1,
@@ -190,6 +196,43 @@ export class DataProvisionService {
     return new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, initialSOC);
   }
 
+  static getStaticProsumers(): Prosumer[] {
+    let prosumerArray: Prosumer[];
+    prosumerArray = [
+      { id: 1, name: 'Mr. Nice' },
+      { id: 2, name: 'Hans'}
+    ];
+    return prosumerArray;
+  }
+
+  static getProsumerData(id = 1): Observable<ProsumerInstance> {
+    let prosumerInstance: ProsumerInstance;
+    prosumerInstance = new ProsumerInstance(
+      new Prosumer(id, 'mock prosumer'),
+      DataProvisionService.getControllableGenerators(),
+      DataProvisionService.getNonControllableGenerators(),
+      DataProvisionService.getLoads(),
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100);
+    return of(prosumerInstance);
+  }
+
+  getMockProsumerInstance(id = 1): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'mock prosumer'),
+      DataProvisionService.getControllableGenerators(),
+      DataProvisionService.getNonControllableGenerators(),
+      DataProvisionService.getLoads(),
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100);
+  }
+
+  getMaxBidSize() {
+    return of(this.maxBidSize);
+  }
+
   getMockExperimentInstances(): Set<ExperimentInstance> {
     const collection: Set<ExperimentInstance> = new Set<ExperimentInstance>();
     const respectiveDescription: ExperimentDescription = this.getED();
@@ -217,5 +260,6 @@ export class DataProvisionService {
     });
     return feeEntries;
   }
+
 
 }

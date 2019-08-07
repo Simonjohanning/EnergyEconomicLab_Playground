@@ -1,5 +1,5 @@
-import {Prosumer} from './Prosumer';
 import {P2PBid} from './P2PBid';
+import {ProsumerInstance} from './ProsumerInstance';
 
 /**
  * Data structure to represent an entry in the transaction fee history.
@@ -11,7 +11,7 @@ import {P2PBid} from './P2PBid';
  */
 export interface TransactionFeeEntry {
   /** The actor that paid the respective transaction fee to the appropriate actor */
-  payer: Prosumer;
+  payer: ProsumerInstance;
   /** The amount of transaction fee payed for the respective transaction */
   amount: number;
   /** The bid in the electricity market the transaction fee was applied on (more precisely the bid used in the trade) */

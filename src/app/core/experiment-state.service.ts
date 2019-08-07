@@ -1,41 +1,40 @@
 import { Injectable } from '@angular/core';
-import {Prosumer} from './data-types/Prosumer';
+import {DataProvisionService} from './data-provision.service';
+import {ProsumerInstance} from './data-types/ProsumerInstance';
 
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * This service holds and provides stateful information about an experiment (instance) to respective agents.
+ *
+ *
+ */
 export class ExperimentStateService {
 
-  public experimentTime: number;
-  private currentProsumer: Prosumer;
+  private currentProsumer: ProsumerInstance;
   public experimentID: number;
   public actorID: number;
 
-  private prosumers: Prosumer[] = [
-    {id: 1, name: 'Hans'},
-    {id: 2, name: 'Jutta'}
-  ];
+  private prosumers: ProsumerInstance[];
+
   constructor() {
-    this.actorID = null;
+    DataProvisionService.getProsumerData(this.actorID).subscribe(prosumerInstance => {
+      this.currentProsumer = prosumerInstance;
+    });
   }
 
-  getCurrentProsumer(): Prosumer {
+  getCurrentProsumer(): ProsumerInstance {
     return this.currentProsumer;
   }
-  setCurrentProsumer(prosumerToSet: Prosumer): boolean {
+
+  // TODO think about whether this makes even sense
+  setCurrentProsumer(prosumerToSet: ProsumerInstance): boolean {
     if (!this.prosumers.includes(prosumerToSet)) { return false; } else {
       this.currentProsumer = prosumerToSet;
       return true;
     }
   }
-  getProsumers(): Prosumer[] {
-    return this.prosumers;
-  }
-  setDefaultProsumer() {
-    this.currentProsumer = this.prosumers[0];
-  }
 
-  proceedTime(amount: number) {
-    this.experimentTime += amount;
-  }
 }

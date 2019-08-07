@@ -34,7 +34,6 @@ export class MarketViewComponent implements OnInit {
               private timeService: TimeService,
               private sessionData: ExperimentStateService,
               private dataProvisionService: DataProvisionService) {
-    this.sessionData.setDefaultProsumer();
   }
 
   ngOnInit() {

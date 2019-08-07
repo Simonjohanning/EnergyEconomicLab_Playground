@@ -1,4 +1,4 @@
-import {Prosumer} from './Prosumer';
+import {ProsumerInstance} from './ProsumerInstance';
 
 /**
  * A P2PBid represents an item in an order book / double auction electricity market.
@@ -14,8 +14,8 @@ import {Prosumer} from './Prosumer';
 export interface P2PBid {
   /** The identificator number of the respective bid */
   id: number;
-  /** The Prosumer that provides the electricity offer to the market */
-  provider: Prosumer;
+  /** The ProsumerInstance that provides the electricity offer to the market */
+  provider: ProsumerInstance;
   /** The time slice where the provider starts to feed in electricity (i.e. the trading partner buys the right for feedin it out) */
   deliveryTime: number;
   /** The offered duration of the feedin commitment (allowing to determine the energy amount traded (in conjunction with power)) */

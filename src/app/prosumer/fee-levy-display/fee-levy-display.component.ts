@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
-import {Prosumer} from '../../core/data-types/Prosumer';
-import {ExperimentInstanceLoaderService} from '../../core/experiment-instance-loader.service';
 import {ExperimentDescriptionService} from '../../shared/experiment-description.service';
+import {TransactionClearingService} from '../../core/transaction-clearing.service';
+import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
+import {TransactionFeeEntry} from '../../core/data-types/TransactionFeeEntry';
 
 @Component({
   selector: 'app-fee-levy-display',
@@ -11,18 +12,18 @@ import {ExperimentDescriptionService} from '../../shared/experiment-description.
 })
 export class FeeLevyDisplayComponent implements OnInit {
 
-  aggregatedFees: number;
-  @Input() prosumer: Prosumer;
+  respectiveTransactionFees: Array<TransactionFeeEntry>;
+  @Input() prosumer: ProsumerInstance;
   @Input() experimentId: number;
   constructor(private bts: BlockchainTransactionService,
-              private eds: ExperimentDescriptionService) { }
+              private eds: ExperimentDescriptionService,
+              private tcs: TransactionClearingService) {
+    this.respectiveTransactionFees = new Array<TransactionFeeEntry>();
+  }
 
   ngOnInit() {
-    this.aggregatedFees = 0;
-    this.bts.committedBidSubject.subscribe(newBid => {
-      if (newBid.provider === this.prosumer) {
-        this.aggregatedFees += (newBid.price * this.eds.getExperimentDescription(this.experimentId).p2pMarketDesign.feeAmount);
-      }
+    this.tcs.newlyClearedBidEmitter.subscribe(transactionFeeEntry => {
+      this.respectiveTransactionFees.push(transactionFeeEntry);
     });
   }
 }

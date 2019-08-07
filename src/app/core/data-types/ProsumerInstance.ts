@@ -4,6 +4,7 @@ import {NonControllableGenerator} from './NonControllableGenerator';
 import {Load} from './Load';
 import {StorageUnit} from './StorageUnit';
 import {Prosumer} from './Prosumer';
+import {TransactionFeeEntry} from './TransactionFeeEntry';
 
 /**
  * A ProsumerInstance is a structure encapsulating Prosumer data from different source, i.e. the Prosumer identification interface, the respective assets, their coordinates and their tokens
@@ -18,6 +19,7 @@ import {Prosumer} from './Prosumer';
  */
 export class ProsumerInstance {
   amountTokens: number;
+  private paidFees: TransactionFeeEntry[];
   constructor(
     readonly respectiveProsumer: Prosumer,
     readonly controllableGenerators: ControllableGenerator[],
@@ -28,5 +30,10 @@ export class ProsumerInstance {
     numTokens: number
   ) {
     this.amountTokens = numTokens;
+    this.paidFees = new Array<TransactionFeeEntry>();
+  }
+
+  addIncurredFee(currentFee: TransactionFeeEntry) {
+    this.paidFees.push(currentFee);
   }
 }

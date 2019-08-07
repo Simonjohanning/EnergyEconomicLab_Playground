@@ -12,11 +12,16 @@ import {ExperimentInstance} from './data-types/ExperimentInstance';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * A service to act as a placeholder for the EDM platform.
+ * It mocks the required functionality, and acts as placeholder for the respective requests put into the platform.
+ * Since it will be deleted once the EDM platform is established, it will not be further covered in the documentation.
+ */
 export class MockEDMService {
 
   constructor(
-    private data: DataProvisionService,
-    private eds: ExperimentDescriptionService
+    private data: DataProvisionService
   ) { }
 
   static getConfiguredLoads(): Observable<Load[]> {

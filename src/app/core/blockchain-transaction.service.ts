@@ -62,19 +62,22 @@ export class BlockchainTransactionService {
    * @param buyer The prosumer that committed to the bid
    * @param timeOfPurchase The point in the simulation that the prosumer purchased the electricity / committed to the bid
    * @param committedBid The bid the buyer is committing to
+   * @returns true if this was successful, false if anything out of the ordinary happened, and the bid could not be committed to
    */
-  public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid): void {
-    this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
-    this.committedBids.push(committedBid);
-    this.committedBidSubject.next(committedBid);
-    console.log(this.openBids.length);
-    this.openBids = (this.openBids.slice(0, this.openBids.indexOf(committedBid)).concat(this.openBids.slice(this.openBids.indexOf(committedBid) + 1, this.openBids.length)));
-    console.log(this.openBids.length);
-    this.openBidSubject.next(this.openBids);
-    console.log(this.transactions);
-    console.log(this.committedBids);
-    // TODO Think about whether this should be timed somewhere else
-    this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedBid, this.p2pMarketDesign.feeAmount);
+  public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid): boolean {
+      this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
+      this.committedBids.push(committedBid);
+      this.committedBidSubject.next(committedBid);
+      console.log(this.openBids.length);
+      this.openBids = (this.openBids.slice(0, this.openBids.indexOf(committedBid)).concat(this.openBids.slice(this.openBids.indexOf(committedBid) + 1, this.openBids.length)));
+      console.log(this.openBids.length);
+      this.openBidSubject.next(this.openBids);
+      console.log(this.transactions);
+      console.log(this.committedBids);
+      // TODO Think about whether this should be timed somewhere else
+      this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedBid, this.p2pMarketDesign.feeAmount);
+      // TODO think about what could go wrong
+      return true;
   }
 
   public getCommitedBids(): P2PBid[] { return this.committedBids; }

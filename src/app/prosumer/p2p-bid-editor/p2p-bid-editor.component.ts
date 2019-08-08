@@ -6,6 +6,7 @@ import {DataProvisionService} from '../../core/data-provision.service';
 import {ExperimentStateService} from '../../core/experiment-state.service';
 import {TimeService} from '../../core/time.service';
 import {MockEDMService} from '../../core/mock-edm.service';
+import {P2PBid} from '../../core/data-types/P2PBid';
 
 @Component({
   selector: 'app-p2p-bid-editor',
@@ -34,17 +35,20 @@ export class P2PBidEditorComponent implements OnInit {
   }
 
   private submitBid(): void {
-    if (this.validationService.checkBidValidity(this.bidForm.value)) {
-      this.bts.commitBid({
-        id: this.bts.getUnusedBidId(),
-        provider: this.sessionData.getCurrentProsumer(),
-        deliveryTime: this.bidForm.value.feedInTime,
-        duration: this.bidForm.value.duration,
-        price: this.bidForm.value.price,
-        power: this.bidForm.value.power
-      });
+    const bidInQuestion: P2PBid = {
+      id: this.bts.getUnusedBidId(),
+      provider: this.sessionData.getCurrentProsumer(),
+      deliveryTime: this.bidForm.value.feedInTime,
+      duration: this.bidForm.value.duration,
+      price: this.bidForm.value.price,
+      power: this.bidForm.value.power
+    };
+    if (this.validationService.checkBidValidity(bidInQuestion)) {
+      this.bts.commitBid(bidInQuestion);
     } else {
-      this.formError = this.validationService.getBidValidityErrors(this.bidForm.value).reduce((string1, string2) => { return string1 + string2; } );
+      console.log('vaidation service should be false, is ' + this.validationService.checkBidValidity(this.bidForm.value));
+      console.log(this.validationService.getBidValidityErrors(bidInQuestion));
+      this.formError = this.validationService.getBidValidityErrors(bidInQuestion).reduce((string1, string2) => string1 + string2);
     }
   }
 }

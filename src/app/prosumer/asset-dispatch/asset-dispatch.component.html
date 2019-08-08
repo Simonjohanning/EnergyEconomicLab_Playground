@@ -1,11 +1,11 @@
-<div *ngIf="prosumerInstance | async; let prosumerInstance; else loading">
-  <div *ngIf="(prosumerInstance.controllableGenerators.length + prosumerInstance.loads.length + prosumerInstance.storage.length) === 0">
+<div *ngIf="(prosumerInstance | async) as currentProsumerInstance; else loading">
+  <div *ngIf="(currentProsumerInstance.controllableGenerators.length + currentProsumerInstance.loads.length + currentProsumerInstance.storage.length) === 0">
     <p>
       No assets to dispatch
     </p>
   </div>
-  <div *ngIf="prosumerInstance.controllableGenerators">
-    <div *ngFor="let currentCG of prosumerInstance.controllableGenerators">
+  <div *ngIf="currentProsumerInstance.controllableGenerators">
+    <div *ngFor="let currentCG of currentProsumerInstance.controllableGenerators">
       <div class="row">
         <div class="col-md-8">
           <div class="panel panel-primary">
@@ -13,7 +13,7 @@
               <h5 class="panel-title" (click)="selectedAsset = currentCG.model">{{currentCG.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentCG.model" class="panel-body">
-              <app-cgdispatch [asset]="currentCG" [timeService]="timeService" (cgGenerationScheduling)="updateAssetGenerationScheduling($event)"></app-cgdispatch>
+              <app-cgdispatch [asset]="currentCG" [timeService]="timeService" (cgGenerationScheduling)="updateAssetScheduling($event)"></app-cgdispatch>
               <button (click)="printSchedule(currentCG)">Show Schedule</button>
             </div>
           </div>
@@ -21,8 +21,8 @@
       </div>
     </div>
   </div>
-  <div *ngIf="prosumerInstance.storage">
-    <div *ngFor="let currentStorage of prosumerInstance.storage">
+  <div *ngIf="currentProsumerInstance.storage">
+    <div *ngFor="let currentStorage of currentProsumerInstance.storage">
       <div class="row">
         <div class="col-md-8">
           <div class="panel panel-primary">
@@ -30,7 +30,7 @@
               <h5 class="panel-title" (click)="selectedAsset = currentStorage.model">{{currentStorage.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentStorage.model" class="panel-body">
-              <app-storage-dispatch [asset]="currentStorage" [timeService]="timeService"></app-storage-dispatch>
+              <app-storage-dispatch [asset]="currentStorage" [timeService]="timeService" (storageScheduling)="updateAssetScheduling($event)"></app-storage-dispatch>
               <button (click)="printSchedule(currentStorage)">Show Schedule</button>
             </div>
           </div>
@@ -38,8 +38,8 @@
       </div>
     </div>
   </div>
-  <div *ngIf="prosumerInstance.loads">
-    <div *ngFor="let currentLoad of prosumerInstance.loads">
+  <div *ngIf="currentProsumerInstance.loads">
+    <div *ngFor="let currentLoad of currentProsumerInstance.loads">
       <div class="row">
         <div class="col-md-8">
           <div class="panel panel-primary">
@@ -47,7 +47,7 @@
               <h5 class="panel-title" (click)="selectedAsset = currentLoad.model">{{currentLoad.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentLoad.model" class="panel-body">
-               <app-load-dispatch [asset]="currentLoad" [timeService]="timeService"></app-load-dispatch>
+               <app-load-dispatch [asset]="currentLoad" [timeService]="timeService" (loadScheduling)="updateAssetScheduling($event)"></app-load-dispatch>
                 <button (click)="printSchedule(currentLoad)">Show Schedule</button>
             </div>
           </div>

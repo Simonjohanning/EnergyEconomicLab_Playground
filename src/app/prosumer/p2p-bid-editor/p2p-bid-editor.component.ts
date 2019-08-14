@@ -13,8 +13,12 @@ import {P2PBid} from '../../core/data-types/P2PBid';
   templateUrl: './p2p-bid-editor.component.html',
   styleUrls: ['./p2p-bid-editor.component.css']
 })
-export class P2PBidEditorComponent implements OnInit {
 
+/**
+ * Component to provide the form that can be used to create a new bid in the P2P market
+ */
+export class P2PBidEditorComponent implements OnInit {
+  /** The respective form group used to contain and manage the data regarding the respective bid */
   private bidForm = new FormGroup(
     {
       feedInTime: new FormControl('', (control: AbstractControl) => this.validationService.fitValidator(control)),
@@ -22,18 +26,20 @@ export class P2PBidEditorComponent implements OnInit {
       power: new FormControl('', (control: AbstractControl) => this.validationService.powerValidator(control)),
       price: new FormControl('', (control: AbstractControl) => this.validationService.priceValidator(control))
     });
+  /** Helper variable to display errors within the form */
   private formError = '';
   constructor(private validationService: BidValidationService,
               private bts: BlockchainTransactionService,
-              private sessionData: ExperimentStateService,
-              private timeService: TimeService,
-              private edmService: MockEDMService,
-              private dataProvisionService: DataProvisionService) {
+              private sessionData: ExperimentStateService) {
   }
 
   ngOnInit() {
   }
 
+  /**
+   * Method to create the bid, check it for validity and if so, send it to the bts.
+   * If the bid does not validate, it provides information about issues with the bid through the formError variable
+   */
   private submitBid(): void {
     const bidInQuestion: P2PBid = {
       id: this.bts.getUnusedBidId(),

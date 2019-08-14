@@ -7,10 +7,17 @@ import {TimeService} from '../../core/time.service';
   templateUrl: './storage-prd.component.html',
   styleUrls: ['./storage-prd.component.css']
 })
-export class StoragePRDComponent implements OnInit {
 
+/**
+ * Component to display the information for an energy storage unit as persistent resource.
+ *
+ */
+export class StoragePRDComponent implements OnInit {
+  /** The respective storage unit to display */
   @Input() resource: StorageUnit;
+  /** selection variable whether the display should be shown or hidden */
   private showResource = true;
+  /** variable to hold the state of charge of the respective battery */
   public currentSOC: number;
 
   constructor(
@@ -21,6 +28,7 @@ export class StoragePRDComponent implements OnInit {
     this.currentSOC = this.resource.storageHistory[0];
     this.timeService.timeEmitter.subscribe(timeUpdate => {
       console.log('Storage ' + this.resource.model + ' receives time update: ' + timeUpdate);
+      // TODO check assumption
       // could be undefined, but the idea is that if its undefined it will be hidden, so this is intentional
       this.currentSOC = this.resource.storageHistory[timeUpdate];
       console.log('With the update the currentSOC is ' + this.currentSOC + ', since the storage history of the store is ' + this.resource.storageHistory);

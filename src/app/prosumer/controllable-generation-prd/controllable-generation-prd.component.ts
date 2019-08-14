@@ -7,9 +7,14 @@ import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
   templateUrl: './controllable-generation-prd.component.html',
   styleUrls: ['./controllable-generation-prd.component.css']
 })
-export class ControllableGenerationPRDComponent implements OnInit {
 
+/**
+ * Component to display properties of the controllable generator as asset information element
+ */
+export class ControllableGenerationPRDComponent implements OnInit {
+  /** The respective asset to detail in the view */
   @Input() resource: ControllableGenerator;
+  /** Toggle variable to toggle the view for displaying information */
   private showResource = true;
 
   constructor() {}

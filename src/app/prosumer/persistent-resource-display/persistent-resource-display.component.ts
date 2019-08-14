@@ -9,10 +9,19 @@ import {TimeService} from '../../core/time.service';
   templateUrl: './persistent-resource-display.component.html',
   styleUrls: ['./persistent-resource-display.component.css']
 })
-export class PersistentResourceDisplayComponent implements OnInit {
 
+/**
+ * Component to display the persistent resources of a consumer, i.e.
+ * - their tokens
+ * - their residual loads
+ * - the respective assets (i.e. all assets the prosumer owns)
+ */
+export class PersistentResourceDisplayComponent implements OnInit {
+  /** The (observable of the) prosumer instance whose assets are to be diplayed */
   @Input() prosumerInstanceObservable: Observable<ProsumerInstance>;
-  prosumerInstance: ProsumerInstance;
+  /** variable to store the prosumer instance once derived from the observable */
+  private prosumerInstance: ProsumerInstance;
+  /** Helper variable for the current time of the simulation */
   private currentTime: number;
   constructor(private loader: ExperimentInstanceLoaderService,
               private timeService: TimeService) {}

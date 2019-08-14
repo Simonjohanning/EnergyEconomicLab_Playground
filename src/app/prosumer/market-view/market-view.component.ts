@@ -12,13 +12,22 @@ import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
   templateUrl: './market-view.component.html',
   styleUrls: ['./market-view.component.css']
 })
-export class MarketViewComponent implements OnInit {
 
+/**
+ * Component to provide filtering and the market view for the relevant bids accoring to the filter
+ */
+export class MarketViewComponent implements OnInit {
+  /** Variable to store the bids to be shown in the view */
   private  relevantBids: P2PBid[] = [];
+  /** reference variable to refer to the bid currently selected in the view */
   private selectedBid: P2PBid;
+  /** variable to store the market design of the considered market */
   private p2pMarketDesign: P2PMarketDesign;
+  /** Helper variable to determine the maximal price of a bid (could be different from the value in the market design */
   private marketMaxPrice: number;
+  /** Helper variable to determine the maximal size of a bid */
   private maxBidSize: number;
+  /** Form to allow for filtering the bid relevant for the view */
   private bidFilterForm = new FormGroup(
     {
       maxPrice: new FormControl(''),
@@ -29,7 +38,9 @@ export class MarketViewComponent implements OnInit {
       minPower: new FormControl(''),
       maxPower: new FormControl('')
     });
+  /** reference variable to store which was the last slider the user changed */
   private latestChangeSlider = '';
+
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
               private sessionData: ExperimentStateService,
@@ -37,6 +48,7 @@ export class MarketViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    // subscribe to the emitter of open bids to be able to update the view
     this.bts.openBidSubject.subscribe(openBids => {
       console.log('New open bids next in market view: ' + openBids.length + ' open bids.');
       this.relevantBids = openBids.filter(bid => this.conformsToFilter(bid));
@@ -62,21 +74,46 @@ export class MarketViewComponent implements OnInit {
     });
   }
 
-  private checkBounds() {
-    if (this.latestChangeSlider === 'maxFeedInTime') { this.checkMaxFIT();
-    } else if (this.latestChangeSlider === 'minFeedInTime') { this.checkMinFIT();
-    } else if (this.latestChangeSlider === 'maxDuration') { this.checkMaxDuration();
-    } else if (this.latestChangeSlider === 'minDuration') { this.checkMinDuration();
-    } else if (this.latestChangeSlider === 'maxPower') { this.checkMaxPower();
-    } else if (this.latestChangeSlider === 'minPower') { this.checkMinPower();
+  /**
+   * Helper method to check the bounds of the last changed slider.
+   * If the slider was moved out of bounds (e.g. max/min order reversed), it is corrected.
+   * Consecutively, the relevant bids are filtered according to a filter adjusted to the last slider modified
+   */
+  private checkBounds(): void {
+    switch (this.latestChangeSlider) {
+      case 'maxFeedInTime':
+        this.checkMaxFIT();
+        break;
+      case 'minFeedInTime':
+        this.checkMinFIT();
+        break;
+      case 'maxDuration':
+        this.checkMaxDuration();
+        break;
+      case 'minDuration':
+        this.checkMinDuration();
+        break;
+      case 'maxPower':
+        this.checkMaxPower();
+        break;
+      case 'minPower':
+        this.checkMinPower();
+        break;
     }
-    this.syncBids();
-  }
-
-  syncBids(): void {
+    // Filter out bids not compliant with the respective filters
     this.relevantBids = this.bts.getOpenBids().filter(bid => this.conformsToFilter(bid));
   }
 
+  /**
+   * Method to check whether a bid conforms to a number of criteria set by the respective form.
+   * A bid is invalid if either
+   * - the delivery time lies outside [minimalFIT, maximalFIT]
+   * - the power lies outside [minimalPower, maximalPower]
+   * - the duration lies outside [minimalDuration, maximalDuration]
+   * - the bid price exceeds the maximal bid price
+   * @param bidToFilter The bid that is to be filtered for form-based filter compliance
+   * @returns true if the bid conforms to all filter criteria, false if it violates at least one
+   */
   private conformsToFilter(bidToFilter: P2PBid): boolean {
     if ((bidToFilter.deliveryTime < this.bidFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxFeedInTime)) {
       return false;
@@ -91,28 +128,60 @@ export class MarketViewComponent implements OnInit {
     }
   }
 
-  highlight(bidToDisplay: P2PBid) {
+  /**
+   * Helper method to set the current bid as the selected bid
+   *
+   * @param bidToDisplay bid to set as selected bid
+   */
+  setSelectedBid(bidToDisplay: P2PBid) {
       this.selectedBid = bidToDisplay;
   }
 
+  /**
+   * Method to reset the selected bid variable (to null)
+   */
   public resetBid(): void {
     this.selectedBid = null;
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMaxFIT() {
     if (this.bidFilterForm.value.minFeedInTime > this.bidFilterForm.value.maxFeedInTime) { this.bidFilterForm.get('maxFeedInTime').setValue(this.bidFilterForm.value.minFeedInTime); }
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMinFIT() {
     if (this.bidFilterForm.value.minFeedInTime > this.bidFilterForm.value.maxFeedInTime) { this.bidFilterForm.get('minFeedInTime').setValue(this.bidFilterForm.value.maxFeedInTime); }
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMaxDuration() {
     if (this.bidFilterForm.value.minDuration > this.bidFilterForm.value.maxDuration) { this.bidFilterForm.get('maxDuration').setValue(this.bidFilterForm.value.minDuration); }
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMinDuration() {
     if (this.bidFilterForm.value.minDuration > this.bidFilterForm.value.maxDuration) { this.bidFilterForm.get('minDuration').setValue(this.bidFilterForm.value.maxDuration); }
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMaxPower() {
     if (this.bidFilterForm.value.minPower > this.bidFilterForm.value.maxPower) { this.bidFilterForm.get('maxPower').setValue(this.bidFilterForm.value.minPower); }
   }
+
+  /**
+   * Method to correct invalid bounds (min>max) to equal value
+   */
   private checkMinPower() {
     if (this.bidFilterForm.value.minPower > this.bidFilterForm.value.maxPower) { this.bidFilterForm.get('minPower').setValue(this.bidFilterForm.value.maxPower); }
   }

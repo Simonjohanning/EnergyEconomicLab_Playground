@@ -7,12 +7,20 @@ import { Chart } from 'chart.js';
   templateUrl: './load-prd.component.html',
   styleUrls: ['./load-prd.component.css']
 })
-export class LoadPRDComponent implements OnInit, AfterViewInit {
 
+/**
+ * Component to display properties of the load as asset information element
+ */
+export class LoadPRDComponent implements OnInit, AfterViewInit {
+  /** The respective asset to detail in the view */
   @Input() resource: Load;
+  /** Toggle variable to toggle the view for displaying information */
   private showResource = true;
+  /** The element ref element that visualizes the information about the time series of the respective load */
   @ViewChild('canvas') canvas: ElementRef;
+  /** The chart element that comprises the visualization information used in the canvas for diplaying the load */
   private loadChart: Chart;
+  /** variable to store the labels for the chart to display */
   private labels;
   constructor(private cd: ChangeDetectorRef) { }
 
@@ -22,8 +30,12 @@ export class LoadPRDComponent implements OnInit, AfterViewInit {
     this.loadGraph();
   }
 
+  /**
+   * Method to load the graph for displaying the load curve.
+   * Loads and sets the respective information and starts a change detection cycle
+   */
   loadGraph(): void {
-    //TODO fix reload panel issue
+    // TODO fix reload panel issue
     this.labels = this.resource.loadProfile.map(currentValue => ('t = ' + this.resource.loadProfile.indexOf(currentValue)));
     this.loadChart = new Chart((this.canvas.nativeElement as HTMLCanvasElement).getContext('2d'), {
       type: 'line',
@@ -58,6 +70,10 @@ export class LoadPRDComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
+  // TODO find a smarter way to do this
+  /**
+   * Method to update the panel by reloading the graph
+   */
   updatePanel(): void {
     this.showResource = !this.showResource;
     if (this.showResource) { this.loadGraph(); }

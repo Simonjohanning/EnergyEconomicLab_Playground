@@ -8,14 +8,11 @@
         You are participating in experiment {{experimentId}}.
     </div>
     </div>
-    <div class="col">
-      <app-time></app-time>
-    </div>
   </div></div>
 <div class="row">
   <div class="col-md-8">
     <div class="panel panel-primary">
-      <app-feed-in-obligation-display [prosumer]="prosumerInstance"></app-feed-in-obligation-display>
+      <app-feed-in-obligation-display [piObservable]="prosumerInstance"></app-feed-in-obligation-display>
     </div></div></div>
 <div class="row">
   <div class="col-md-8">
@@ -36,7 +33,7 @@
         <h3 class="panel-title" (click)="this.showAssetDispatch = !this.showAssetDispatch">Asset Dispatch</h3>
       </div>
       <div *ngIf="showAssetDispatch" class="panel-body">
-        <app-asset-dispatch [prosumerInstance]="prosumerInstance" [timeService]="timeService"></app-asset-dispatch>
+        <app-asset-dispatch [prosumerInstance]="prosumerInstance"></app-asset-dispatch>
       </div>
     </div>
   </div>
@@ -66,7 +63,7 @@
         <h3 class="panel-title" (click)="changeView('FeeView')">Fee & Levy View</h3>
       </div>
       <div *ngIf="currentView==='FeeView'" class="panel-body">
-        <app-fee-levy-display [prosumer]="prosumerInstance" [experimentId]="experimentId"></app-fee-levy-display>
+        <app-fee-levy-display [piObservable]="prosumerInstance"></app-fee-levy-display>
       </div>
     </div>
   </div></div>

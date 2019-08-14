@@ -35,4 +35,11 @@ import {TimeService} from './core/time.service';
   providers: [DataProvisionService, ExperimentStateService, TimeService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(private ts: TimeService) {}
+
+  private proceedTime(): void {
+    this.ts.advanceTime(1);
+  }
+}

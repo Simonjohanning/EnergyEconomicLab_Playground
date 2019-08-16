@@ -6,7 +6,6 @@ import {ControllableGenerator} from './data-types/ControllableGenerator';
 import {NonControllableGenerator} from './data-types/NonControllableGenerator';
 import {StorageUnit} from './data-types/StorageUnit';
 import {DataProvisionService} from './data-provision.service';
-import {ExperimentDescriptionService} from '../shared/experiment-description.service';
 import {ExperimentInstance} from './data-types/ExperimentInstance';
 
 @Injectable({

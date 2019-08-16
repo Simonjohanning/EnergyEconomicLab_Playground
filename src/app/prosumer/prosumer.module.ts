@@ -11,7 +11,6 @@ import { LoadPRDComponent } from './load-prd/load-prd.component';
 import { StoragePRDComponent } from './storage-prd/storage-prd.component';
 import { FeedInPointDisplayComponent } from './feed-in-point-display/feed-in-point-display.component';
 import {CommittedTransactionsComponent} from './committed-transactions/committed-transactions.component';
-import {MarketEntryComponent} from './market-entry/market-entry.component';
 import {BidDetailComponent} from './bid-detail/bid-detail.component';
 import {MarketViewComponent} from './market-view/market-view.component';
 import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component';
@@ -35,7 +34,6 @@ import {BlockchainTransactionService} from '../core/blockchain-transaction.servi
     StoragePRDComponent,
     FeedInPointDisplayComponent,
     MarketViewComponent,
-    MarketEntryComponent,
     BidDetailComponent,
     CommittedTransactionsComponent,
     P2PBidEditorComponent,

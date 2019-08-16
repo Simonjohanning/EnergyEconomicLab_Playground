@@ -8,7 +8,6 @@ import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
 import {P2PBid} from './data-types/P2PBid';
 import {ExperimentInstance} from './data-types/ExperimentInstance';
 import {ExperimentDescription} from './data-types/ExperimentDescription';
-import {ExperimentDescriptionService} from '../shared/experiment-description.service';
 import {Observable, of} from 'rxjs';
 import {TimeRegime} from './data-types/TimeRegime';
 import {P2PMarketDesign} from './data-types/P2PMarketDesign';
@@ -218,6 +217,22 @@ export class DataProvisionService {
     return of(prosumerInstance);
   }
 
+  static getExperimentDescription(experimentType: number): ExperimentDescription {
+    if (experimentType === 0) {
+      return {
+        prosumers: new Array(),
+        p2pMarketDesign: {
+          bidClosure: 10,
+          timeSliceLength: 1,
+          minBidSize: 1,
+          maxPrice: 10000,
+          feeAmount: .1
+        },
+        description: 'mock experiment description for type 0'
+      };
+    }
+  }
+
   getMockProsumerInstance(id = 1): ProsumerInstance {
     return new ProsumerInstance(
       new Prosumer(id, 'mock prosumer'),
@@ -252,14 +267,12 @@ export class DataProvisionService {
 
   public getMockBids(): P2PBid[] { return this.mockBids; }
 
-  getMockPublicActorData(): TransactionFeeEntry[] {
-    const feeEntries = [];
+  getMockPublicActorData(): Set<TransactionFeeEntry> {
+    const feeEntries = new Set<TransactionFeeEntry>();
     this.mockBids.forEach(currentBid => {
       const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingBid: currentBid};
-      feeEntries.push(entry);
+      feeEntries.add(entry);
     });
     return feeEntries;
   }
-
-
 }

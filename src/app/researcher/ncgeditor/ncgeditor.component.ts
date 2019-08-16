@@ -9,13 +9,19 @@ import {NonControllableGenerator} from '../../core/data-types/NonControllableGen
   templateUrl: './ncgeditor.component.html',
   styleUrls: ['./ncgeditor.component.css']
 })
+
+/**
+ * Component that allows the creation of non-controllable generators for the configuration of the respective experiments.
+ * Allows to create (valid) non-controllable generators out of nothing or to base a new non-controllable generator on an existing (parameterized) non-controllable generator.
+ * A non-controllable generators is valid if the model name is unique, the generation series consists of a series of comma-separated non-negative values and it does exceed the peak power
+ */
 export class NCGEditorComponent implements OnInit {
 
-  // container for the respective assets loaded from the data base
+  /** container for the respective assets loaded from the data base */
   private ncgs: NonControllableGenerator[];
-  // subject wrapper for the loaded assets for injecting them in the validator
+  /** subject wrapper for the loaded assets for injecting them in the validator */
   private ncgSubject: Subject<NonControllableGenerator[]> = new Subject<NonControllableGenerator[]>();
-  // entry selection model for choosing preconfigured, existing assets
+  /** entry selection model for choosing preconfigured, existing assets */
   private selectedModel = '';
 
   /**
@@ -76,7 +82,7 @@ export class NCGEditorComponent implements OnInit {
 
   /**
    * Validator for the peak power entry in the form.
-   * Entry validates when the peak power input value is non-negative
+   * Entry validates when the peak power input value is non-negative and doesn't fall behind the highest projected generation of the respective asset
    *
    */
   private peakPowerValidator(): ValidatorFn {
@@ -86,6 +92,14 @@ export class NCGEditorComponent implements OnInit {
           peakPowerError: 'Peak power cant be negative'
         };
       } else {
+        const projectedGeneration = this.nCGForm.get('draftProjectedGeneration').value.split(',');
+        projectedGeneration.forEach(currentDataPoint => {
+          if (currentDataPoint > control.value) {
+            return {
+              peakPowerError: ('Peak power of the generator is lower than data point ' + currentDataPoint + ' at position ' + projectedGeneration.indexOf(currentDataPoint) + ' of the projected generation curve, and is thus not a peak power value')
+            };
+          }
+        });
         return null;
       }
     };

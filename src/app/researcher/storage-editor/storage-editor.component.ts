@@ -3,20 +3,24 @@ import {StorageUnit} from '../../core/data-types/StorageUnit';
 import {Subject} from 'rxjs';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
 import {MockEDMService} from '../../core/mock-edm.service';
-import {NonControllableGenerator} from '../../core/data-types/NonControllableGenerator';
 
 @Component({
   selector: 'app-storage-editor',
   templateUrl: './storage-editor.component.html',
   styleUrls: ['./storage-editor.component.css']
 })
-export class StorageEditorComponent implements OnInit {
 
-  // container for the respective assets loaded from the data base
+/**
+ * Component that allows the creation of storage units for the configuration of the respective experiments.
+ * Allows to create (valid) storage unit out of nothing or to base a new storage unit on an existing (parameterized) storage unit.
+ * A storage unit is valid if the model name is unique, , its storage capacity is non-negative, its feed-in power is non-negative, its feed-out power is non-negative, its cycle efficiency is in the unit interval and its initial state of charge is in the unit interval
+ */
+export class StorageEditorComponent implements OnInit {
+  /** container for the respective assets loaded from the data base */
   private storageUnits: StorageUnit[];
-  // subject wrapper for the loaded assets for injecting them in the validator
+  /** subject wrapper for the loaded assets for injecting them in the validator */
   private storageUnitSubject: Subject<StorageUnit[]> = new Subject<StorageUnit[]>();
-  // entry selection model for choosing preconfigured, existing assets
+  /** entry selection model for choosing preconfigured, existing assets */
   private selectedModel = '';
 
   /**
@@ -178,7 +182,7 @@ export class StorageEditorComponent implements OnInit {
   }
 
   /**
-   * Function to reset the input fields in the html file of the component (reseting to empty strings or 0-values)
+   * Function to reset the input fields in the html file of the component (resetting to empty strings or 0-values)
    */
   resetParameters(): void {
     this.storageForm.setValue({

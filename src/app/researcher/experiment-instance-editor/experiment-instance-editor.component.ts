@@ -9,15 +9,24 @@ import {ExperimentDescription} from '../../core/data-types/ExperimentDescription
   templateUrl: './experiment-instance-editor.component.html',
   styleUrls: ['./experiment-instance-editor.component.css']
 })
-export class ExperimentInstanceEditorComponent implements OnInit {
 
+/**
+ * Component to create an experiment instance based on an experiment description.
+ * This allows to identify the respective instances of experiments with the same design by assigning an ID to them.
+ * An experiment instance is valid if there is not another experiment instance using the same ID.
+ */
+export class ExperimentInstanceEditorComponent implements OnInit {
+  /** Set to contain the IDs already used in other experiment instance in order to validate the chosen ID for this experiment */
   private takenIds: Set<number> = new Set<number>();
+  /** A subject element that emits the respective taken IDs from the EDM service */
   private takendIdSubject: Subject<Set<number>> = new Subject<Set<number>>();
+  /** A selection variable for the experiment description this experiment instance is an instance of */
   private selectedED: ExperimentDescription;
+  /** Local data to host experiment descriptions to choose from (to associate with the experiment instance) */
   private experimentDescriptions: ExperimentDescription[];
 
   constructor(private edm: MockEDMService) { }
-
+  /** Form to hold the information associated with this instance */
   private experimentInstanceForm: FormGroup = new FormGroup({
     id: new FormControl('', this.idValidator(this.takendIdSubject))
   });
@@ -36,6 +45,12 @@ export class ExperimentInstanceEditorComponent implements OnInit {
     this.experimentDescriptions = this.edm.getExperimentDescriptions();
   }
 
+  /**
+   * Helper method to suggest an ID if the user gets frustrated by the number of taken IDs.
+   * Finds a 'random' ID not taken by another experiment description and returns it.
+   *
+   * @returns A non-taken ID (an ID that is not associated with any other experiment instance
+   */
   private suggestID(): number {
     let idRange = 1;
     let freeIDFound = false;
@@ -50,6 +65,11 @@ export class ExperimentInstanceEditorComponent implements OnInit {
     }
   }
 
+  /**
+   * Validator function for the ID used in the respective form
+   *
+   * @param idFetchSubject A subject that emits all IDs taken in the experiment to compare against.
+   */
   private idValidator(idFetchSubject: Subject<Set<number>>): ValidatorFn {
     let takenIds: Set<number> = new Set<number>();
     idFetchSubject.subscribe(retrievedIds => {
@@ -70,7 +90,10 @@ export class ExperimentInstanceEditorComponent implements OnInit {
     };
   }
 
-  saveExperimentInstance() {
+  /**
+   * Method to save the experiment instance (i.e. by requesting the EDM service to add the experiment instance to the data store.
+   */
+  private saveExperimentInstance() {
     this.edm.addExperimentInstance({
       experimentID: this.experimentInstanceForm.get('id').value,
       instanceOfExperiment: this.selectedED

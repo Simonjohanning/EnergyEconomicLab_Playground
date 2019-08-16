@@ -9,6 +9,11 @@ import {ControllableGenerator} from '../../core/data-types/ControllableGenerator
   templateUrl: './cgeditor.component.html',
   styleUrls: ['./cgeditor.component.css']
 })
+
+/**
+ * Component to allow the configuration of controllable generator assets for the configuration of experiments.
+ * Allows to build upon existing (configured) generators and to add new ones and provides simple validators for the attributes of these assets
+ */
 export class CGEditorComponent implements OnInit {
 
   // container for the respective assets loaded from the data base
@@ -170,7 +175,7 @@ export class CGEditorComponent implements OnInit {
    */
   setParameters(): void {
     this.cgs.forEach(currentCg => {
-      if (currentCg.model === this.selectedModel){
+      if (currentCg.model === this.selectedModel) {
         this.cgForm.get('draftModel').setValue(currentCg.model);
         this.cgForm.get('draftMaximalGeneration').setValue(currentCg.maximalGeneration);
         this.cgForm.get('draftMinimalDowntime').setValue(currentCg.minimalDowntime);
@@ -207,6 +212,4 @@ export class CGEditorComponent implements OnInit {
         this.cgForm.get('draftHeatCouplingNumber').value
       ));
   }
-
-
 }

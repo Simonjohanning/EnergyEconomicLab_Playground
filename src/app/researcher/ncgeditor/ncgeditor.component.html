@@ -8,13 +8,13 @@
 <form [formGroup]="nCGForm">
   <div class="form-group">
     <label for="model">Model</label>
-    <input type="string" class="form-control" id="model" aria-describedby="modelHelp" formControlName="draftModel" [(ngModel)]="draftModel" required>
+    <input type="string" class="form-control" id="model" aria-describedby="modelHelp" formControlName="draftModel" required>
     <small id="modelHelp" *ngIf="(!nCGForm.get('draftModel').errors)" class="form-text text-muted">The name of the model</small>
     <small *ngIf="nCGForm.get('draftModel').errors" class="form-text text-muted">Error: {{nCGForm.get('draftModel').errors.modelError}}</small>
   </div>
   <div class="form-group">
     <label for="peakPower">Peak Power</label>
-    <input type="number" class="form-control" id="peakPower" aria-describedby="peakPowerHelp" formControlName="draftPeakPower" [(ngModel)]="draftPeakPower" required>
+    <input type="number" class="form-control" id="peakPower" aria-describedby="peakPowerHelp" formControlName="draftPeakPower" required>
     <small id="peakPowerHelp" *ngIf="(!nCGForm.get('draftPeakPower').errors)" class="form-text text-muted">The maximal power the asset can provide</small>
     <small *ngIf="nCGForm.get('draftPeakPower').errors" class="form-text text-muted">Error: {{nCGForm.get('draftPeakPower').errors.peakPowerError}}</small>
   </div>

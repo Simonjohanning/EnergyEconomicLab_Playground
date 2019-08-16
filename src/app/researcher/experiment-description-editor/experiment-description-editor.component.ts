@@ -9,7 +9,13 @@ import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/for
   templateUrl: './experiment-description-editor.component.html',
   styleUrls: ['./experiment-description-editor.component.css']
 })
+
 // TODO check if AfterViewInit hook is needed despite external triggering
+/**
+ * Component to allow to create an experiment description, based on the prosumer and market configuration of the simulation.
+ * Hosts the child components and collects their data and submits them to the EDM service for storing the description.
+ * A valid experiment description consists of a non-empty list of prosumers, a valid P2P market and an existing experiment description.
+ */
 export class ExperimentDescriptionEditorComponent implements OnInit {
 
 
@@ -25,9 +31,13 @@ export class ExperimentDescriptionEditorComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Validator for the form entry allowing for a description of the experiment description.
+   * Description must not be empty
+   */
   private descriptionValidator(): ValidatorFn {
     return (control: AbstractControl) => {
-      if (control.value === 0) {
+      if (control.value === '') {
         return {
           descriptionError: 'Description is empty; please provide a valid description'
         };
@@ -37,6 +47,10 @@ export class ExperimentDescriptionEditorComponent implements OnInit {
     };
   }
 
+  /**
+   * Method to submit the experiment description to the EDM service.
+   * If the description form contains no errors, it will submit the respective data to the EDM service.
+   */
   submitExperimentDesign(): void {
     if (this.descriptionForm.errors === null) {
       this.edmService.addExperimentDescription({

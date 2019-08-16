@@ -9,13 +9,18 @@ import {Subject} from 'rxjs';
   templateUrl: './load-editor.component.html',
   styleUrls: ['./load-editor.component.css']
 })
-export class LoadEditorComponent implements OnInit {
 
-  // container for the respective assets loaded from the data base
+/**
+ * Component that allows the creation of loads for the configuration of the respective experiments.
+ * Allows to create (valid) loads out of nothing or to base a new load on an existing (parameterized) load.
+ * A load is valid if the model name is unique, the load curve consists of a comma-separated list of non-negative values, its temporal shifting is non-negative and its relative controllability is within the unit interval.
+ */
+export class LoadEditorComponent implements OnInit {
+  /** container for the respective assets loaded from the data base */
   private loads: Load[];
-  // subject wrapper for the loaded assets for injecting them in the validator
+  /** subject wrapper for the loaded assets for injecting them in the validator */
   private loadSubject: Subject<Load[]> = new Subject<Load[]>();
-  // entry selection model for choosing preconfigured, existing assets
+  /** entry selection model for choosing preconfigured, existing assets */
   selectedModel = '';
 
   /**

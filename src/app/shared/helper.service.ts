@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
-import {element} from 'protractor';
 
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Service to provide the helper service to be used in other context for stateless functionality not directly relevant for the functionality of the respective component/service
+ */
 export class HelperService {
 
   constructor() { }
-  public roundNumber(preciseNumber, precision: number) {
-    return Number.parseFloat(preciseNumber).toPrecision(precision);
-  }
 
+  /**
+   * Method to aggregate a number of arrays on an element-by-element base.
+   * Additively aggregates the n-th element of each array in the n-th entry of the returned array.
+   *
+   * @param arrays Array with entries as the additive aggregate of the provided arrays
+   */
   aggregateArrays(arrays: [][]) {
-/*    console.log('Attempting to aggregate following arrays: ')
-    arrays.forEach(currentArray => console.log(currentArray));*/
     const aggregatedArrays = Array(arrays[0].length).fill(0);
     const indexRange = Array.from(Array(arrays[0].length).keys());
     for (const index of indexRange) {
@@ -21,7 +25,6 @@ export class HelperService {
         aggregatedArrays[index] += currentArray[index];
       });
     }
-    /*console.log('aggregated arrays are '+aggregatedArrays);*/
     return aggregatedArrays;
   }
 }

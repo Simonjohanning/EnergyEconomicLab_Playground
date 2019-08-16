@@ -15,7 +15,7 @@ export class HelperService {
 /*    console.log('Attempting to aggregate following arrays: ')
     arrays.forEach(currentArray => console.log(currentArray));*/
     const aggregatedArrays = Array(arrays[0].length).fill(0);
-    const indexRange = Array.from(Array(arrays[0].length).keys())
+    const indexRange = Array.from(Array(arrays[0].length).keys());
     for (const index of indexRange) {
       arrays.forEach(currentArray => {
         aggregatedArrays[index] += currentArray[index];

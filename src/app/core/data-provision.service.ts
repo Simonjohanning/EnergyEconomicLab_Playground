@@ -61,9 +61,7 @@ export class DataProvisionService {
     }
   ];
 
-  constructor(
-    private eds: ExperimentDescriptionService
-  ) { }
+  constructor() { }
 
   static getExperimentLength(): Observable<number> {
     return of(120);
@@ -250,7 +248,7 @@ export class DataProvisionService {
 
   getMockExperimentInstances(): Set<ExperimentInstance> {
     const collection: Set<ExperimentInstance> = new Set<ExperimentInstance>();
-    const respectiveDescription: ExperimentDescription = this.getED();
+    const respectiveDescription: ExperimentDescription = DataProvisionService.getExperimentDescription(0);
     collection.add({experimentID: 0, instanceOfExperiment: respectiveDescription});
     collection.add({experimentID: 1, instanceOfExperiment: respectiveDescription});
     collection.add({experimentID: 2, instanceOfExperiment: respectiveDescription});
@@ -259,10 +257,6 @@ export class DataProvisionService {
     collection.add({experimentID: 6, instanceOfExperiment: respectiveDescription});
     // console.log('about to return the collection ' + collection + ' with ' + collection.size + ' entries.');
     return collection;
-  }
-
-  getED(): ExperimentDescription {
-    return this.eds.getExperimentDescription(0);
   }
 
   public getMockBids(): P2PBid[] { return this.mockBids; }

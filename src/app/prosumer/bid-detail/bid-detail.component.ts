@@ -10,6 +10,8 @@ import {TimeService} from '../../core/time.service';
   styleUrls: ['./bid-detail.component.css']
 })
 
+// TODO allow for toggling to see with and without fees & levies
+
 /**
  * Component to display the details of a P2PBid and to provide bid commitment / purchase functionality of the detailed bid.
  * Commitment to the bid emits an event to the parent component to remove the detailed bid from the parent element

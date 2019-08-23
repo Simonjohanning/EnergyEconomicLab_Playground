@@ -31,7 +31,7 @@ export class BlockchainTransactionService {
   public committedBidSubject: Subject<P2PBid> = new Subject<P2PBid>();
   /** Subject to emit the open bids once their state changes in order to update the observers */
   public openBidSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
-  /** Array to keep track of all transactions sent to the blockchain layer as the respective data type*/
+  /** Array to keep track of all transactions sent to the blockchain layer as the respective data type */
   private transactions: BCTransaction[] = [];
   /** Reference to the respective market design of the context the service is used in */
   private p2pMarketDesign: P2PMarketDesign;
@@ -92,15 +92,17 @@ export class BlockchainTransactionService {
     return ++this.freeBidId;
   }
 
+
+  // TODO think about whether this should check whether the prosumer could in theory provide the energy (e.g. via the residual load information) or whether extensive trading is allowed (and what happens upon non-delivery)
   /**
-   * Method to commit a bid to the blockchain layer as an open bid.
+   * Method to submit a bid to the blockchain layer as an open bid.
    * Requires the bid to not have been committed before (i.e. not be in the list of open or committed bids) and to be valid.
    * Will otherwise not be successful.
    *
    * @param bid The bid to be committed to the blockchain
    * @returns Returns true if the bid has not been committed before and to be valid
    */
-  commitBid(bid: P2PBid): boolean {
+  submitBid(bid: P2PBid): boolean {
     if (((this.openBids.indexOf(bid) === - 1) && (this.committedBids.indexOf(bid) === - 1)) && this.bvs.checkBidValidity(bid)) {
       this.openBids.push(bid);
       this.openBidSubject.next(this.openBids);

@@ -14,6 +14,8 @@ import {P2PBid} from '../../core/data-types/P2PBid';
   styleUrls: ['./p2p-bid-editor.component.css']
 })
 
+// TODO Implement bid strategy bot stuff
+
 /**
  * Component to provide the form that can be used to create a new bid in the P2P market
  */
@@ -50,7 +52,7 @@ export class P2PBidEditorComponent implements OnInit {
       power: this.bidForm.value.power
     };
     if (this.validationService.checkBidValidity(bidInQuestion)) {
-      this.bts.commitBid(bidInQuestion);
+      this.bts.submitBid(bidInQuestion);
     } else {
       console.log('vaidation service should be false, is ' + this.validationService.checkBidValidity(this.bidForm.value));
       console.log(this.validationService.getBidValidityErrors(bidInQuestion));

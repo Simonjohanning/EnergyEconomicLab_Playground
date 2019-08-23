@@ -47,6 +47,7 @@ export class ExperimentDescriptionEditorComponent implements OnInit {
     };
   }
 
+  // TODO make sure to add the non-asset prosumer data as well, i.e. change it to a ProsumerInstance
   /**
    * Method to submit the experiment description to the EDM service.
    * If the description form contains no errors, it will submit the respective data to the EDM service.

@@ -2,6 +2,7 @@
   Tokens: {{prosumerInstance.amountTokens}}
 </p>
 <app-feed-in-point-display [prosumerObservable]="prosumerInstanceObservable"></app-feed-in-point-display>
+<app-exogeneous-prices></app-exogeneous-prices>
 <app-residual-load [prosumerObservable]="prosumerInstanceObservable"></app-residual-load>
   <span *ngIf="prosumerInstance">
     <p *ngFor="let resource of prosumerInstance.controllableGenerators">

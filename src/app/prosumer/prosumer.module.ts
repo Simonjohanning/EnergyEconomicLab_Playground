@@ -23,6 +23,7 @@ import { StorageDispatchComponent } from '../prosumer/storage-dispatch/storage-d
 import { LoadDispatchComponent } from '../prosumer/load-dispatch/load-dispatch.component';
 import {TransactionClearingService} from '../core/transaction-clearing.service';
 import {BlockchainTransactionService} from '../core/blockchain-transaction.service';
+import { ExogeneousPricesComponent } from './exogeneous-prices/exogeneous-prices.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {BlockchainTransactionService} from '../core/blockchain-transaction.servi
     AssetDispatchComponent,
     CGDispatchComponent,
     StorageDispatchComponent,
-    LoadDispatchComponent],
+    LoadDispatchComponent,
+    ExogeneousPricesComponent],
   imports: [
     CommonModule,
     FormsModule,

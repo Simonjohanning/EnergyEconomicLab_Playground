@@ -19,7 +19,6 @@ import { By } from '@angular/platform-browser';
 describe('PersistentResourceDisplayComponent', () => {
   let component: PersistentResourceDisplayComponent;
   let fixture: ComponentFixture<PersistentResourceDisplayComponent>;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

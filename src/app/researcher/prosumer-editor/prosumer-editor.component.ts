@@ -7,6 +7,7 @@ import {LoadEditorComponent} from '../load-editor/load-editor.component';
 import {StorageEditorComponent} from '../storage-editor/storage-editor.component';
 import {CGEditorComponent} from '../cgeditor/cgeditor.component';
 import {NCGEditorComponent} from '../ncgeditor/ncgeditor.component';
+import {ProsumerDataEditorComponent} from "../prosumer-data-editor/prosumer-data-editor.component";
 
 @Component({
   selector: 'app-prosumer-editor',
@@ -29,15 +30,19 @@ export class ProsumerEditorComponent implements OnInit {
   private selectedProsumer: Prosumer = null;
   /** selector variable to refer to the pill selected by the user */
   private selectedPill = 'Loads';
+  /** Selector to hide the asset editor */
+  private showAssets = true;
 
-  /** Children component to allow the user to add loads to the prosumer instances */
+  /** Child component to allow the user to add loads to the prosumer instances */
   @ViewChild(LoadEditorComponent) loadEditor: LoadEditorComponent;
-  /** Children component to allow the user to add storage units to the prosumer instances */
+  /** Child component to allow the user to add storage units to the prosumer instances */
   @ViewChild(StorageEditorComponent) storageEditor: StorageEditorComponent;
-  /** Children component to allow the user to add controllable generators to the prosumer instances */
+  /** Child component to allow the user to add controllable generators to the prosumer instances */
   @ViewChild(CGEditorComponent) cgEditor: CGEditorComponent;
-  /** Children component to allow the user to add non-controllable generators to the prosumer instances */
+  /** Child component to allow the user to add non-controllable generators to the prosumer instances */
   @ViewChild(NCGEditorComponent) ncgEditor: NCGEditorComponent;
+  /** Child component to set the non-asset parameters of the Prosumer */
+  @ViewChild(ProsumerDataEditorComponent) pdEditor: ProsumerDataEditorComponent;
   /** variable to hold an id to suggest to the user when asked */
   private idSuggestion: number;
   /** Form to allows the user to enter (and validate) prosumer information in the form */

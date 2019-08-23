@@ -16,10 +16,10 @@
   </tbody>
 </table>
 <div class="panel panel-primary" *ngIf="selectedProsumer">
-  <div class="panel-heading">
+  <div class="panel-heading" (click)="showAssets = !showAssets">
     <h3 class="panel-title">Prosumer {{selectedProsumer.name}}s assets</h3>
   </div>
-  <div class="panel-body">
+  <div class="panel-body" *ngIf="showAssets">
     <ul class="nav nav-pills">
       <li><button class="rounded-pill btn" [ngClass]="(selectedPill == 'Loads')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Loads'">Loads</button></li>
       <li><button class="rounded-pill btn" [ngClass]="(selectedPill == 'Storage')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Storage'">Storage</button></li>
@@ -34,6 +34,7 @@
     </div>
   </div>
 </div>
+<app-prosumer-data-editor></app-prosumer-data-editor>
 <form [formGroup]="prosumerAddForm">
   <div class="form-group">
     <label for="prosumerId">ID</label>

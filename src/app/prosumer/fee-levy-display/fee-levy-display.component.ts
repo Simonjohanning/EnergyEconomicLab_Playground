@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
-import {ExperimentDescriptionService} from '../../shared/experiment-description.service';
 import {TransactionClearingService} from '../../core/transaction-clearing.service';
 import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
 import {TransactionFeeEntry} from '../../core/data-types/TransactionFeeEntry';
@@ -22,14 +21,16 @@ export class FeeLevyDisplayComponent implements OnInit {
   @Input() piObservable: Observable<ProsumerInstance>;
   /** The respective prosumer instance to display the fees and levies for */
   private prosumer: ProsumerInstance;
+  /** Variable to store the aggregated fees the actor incurred */
+  private aggregatedFees: number;
 
   constructor(private bts: BlockchainTransactionService,
-              private eds: ExperimentDescriptionService,
               private tcs: TransactionClearingService) {
     this.respectiveTransactionFees = new Array<TransactionFeeEntry>();
   }
 
   ngOnInit() {
+    this.aggregatedFees = 0;
     // Subscribe to the respective emitter of the tcs for receiving newly cleared transactions (i.e. new information on paid fees and levies)
     this.tcs.newlyClearedBidEmitter.subscribe(transactionFeeEntry => {
       console.log('Receiving emission from bid emmitter, with payer being ' + transactionFeeEntry.payer.respectiveProsumer.name);
@@ -37,6 +38,7 @@ export class FeeLevyDisplayComponent implements OnInit {
       if (this.prosumer === transactionFeeEntry.payer) {
         console.log('I is payer');
         this.respectiveTransactionFees.push(transactionFeeEntry);
+        this.aggregatedFees += transactionFeeEntry.amount;
         console.log(transactionFeeEntry);
       }
     });

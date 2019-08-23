@@ -11,7 +11,6 @@ import {GridOperatorComponent} from './grid-operator/grid-operator.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TimeComponent} from './core/time/time.component';
 import {PersistentResourceDisplayComponent} from './prosumer/persistent-resource-display/persistent-resource-display.component';
-import {MarketComponent} from './prosumer/market/market.component';
 import {FeedInPointDisplayComponent} from './prosumer/feed-in-point-display/feed-in-point-display.component';
 import {ResidualLoadComponent} from './prosumer/residual-load/residual-load.component';
 import {ControllableGenerationPRDComponent} from './prosumer/controllable-generation-prd/controllable-generation-prd.component';
@@ -51,7 +50,7 @@ describe('Router: App', () => {
         PublicActorComponent,
         ResearcherComponent,
         GridOperatorComponent,
-        TimeComponent, PersistentResourceDisplayComponent, MarketComponent, FeedInPointDisplayComponent, ResidualLoadComponent, ControllableGenerationPRDComponent, NonControllableGenerationPRDComponent, LoadPRDComponent, StoragePRDComponent, P2PBidEditorComponent, MarketViewComponent, BidDetailComponent, CommittedTransactionsComponent
+        TimeComponent, PersistentResourceDisplayComponent, FeedInPointDisplayComponent, ResidualLoadComponent, ControllableGenerationPRDComponent, NonControllableGenerationPRDComponent, LoadPRDComponent, StoragePRDComponent, P2PBidEditorComponent, MarketViewComponent, BidDetailComponent, CommittedTransactionsComponent
       ]
     });
 

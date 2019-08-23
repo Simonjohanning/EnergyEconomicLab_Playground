@@ -34,9 +34,23 @@ export class FeedInObligationDisplayComponent implements OnInit {
               private timeService: TimeService) { }
 
   ngOnInit() {
-    this.calculateObligation();
     this.piObservable.subscribe(derivedInstance => {
       this.prosumer = derivedInstance;
+    });
+    DataProvisionService.getExperimentLength().subscribe(noElements => {
+      this.obligationSeries = new Array(noElements);
+    });
+    this.bts.committedBidSubject.subscribe(commitedBid => {
+      if (commitedBid.provider === this.prosumer) {
+        // add the committed power delivery to each time slice that concern this committment
+        let i: number;
+        for (i = 0; i < commitedBid.duration; i++) {
+          this.obligationSeries[commitedBid.deliveryTime + i] += commitedBid.power;
+        }
+      }
+    });
+    this.timeService.timeEmitter.subscribe(simulationTime => {
+      this.nextFIT = this.obligationSeries[Math.ceil(simulationTime)];
     });
   }
 
@@ -84,22 +98,4 @@ export class FeedInObligationDisplayComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  /**
-   * Helper method to calculate the time series for the feed-in obligation to display based on the committed bids provided by the bts
-   */
-  private calculateObligation(): void {
-    const simulationLength = DataProvisionService.getExperimentLength().subscribe(noElements => {
-      this.obligationSeries = new Array(noElements);
-    });
-    // If a new committed bid is emitted by the bts where the respective prosumer is the provider, add it to the obligation time series
-    this.bts.committedBidSubject.subscribe(commitedBid => {
-      if (commitedBid.provider === this.prosumer) {
-        // add the committed power delivery to each time slice that concern this committment
-        let i: number;
-        for (i = 0; i < commitedBid.duration; i++) {
-          this.obligationSeries[commitedBid.deliveryTime + i] += commitedBid.power;
-        }
-      }
-    });
-  }
 }

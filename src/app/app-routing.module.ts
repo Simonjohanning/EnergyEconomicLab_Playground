@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'PublicActorView', component: PublicActorComponent},
   {path: 'ExperimentDesignerView', component: ResearcherComponent},
   {path: 'GridOperatorView', component: GridOperatorComponent}
-]
+];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes)],

@@ -11,7 +11,6 @@ import {AppComponent} from '../../app.component';
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
   let fixture: ComponentFixture<WelcomeComponent>;
-  let debugElement: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,7 +43,7 @@ describe('WelcomeComponent', () => {
     xit('Shorthand Experiment Designer login works', () => {
     });
 
-  })
+  });
 
   xdescribe('Login works', () => {
     const button = document.createElement('button');

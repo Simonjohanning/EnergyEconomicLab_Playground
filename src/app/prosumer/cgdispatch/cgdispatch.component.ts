@@ -53,7 +53,7 @@ export class CGDispatchComponent implements OnInit {
     this.maxGenerationRange = AssetOperationLogicService.deriveMaximalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     if (this.minGenerationRange > this.maxGenerationRange) {
       this.minGenerationRange = this.maxGenerationRange;
-    } else if (this.maxGenerationRange < this.minGenerationRange){
+    } else if (this.maxGenerationRange < this.minGenerationRange) {
       this.maxGenerationRange = this.minGenerationRange;
     }
     console.log('Slider been readjusted to [' + this.minGenerationRange + ', ' + this.maxGenerationRange + '].');

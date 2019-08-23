@@ -20,7 +20,8 @@ describe('ResidualLoadComponent', () => {
     fixture = TestBed.createComponent(ResidualLoadComponent);
     component = fixture.componentInstance;
     const load = new Load('testmodel', [.3, .4, .5, .7], .4, .2);
-    component.prosumerInstance = new ProsumerInstance(new Prosumer(1, 'mock Prosumer'), [], [], [load], [], {x: 3, y: 4}, 100);
+    // TODO check if prosumer instance should appear; if it should become public
+    // component.prosumerInstance = new ProsumerInstance(new Prosumer(1, 'mock Prosumer'), [], [], [load], [], {x: 3, y: 4}, 100);
     fixture.detectChanges();
   });
 

@@ -1,7 +1,7 @@
 import {Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { Chart } from 'chart.js';
 import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
-import {HelperService} from '../../share/helper.service';
+import {HelperService} from '../../shared/helper.service';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -9,6 +9,8 @@ import {Observable} from 'rxjs';
   templateUrl: './residual-load.component.html',
   styleUrls: ['./residual-load.component.css']
 })
+
+// TODO include storage flexibility potential
 
 /**
  * Component to display the residual time series of the combined assets of the respective prosumer

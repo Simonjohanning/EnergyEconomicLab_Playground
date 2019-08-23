@@ -83,7 +83,7 @@ export class WelcomeComponent implements OnInit {
 
   // TODO remove test function for annotation service
   printTestRDF() {
-    try{
+    try {
       this.rdfString = RDFAnnotationService.createPrimer(['dct', 'dcat', 'org', 'rdf', 'rdfs', 'owl', 'xsd', 'skos', 'foaf', 'iirm', 'vcard', 'eur', 'dcatde']);
       this.rdfString += RDFAnnotationService.getAuthorVcardString('Simon');
       const dataSetKeywordMap = new Map<string, string[]>();

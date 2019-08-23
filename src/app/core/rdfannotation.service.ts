@@ -22,11 +22,11 @@ export abstract class RDFAnnotationService {
    * @returns A string corresponding to the respective primer referencing the vocabulries provided in the argument
    * @throws Error throws an error when an unimplemented vocabulary is to be referenced in the argument array.
    */
-  public static createPrimer(vocabularies: string[]): string{
+  public static createPrimer(vocabularies: string[]): string {
     let preambleString = '';
     vocabularies.forEach(vocabularyToAdd => {
       preambleString += '@prefix ' + vocabularyToAdd + ':\t <http://';
-      switch (vocabularyToAdd){
+      switch (vocabularyToAdd) {
         case 'dct': {
           preambleString += 'purl.org/dc/terms/';
           break;
@@ -135,16 +135,16 @@ export abstract class RDFAnnotationService {
   public static createDataSetEntry(instanceName: string, description?: string, title?: string, contact?: string, correspondingDistribution?: string, keywords?: Map<string, string[]>, theme?: string, politicalGeocoding?: string) {
     let datasetRawString = '';
     datasetRawString += (instanceName + '\t a dcat:Dataset;\n');
-    if (description !== undefined){
+    if (description !== undefined) {
       datasetRawString += ('dct:description "' + description + '";\n');
     }
-    if (title !== undefined){
+    if (title !== undefined) {
       datasetRawString += ('dct:title "' + title + '";\n');
     }
-    if (contact !== undefined){
+    if (contact !== undefined) {
       datasetRawString += ('dcat:contactPoint ' + contact + ';\n');
     }
-    if (correspondingDistribution !== undefined){
+    if (correspondingDistribution !== undefined) {
       datasetRawString += ('dcat:distribution ' + correspondingDistribution + ';\n');
     }
     if (keywords !== undefined) {
@@ -152,7 +152,7 @@ export abstract class RDFAnnotationService {
         let keywordString = 'dcat:keyword ';
         keywords.forEach((value: string[], key: string) => {
           value.forEach(entry => {
-            keywordString += ('" ' + entry +'"@' + key + ', ');
+            keywordString += ('" ' + entry + '"@' + key + ', ');
           });
         });
         // remove last comma and whitespace to replace it by a semicolon and add it to the descriptive string

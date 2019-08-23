@@ -14,7 +14,7 @@ export class Load extends DispatchableAsset {
   /** A boolean indicating whether the load was used as a (technical) flexibility recently (relative to the semantics of the context it is used in) */
   private recentFlexibilityUse: boolean;
   /** The amount of electricity the load uses at the respective time point it is considered at */
-  private currentLoad: number;
+  readonly currentLoad: number;
   constructor(
     readonly model: string,
     readonly loadProfile: number[],

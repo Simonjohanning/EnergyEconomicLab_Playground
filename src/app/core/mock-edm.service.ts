@@ -76,7 +76,7 @@ export class MockEDMService {
 
   getExperimentDescriptions(): ExperimentDescription[] {
     const mockData: ExperimentDescription[] = new Array<ExperimentDescription>();
-    mockData[0] = this.data.getED();
+    mockData[0] = DataProvisionService.getExperimentDescription(0);
     return mockData;
   }
 

@@ -111,7 +111,7 @@ export class BidValidationService {
       return false;
     } else if (correspondingBid.power < this.p2pMarketDesign.minBidSize) {
       return false;
-    } else if ((correspondingBid.price > this.p2pMarketDesign.maxPrice) || ((correspondingBid.price < 0) && (correspondingBid.price !== -1))) {
+    } else if (((correspondingBid.price > this.p2pMarketDesign.maxPrice) && (this.p2pMarketDesign.maxPrice > 0)) || ((correspondingBid.price < 0) && (correspondingBid.price !== -1))) {
       return false;
     } else {
       return true;

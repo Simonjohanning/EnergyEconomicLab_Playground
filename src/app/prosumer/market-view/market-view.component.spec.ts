@@ -63,5 +63,5 @@ describe('MarketViewComponent', () => {
     xit('Selected bid details are displayed accordingly', () => {
 
     });
-  })
+  });
 });

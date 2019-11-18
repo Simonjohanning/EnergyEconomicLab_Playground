@@ -18,8 +18,6 @@ import {AssetSchedulingDataPoint} from '../../core/data-types/AssetSchedulingDat
 export class AssetDispatchComponent implements OnInit {
   /** The prosumer instance whose assets are managed by the component */
   @Input() prosumerInstance: Observable<ProsumerInstance>;
-  /** The time service used for determining the temporal context of the component */
-  @Input() timeService: TimeService;
   /** selector string to display the respective asset component */
   private selectedAsset: string;
   /** Map to hold the assets the prosumer manages as dispachable (i.e. scheduable) assets */
@@ -27,7 +25,7 @@ export class AssetDispatchComponent implements OnInit {
   /** Informative string to display the dispatch schedule for an asset */
   private scheduledDispatch = '';
 
-  constructor() {
+  constructor(private timeService: TimeService) {
   }
 
   ngOnInit() {

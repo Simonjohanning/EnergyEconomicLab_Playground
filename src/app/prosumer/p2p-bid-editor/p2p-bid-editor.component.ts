@@ -43,6 +43,7 @@ export class P2PBidEditorComponent implements OnInit {
    * If the bid does not validate, it provides information about issues with the bid through the formError variable
    */
   private submitBid(): void {
+    console.log('in submit bid');
     const bidInQuestion: P2PBid = {
       id: this.bts.getUnusedBidId(),
       provider: this.sessionData.getCurrentProsumer(),
@@ -51,6 +52,7 @@ export class P2PBidEditorComponent implements OnInit {
       price: this.bidForm.value.price,
       power: this.bidForm.value.power
     };
+    console.log(bidInQuestion);
     if (this.validationService.checkBidValidity(bidInQuestion)) {
       this.bts.submitBid(bidInQuestion);
     } else {

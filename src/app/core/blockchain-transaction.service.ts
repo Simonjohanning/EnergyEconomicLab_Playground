@@ -1,7 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import {P2PBid} from './data-types/P2PBid';
 import {BCTransaction} from './data-types/BCTransaction';
-import { Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 import {TimeService} from './time.service';
 import {P2PMarketDesign} from './data-types/P2PMarketDesign';
 import {MockEDMService} from './mock-edm.service';

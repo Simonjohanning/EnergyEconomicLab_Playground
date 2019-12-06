@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {interval, Observable, Subject} from 'rxjs';
+import { interval, Observable, Subject } from 'rxjs';
 import {MockEDMService} from './mock-edm.service';
-import {TimeRegime} from './data-types/TimeRegime';
-import {DataProvisionService} from './data-provision.service';
+import { TimeRegime } from './data-types/TimeRegime';
+import { DataProvisionService } from './data-provision.service';
 
 @Injectable({
   providedIn: 'root'

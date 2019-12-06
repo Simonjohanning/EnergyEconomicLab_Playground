@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Prosumer} from '../core/data-types/Prosumer';
 import { ActivatedRoute} from '@angular/router';
-import { Location} from '@angular/common';
 import {ExperimentInstanceLoaderService} from '../core/experiment-instance-loader.service';
 import {ProsumerInstance} from '../core/data-types/ProsumerInstance';
 import {Observable} from 'rxjs';
@@ -33,7 +32,6 @@ export class ProsumerComponent implements OnInit {
 
   constructor( private route: ActivatedRoute,
                private loader: ExperimentInstanceLoaderService,
-               private location: Location,
                private ess: ExperimentStateService) {
     this.prosumerInstance = DataProvisionService.getProsumerData();
   }

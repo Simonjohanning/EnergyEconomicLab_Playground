@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn} from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import {OutputEmitter} from '@angular/compiler/src/output/abstract_emitter';
 
 @Component({
@@ -57,5 +57,4 @@ export class ProsumerDataEditorComponent implements OnInit {
       };
     };
   }
-
 }

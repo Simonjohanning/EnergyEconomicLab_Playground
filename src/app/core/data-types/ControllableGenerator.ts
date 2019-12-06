@@ -1,4 +1,4 @@
-import {DispatchableAsset} from './DispatchableAsset';
+import { DispatchableAsset } from './DispatchableAsset';
 
 /**
  * Representation of a controllable generator as energy generation asset.
@@ -12,7 +12,7 @@ import {DispatchableAsset} from './DispatchableAsset';
  * @param rampingParameter Technical parameter that describes the speed at which the asset increases or decreases generation (in %/time step)
  * @param heatCouplingNumber The amount of heat energy generated for a unit of generated electrical energy
  */
-export class ControllableGenerator extends DispatchableAsset {
+ export class ControllableGenerator extends DispatchableAsset {
   /** A boolean indicating whether the generator is currently generating electricity (true) or is shut down (false) */
   public operationStatus: boolean;
   /** A number indicating the time since the last change of direction of the generated amount (i.e. (non-)increasing or (non-)descreasing generation). More specifically, when the generation gradiant / difference switches signs (0 not considered a switch) */

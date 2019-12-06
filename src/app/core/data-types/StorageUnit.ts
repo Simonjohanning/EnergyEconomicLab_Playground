@@ -27,7 +27,6 @@ export class StorageUnit extends DispatchableAsset {
     this.storageHistory = new Array<number>();
     console.log('initializing storage ' + model + ' with history ' + this.storageHistory);
     this.storageHistory[0] = initialSOC;
-    this.storageHistory[1] = initialSOC * 0.9;
     console.log('storage history of ' + model + ' is ' + this.storageHistory + ' with its first entry of ' + this.storageHistory[0] + ' and second entry ' + this.storageHistory[1]);
   }
 

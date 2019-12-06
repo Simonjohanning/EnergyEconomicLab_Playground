@@ -8,11 +8,11 @@ import { ResearcherComponent } from './researcher/researcher.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcomePage', pathMatch: 'full' },
-  {path: 'welcomePage', component: WelcomeComponent},
-  {path: 'ProsumerView/:id', component: ProsumerComponent},
-  {path: 'PublicActorView', component: PublicActorComponent},
-  {path: 'ExperimentDesignerView', component: ResearcherComponent},
-  {path: 'GridOperatorView', component: GridOperatorComponent}
+  { path: 'welcomePage', component: WelcomeComponent },
+  { path: 'ProsumerView/:id', component: ProsumerComponent },
+  { path: 'PublicActorView', component: PublicActorComponent },
+  { path: 'ExperimentDesignerView', component: ResearcherComponent },
+  { path: 'GridOperatorView', component: GridOperatorComponent }
 ];
 
 @NgModule({

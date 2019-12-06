@@ -5,7 +5,7 @@
       <form [formGroup]="bidFilterForm" class="range-field my-4 w-25">
         <div class="form-group">
           <label for="maxPrice">Maximum price</label>
-          <input type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{bidFilterForm.get('maxPrice').value}}
+          <input type="range" min="0" [attr.max]="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice">{{bidFilterForm.get('maxPrice').value}}
           <small id="maxPriceHelp" class="form-text text-muted">The maximum price willing to pay</small>
         </div>
         <div class="form-group">

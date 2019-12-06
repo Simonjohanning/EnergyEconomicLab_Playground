@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
-import {TimeService} from '../../core/time.service';
-import {P2PBid} from '../../core/data-types/P2PBid';
-import {ExperimentStateService} from '../../core/experiment-state.service';
-import {FormControl, FormGroup} from '@angular/forms';
-import {DataProvisionService} from '../../core/data-provision.service';
-import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
+import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
+import { TimeService } from '../../core/time.service';
+import { P2PBid } from '../../core/data-types/P2PBid';
+import { ExperimentStateService } from '../../core/experiment-state.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DataProvisionService } from '../../core/data-provision.service';
+import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
 
 @Component({
   selector: 'app-market-view',
@@ -120,7 +120,9 @@ export class MarketViewComponent implements OnInit {
   private conformsToFilter(bidToFilter: P2PBid): boolean {
     if ((bidToFilter.deliveryTime < this.bidFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxFeedInTime)) {
       return false;
-    } else if ((bidToFilter.power < this.bidFilterForm.value.minPower) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxPower)) {
+    } else if ((
+      //TODO bidToFilter.power > this.bidFilterForm.value.maxPower correct?
+      bidToFilter.power < this.bidFilterForm.value.minPower) || (bidToFilter.power > this.bidFilterForm.value.maxPower)) {
       return false;
     } else if ((bidToFilter.duration < this.bidFilterForm.value.minDuration) || (bidToFilter.duration > this.bidFilterForm.value.maxDuration)) {
       return false;
@@ -158,7 +160,8 @@ export class MarketViewComponent implements OnInit {
    * Method to correct invalid bounds (min>max) to equal value
    */
   private checkMinFIT() {
-    if (this.bidFilterForm.value.minFeedInTime > this.bidFilterForm.value.maxFeedInTime) { this.bidFilterForm.get('minFeedInTime').setValue(this.bidFilterForm.value.maxFeedInTime); }
+    if (this.bidFilterForm.value.minFeedInTime > this.bidFilterForm.value.maxFeedInTime) {
+      this.bidFilterForm.get('minFeedInTime').setValue(this.bidFilterForm.value.maxFeedInTime); }
   }
 
   /**

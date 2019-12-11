@@ -1,4 +1,5 @@
 import {DispatchableAsset} from './DispatchableAsset';
+import {TimeService} from "../time.service";
 
 /**
  * Representation of a storage unit as a storage asset within the simulation.
@@ -14,6 +15,7 @@ import {DispatchableAsset} from './DispatchableAsset';
 export class StorageUnit extends DispatchableAsset {
   /** history of the storage unit in amount of charge for each point in time within the simulation */
   public storageHistory: Array<number>;
+  private unitScheduleInitiated = false;
 
   constructor(
     readonly model: string,
@@ -41,5 +43,19 @@ export class StorageUnit extends DispatchableAsset {
   public changeStorage(currentTime: number, chargeChange: number) {
     this.storageHistory[currentTime] = (this.storageHistory[currentTime - 1] + chargeChange);
     console.log('Updating storage unit ' + this.model + ' to ' + this.storageHistory[currentTime]);
+  }
+
+  /**
+   * Method to initialize the storage schedule if not yet initialized
+   * For this, storage is prepared with 0 schedule.
+   * If storage is already initialized, nothing happens
+   *
+   * @param timeService The time service used within the simulation
+   */
+  public initiateStorageSchedule(timeService: TimeService) {
+    if (this.scheduledGeneration === undefined) {
+        this.scheduledGeneration = new Array<number>(timeService.getEndTime());
+        this.scheduledGeneration.fill(0);
+    }
   }
 }

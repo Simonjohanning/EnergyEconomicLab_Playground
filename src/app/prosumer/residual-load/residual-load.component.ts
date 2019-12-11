@@ -28,8 +28,7 @@ export class ResidualLoadComponent implements OnInit, AfterViewInit {
   private residualLoadSeries = [];
   /** the prosumer instance derived from the provided observable */
   private prosumerInstance: ProsumerInstance;
-  constructor(private cd: ChangeDetectorRef,
-              private helper: HelperService) { }
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.prosumerObservable.subscribe(loadedProsumerInstance => {
@@ -92,18 +91,18 @@ export class ResidualLoadComponent implements OnInit, AfterViewInit {
     if (this.prosumerInstance.nonControllableGenerators[0]) {
       const generatorArrays = [];
       this.prosumerInstance.nonControllableGenerators.forEach(currentNCG => generatorArrays.push(currentNCG.projectedGeneration));
-      aggregateGeneration = this.helper.aggregateArrays(generatorArrays);
+      aggregateGeneration = HelperService.aggregateArrays(generatorArrays);
     } else {
       aggregateGeneration = Array(this.prosumerInstance.loads[0].loadProfile.length).fill(0);
     }
     if (this.prosumerInstance.loads[0]) {
       const loadArrays = [];
       this.prosumerInstance.loads.forEach(currentLoad => loadArrays.push(currentLoad.loadProfile));
-      aggregateLoad = this.helper.aggregateArrays(loadArrays);
+      aggregateLoad = HelperService.aggregateArrays(loadArrays);
     } else {
       aggregateLoad = Array(this.prosumerInstance.nonControllableGenerators[0].projectedGeneration.length).fill(0);
     }
     const invertedLoad = aggregateLoad.map(currentLoad => (-1) * currentLoad);
-    return this.helper.aggregateArrays([aggregateGeneration, invertedLoad]);
+    return HelperService.aggregateArrays([aggregateGeneration, invertedLoad]);
   }
 }

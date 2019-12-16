@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 
 /**
- * Service to provide the helper service to be used in other context for stateless functionality not directly relevant for the functionality of the respective component/service
+ * Service to provide the helper service to be used in other context for stateless functionality
+ * not directly relevant for the functionality of the respective component/service
  */
 export class HelperService {
 
@@ -19,8 +20,7 @@ export class HelperService {
    */
   aggregateArrays(arrays: [][]) {
     const aggregatedArrays = Array(arrays[0].length).fill(0);
-    const indexRange = Array.from(Array(arrays[0].length).keys());
-    for (const index of indexRange) {
+    for (const index of Object.keys(arrays[0])) {
       arrays.forEach(currentArray => {
         aggregatedArrays[index] += currentArray[index];
       });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 import { TimeService } from '../../core/time.service';
 import { P2PBid } from '../../core/data-types/P2PBid';
@@ -6,6 +6,7 @@ import { ExperimentStateService } from '../../core/experiment-state.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataProvisionService } from '../../core/data-provision.service';
 import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
+import {HelperService} from '../../shared/helper.service';
 
 @Component({
   selector: 'app-market-view',
@@ -31,16 +32,7 @@ export class MarketViewComponent implements OnInit {
   /** Helper variable to determine the maximal size of a bid */
   private maxBidSize: number;
   /** Form to allow for filtering the bid relevant for the view */
-  private bidFilterForm = new FormGroup(
-    {
-      maxPrice: new FormControl(''),
-      minFeedInTime: new FormControl(''),
-      maxFeedInTime: new FormControl(''),
-      minDuration: new FormControl(''),
-      maxDuration: new FormControl(''),
-      minPower: new FormControl(''),
-      maxPower: new FormControl('')
-    });
+  private bidFilterForm: FormGroup;
   /** reference variable to store which was the last slider the user changed */
   private latestChangeSlider = '';
 
@@ -56,21 +48,23 @@ export class MarketViewComponent implements OnInit {
       console.log('New open bids next in market view: ' + openBids.length + ' open bids.');
       this.relevantBids = openBids.filter(bid => this.conformsToFilter(bid));
     });
-    DataProvisionService.getExperimentLength().subscribe(length => {
-      this.bidFilterForm.get('maxFeedInTime').setValue(length);
-      this.bidFilterForm.get('maxDuration').setValue(length);
-    });
-    this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds());
-    this.bidFilterForm.get('maxPower').setValue(1000);
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       this.p2pMarketDesign = p2pMarketDescription;
-      this.bidFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.bidClosure);
-      this.bidFilterForm.get('minDuration').setValue(this.p2pMarketDesign.timeSliceLength);
-      this.bidFilterForm.get('minPower').setValue(this.p2pMarketDesign.minBidSize);
+
       if (p2pMarketDescription.maxPrice === -1) {
         this.marketMaxPrice = 10000;
       } else { this.marketMaxPrice = p2pMarketDescription.maxPrice; }
-      this.bidFilterForm.get('maxPrice').setValue(this.marketMaxPrice);
+      this.bidFilterForm = new FormGroup(
+        {
+          maxPrice: new FormControl(this.marketMaxPrice),
+          minFeedInTime: new FormControl(this.p2pMarketDesign.bidClosure),
+          maxFeedInTime: new FormControl(this.timeService.getEndTime()),
+          minDuration: new FormControl(this.p2pMarketDesign.timeSliceLength),
+          maxDuration: new FormControl(this.timeService.getEndTime() - this.timeService.getCurrentTime()),
+          minPower: new FormControl(this.p2pMarketDesign.minBidSize),
+          maxPower: new FormControl(HelperService.calculateMaxUptake(this.sessionData.getCurrentProsumer().loads, this.sessionData.getCurrentProsumer().storage, this.timeService))
+        });
+      this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds());
     });
     this.dataProvisionService.getMaxBidSize().subscribe(size => {
       this.maxBidSize = size;
@@ -121,7 +115,7 @@ export class MarketViewComponent implements OnInit {
     if ((bidToFilter.deliveryTime < this.bidFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxFeedInTime)) {
       return false;
     } else if ((
-      //TODO bidToFilter.power > this.bidFilterForm.value.maxPower correct?
+      // TODO bidToFilter.power > this.bidFilterForm.value.maxPower correct?
       bidToFilter.power < this.bidFilterForm.value.minPower) || (bidToFilter.power > this.bidFilterForm.value.maxPower)) {
       return false;
     } else if ((bidToFilter.duration < this.bidFilterForm.value.minDuration) || (bidToFilter.duration > this.bidFilterForm.value.maxDuration)) {

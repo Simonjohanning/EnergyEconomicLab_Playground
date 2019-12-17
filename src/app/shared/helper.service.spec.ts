@@ -1,19 +1,48 @@
 import { TestBed } from '@angular/core/testing';
-
 import { HelperService } from './helper.service';
 
 describe('HelperService', () => {
+  let service: HelperService;
+
   beforeEach(() => TestBed.configureTestingModule({}));
 
+  // TODO what version would you prefer? beforeEach or it?
+  beforeEach(() => {
+    service = new HelperService();
+  });
+
   it('should be created', () => {
-    const service: HelperService = TestBed.get(HelperService);
+    service = TestBed.get(HelperService);
     expect(service).toBeTruthy();
   });
 
-  xdescribe('Array aggregation test', () => {
+  afterEach(() => {
+    service = null;
+  });
+
+  describe('Array aggregation test', () => {
+    let testArray = [];
+
+    beforeEach(() => {
+      testArray = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+    });
+
+    afterEach(() => {
+      testArray = [];
+    });
+
+    // TODO empty array necessary?
+    it('should should deal with empty array', ()  => {
+      expect(service.aggregateArrays( [[]])).toEqual([]);
+    });
+
+    it('should aggregate non-empty array', () => {
+      expect(service.aggregateArrays(testArray)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    });
 
   });
 
+  // TODO what is this for?
   xdescribe('Rounding number tests', () => {
 
   });

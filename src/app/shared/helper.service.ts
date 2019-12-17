@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {StorageUnit} from "../core/data-types/StorageUnit";
-import {Load} from "../core/data-types/Load";
-import {TimeService} from "../core/time.service";
+import { StorageUnit } from '../core/data-types/StorageUnit';
+import { Load } from '../core/data-types/Load';
+import { TimeService } from '../core/time.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,9 @@ export class HelperService {
    * @param arrays Array with entries as the additive aggregate of the provided arrays
    */
   public static aggregateArrays(arrays: [][]): number[] {
+    if (arrays[0] === []) {
+      return [];
+    }
     const aggregatedArrays = Array(arrays[0].length).fill(0);
     for (const index of Object.keys(arrays[0])) {
       arrays.forEach(currentArray => {

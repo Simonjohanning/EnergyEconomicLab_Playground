@@ -54,6 +54,7 @@ export class FeedInObligationDisplayComponent implements OnInit {
     });
   }
 
+  // TODO remove?
   ngAfterInit() {
     this.loadGraph();
   }

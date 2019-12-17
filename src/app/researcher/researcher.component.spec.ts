@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ExperimentDescriptionEditorComponent} from './experiment-description-editor/experiment-description-editor.component';
+import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
 import { ResearcherComponent } from './researcher.component';
 
 describe('ResearcherComponent', () => {
@@ -8,7 +9,11 @@ describe('ResearcherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResearcherComponent ]
+      declarations: [
+        ResearcherComponent,
+        ExperimentInstanceEditorComponent,
+        ExperimentInstanceEditorComponent
+      ]
     })
     .compileComponents();
   }));

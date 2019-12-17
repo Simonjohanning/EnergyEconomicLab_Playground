@@ -33,11 +33,11 @@ describe('HelperService', () => {
 
     // TODO empty array necessary?
     it('should should deal with empty array', ()  => {
-      expect(service.aggregateArrays( [[]])).toEqual([]);
+      expect(HelperService.aggregateArrays( [[]])).toEqual([]);
     });
 
     it('should aggregate non-empty array', () => {
-      expect(service.aggregateArrays(testArray)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      expect(HelperService.aggregateArrays(testArray)).toEqual([12, 15, 18]);
     });
 
   });

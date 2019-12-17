@@ -61,7 +61,7 @@ export class MarketViewComponent implements OnInit {
       this.bidFilterForm.get('maxDuration').setValue(length);
     });
     this.bidFilterForm.valueChanges.subscribe(form => this.checkBounds());
-    this.bidFilterForm.patchValue({maxPower: 1000});
+    this.bidFilterForm.get('maxPower').setValue(1000);
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       this.p2pMarketDesign = p2pMarketDescription;
       this.bidFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.bidClosure);

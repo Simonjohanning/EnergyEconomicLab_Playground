@@ -1,9 +1,0 @@
-<form [formGroup]="scheduledDispatchForm">
-  <div class="form-group">
-    <label for="scheduledDispatch">Scheduled Storage management for time step </label>
-    <input type="number" id="timeStep" class="form-control" formControlName="timeStep" (change)="adjustSlider()">
-    <small *ngIf="scheduledDispatchForm.get('timeStep').errors" class="form-text text-muted">Error: {{scheduledDispatchForm.get('timeStep').errors.timeStepError}}</small>
-    <input type="range" min="{{maxDischarge}}" max="{{maxCharge}}" step="0.01" class="form-control" id="scheduledDispatch" aria-describedby="scheduledDispatchHelp" formControlName="scheduledDispatch" (change)="scheduleTimeStep()">{{scheduledDispatchForm.get('scheduledDispatch').value}}
-    <small id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity fed into the storage or taken out</small>
-  </div>
-</form>

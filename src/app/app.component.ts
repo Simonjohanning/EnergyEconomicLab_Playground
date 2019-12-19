@@ -22,3 +22,4 @@ export class AppComponent {
     this.timeService.advanceTime(1);
   }
 }
+

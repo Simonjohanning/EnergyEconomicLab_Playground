@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { interval, Observable, Subject } from 'rxjs';
-import {MockEDMService} from './mock-edm.service';
 import { TimeRegime } from './data-types/TimeRegime';
 import { DataProvisionService } from './data-provision.service';
 
@@ -18,6 +17,7 @@ export class TimeService {
   public timeEmitter: Subject<number> = new Subject<number>();
   /** The end time of the simulation */
   private endTime: number;
+
   constructor() {
     this.currentTime = 0;
     // Set the respective time emitter to notify observers within the correct time regime
@@ -34,15 +34,6 @@ export class TimeService {
     DataProvisionService.getExperimentLength().subscribe(expLength =>
       this.endTime = expLength
     );
-  }
-
-  /**
-   * Method to provide the current time of the service within the experiment
-   *
-   * @returns The time point of the service relative to the respective time regime
-   */
-  public getCurrentTime(): number {
-    return this.currentTime;
   }
 
   /**
@@ -65,18 +56,18 @@ export class TimeService {
    */
   private discretePeriodicEmittance(timeStepLength: Observable<number>) {
     timeStepLength.subscribe(stepLength => {
-          const intervalCounter = interval(1000 * stepLength);
-          console.log(intervalCounter);
-          intervalCounter.subscribe(nextStep => {
-            if (this.currentTime === 0) {
-              this.timeEmitter.next(0);
-            }
-            if (this.endTime) {
-              if (this.currentTime < this.endTime) {
-                this.advanceTime(1);
-              }
-            }
-          });
+      const intervalCounter = interval(1000 * stepLength);
+      console.log(intervalCounter);
+      intervalCounter.subscribe(nextStep => {
+        if (this.currentTime === 0) {
+          this.timeEmitter.next(0);
+        }
+        if (this.endTime) {
+          if (this.currentTime < this.endTime) {
+            this.advanceTime(1);
+          }
+        }
+      });
     });
   }
 
@@ -97,14 +88,5 @@ export class TimeService {
         }
       });
     });
-  }
-
-  /**
-   * Method to provide the end time of the simulation
-   *
-   * @returns The end time of the simulation
-   */
-  public getEndTime(): number {
-    return this.endTime;
   }
 }

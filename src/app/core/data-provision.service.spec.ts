@@ -83,5 +83,7 @@ describe('Service: DataProvisionService', () => {
     expect(DataProvisionService.getCoordinates()).toEqual( {x, y});
   });
 
+  // TODO remaining stuff necessary?
+
 });
 

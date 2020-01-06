@@ -30,6 +30,15 @@ describe('Service: TimeService', () => {
     });
   });
 
+  it('emitted time is current time ', () => {
+    timeService.timeEmitter.subscribe(time => {
+      tick();
+      expect(time).toEqual(timeService.getCurrentTime());
+      tick();
+      expect(time).toEqual(timeService.getCurrentTime());
+    });
+  });
+
   // TODO: Asynchronous time?
   // TODO: stops when time's up? with whenStable?
 });

@@ -4,9 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {TimeService} from './core/time.service';
-
-
+import { TimeService } from './core/time.service';
+import { GridOperatorModule } from './grid-operator/grid-operator.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +16,7 @@ import {TimeService} from './core/time.service';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    GridOperatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

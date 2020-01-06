@@ -89,4 +89,22 @@ export class TimeService {
       });
     });
   }
+
+  /**
+   * Method to provide the end time of the simulation
+   *
+   * @returns The end time of the simulation
+   */
+  public getEndTime(): number {
+    return this.endTime;
+  }
+
+  /**
+   * Method to provide the current time of the service within the experiment
+   *
+   * @returns The time point of the service relative to the respective time regime
+   */
+  public getCurrentTime(): number {
+    return this.currentTime;
+  }
 }

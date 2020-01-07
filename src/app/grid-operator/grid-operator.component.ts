@@ -12,11 +12,11 @@ export class GridOperatorComponent implements OnInit {
   private experimentId: number;
 
   constructor(
-    //private ess: ExperimentStateService)
+    // private ess: ExperimentStateService)
   ) { }
 
   ngOnInit() {
-    //this.experimentId = this.ess.experimentID;
+    // this.experimentId = this.ess.experimentID;
     this.experimentId = 123456;
   }
 

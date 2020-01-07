@@ -164,7 +164,8 @@ export abstract class RDFAnnotationService {
       datasetRawString += ('dcat:theme ' + theme + ';\n');
     }
     if (politicalGeocoding !== undefined) {
-      datasetRawString += ('dcatde:politicalGeocodingURI "' + description + '";\n');
+      // TODO why inserting description here???
+      datasetRawString += ('dcatde:politicalGeocodingURI "' + politicalGeocoding + '";\n');
     }
     let datasetString = datasetRawString.slice(0, datasetRawString.length - 2);
     datasetString += ' .\n\n';

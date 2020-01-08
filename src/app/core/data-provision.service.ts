@@ -8,6 +8,11 @@ import { ControllableGenerator} from './data-types/ControllableGenerator';
 import { NonControllableGenerator} from './data-types/NonControllableGenerator';
 import { Load} from './data-types/Load';
 import { StorageUnit } from './data-types/StorageUnit';
+import {P2PBid} from './data-types/P2PBid';
+import {P2PMarketDesign} from './data-types/P2PMarketDesign';
+import {ExperimentDescription} from './data-types/ExperimentDescription';
+import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
+import {ExperimentInstance} from './data-types/ExperimentInstance';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +26,40 @@ import { StorageUnit } from './data-types/StorageUnit';
  */
 export class DataProvisionService {
   maxBidSize = 10000;
+  private mockBids: P2PBid[] = [
+    {
+      id: 1,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 81,
+      duration: 3,
+      price: 2,
+      power: 1.5
+    },
+    {
+      id: 2,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 12,
+      duration: 2,
+      price: 1.6,
+      power: 1.5
+    },
+    {
+      id: 3,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 33,
+      duration: 1,
+      price: 2.2,
+      power: 1.5
+    },
+    {
+      id: 4,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 13,
+      duration: 2,
+      price: 2.1,
+      power: 1.5
+    }
+  ];
 
   constructor() { }
 
@@ -67,6 +106,15 @@ export class DataProvisionService {
       return of('role2'); }
   }
 
+  static getP2PMarketDescription(experimentId: number): Observable<P2PMarketDesign> {
+    return of({
+      bidClosure: 5,
+      timeSliceLength: 2,
+      minBidSize: 0.5,
+      maxPrice: -1,
+      feeAmount: .1
+    });
+  }
 
   static getAccellerationFactor(): Observable<number> {
     const accellerationFactor = 10;
@@ -77,6 +125,15 @@ export class DataProvisionService {
     const x = 2.3;
     const y = 1.4;
     return {x, y};
+  }
+
+  static getStaticProsumers(): Prosumer[] {
+    let prosumerArray: Prosumer[];
+    prosumerArray = [
+      { id: 1, name: 'Mr. Nice' },
+      { id: 2, name: 'Hans'}
+    ];
+    return prosumerArray;
   }
 
   static getProsumerData(id = 1): Observable<ProsumerInstance> {
@@ -90,6 +147,22 @@ export class DataProvisionService {
       DataProvisionService.getCoordinates(),
       100);
     return of(prosumerInstance);
+  }
+
+  static getExperimentDescription(experimentType: number): ExperimentDescription {
+    if (experimentType === 0) {
+      return {
+        prosumers: new Array(),
+        p2pMarketDesign: {
+          bidClosure: 10,
+          timeSliceLength: 1,
+          minBidSize: 1,
+          maxPrice: 10000,
+          feeAmount: .1
+        },
+        description: 'mock experiment description for type 0'
+      };
+    }
   }
 
   static getControllableGenerators(): ControllableGenerator[] {
@@ -157,5 +230,44 @@ export class DataProvisionService {
     const cycleEfficiency = 0.9;
     const initialSOC = 0.2;
     return new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, initialSOC);
+  }
+
+  getMockProsumerInstance(id = 1): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'mock prosumer'),
+      DataProvisionService.getControllableGenerators(),
+      DataProvisionService.getNonControllableGenerators(),
+      DataProvisionService.getLoads(),
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100);
+  }
+
+  getMaxBidSize() {
+    return of(this.maxBidSize);
+  }
+
+  getMockExperimentInstances(): Set<ExperimentInstance> {
+    const collection: Set<ExperimentInstance> = new Set<ExperimentInstance>();
+    const respectiveDescription: ExperimentDescription = DataProvisionService.getExperimentDescription(0);
+    collection.add({experimentID: 0, instanceOfExperiment: respectiveDescription});
+    collection.add({experimentID: 1, instanceOfExperiment: respectiveDescription});
+    collection.add({experimentID: 2, instanceOfExperiment: respectiveDescription});
+    collection.add({experimentID: 3, instanceOfExperiment: respectiveDescription});
+    collection.add({experimentID: 4, instanceOfExperiment: respectiveDescription});
+    collection.add({experimentID: 6, instanceOfExperiment: respectiveDescription});
+    // console.log('about to return the collection ' + collection + ' with ' + collection.size + ' entries.');
+    return collection;
+  }
+
+  public getMockBids(): P2PBid[] { return this.mockBids; }
+
+  getMockPublicActorData(): Set<TransactionFeeEntry> {
+    const feeEntries = new Set<TransactionFeeEntry>();
+    this.mockBids.forEach(currentBid => {
+      const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingBid: currentBid};
+      feeEntries.add(entry);
+    });
+    return feeEntries;
   }
 }

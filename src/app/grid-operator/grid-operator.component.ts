@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import {ExperimentStateService} from '../core/experiment-state.service';
+import {ExperimentStateService} from '../core/experiment-state.service';
 
 @Component({
   selector: 'app-grid-operator',
@@ -12,12 +12,10 @@ export class GridOperatorComponent implements OnInit {
   private experimentId: number;
 
   constructor(
-    // private ess: ExperimentStateService)
-  ) { }
+    private ess: ExperimentStateService) { }
 
   ngOnInit() {
-    // this.experimentId = this.ess.experimentID;
-    this.experimentId = 123456;
+    this.experimentId = this.ess.experimentID;
   }
 
 }

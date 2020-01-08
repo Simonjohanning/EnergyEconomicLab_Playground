@@ -39,9 +39,4 @@ describe('HelperService', () => {
     });
 
   });
-
-  // TODO what is this for?
-  xdescribe('Rounding number tests', () => {
-
-  });
 });

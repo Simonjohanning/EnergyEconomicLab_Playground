@@ -114,13 +114,11 @@ describe('Component: Time', () => {
     timeComponentTimeService.timeEmitter.subscribe(newTime => {
       actualTime = newTime;
     });
-    const element = fixture.debugElement.query(By.css('.timeDisplay'));
-    expect(element.nativeElement.textContent.trim()).toEqual('discrete time:' + actualTime + ' /' + length);
-    expect(timeComponent.progress).toEqual(actualTime / length);
+    const elementTimeRatio = fixture.debugElement.query(By.css('.timeDisplay'));
+    expect(elementTimeRatio.nativeElement.textContent.trim()).toEqual('discrete time:' + actualTime + ' /' + length);
 
     // testBedTimeService = TestBed.get(TimeService); TimeService provided to the TestBed
     testBedTimeService.advanceTime(1);
-    expect(element.nativeElement.textContent.trim()).toEqual('discrete time:' + actualTime + ' /' + length);
-    expect(timeComponent.progress).toEqual(actualTime / length);
+    expect(elementTimeRatio.nativeElement.textContent.trim()).toEqual('discrete time:' + actualTime + ' /' + length);
   });
 });

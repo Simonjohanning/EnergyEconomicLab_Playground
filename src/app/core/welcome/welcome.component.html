@@ -1,0 +1,21 @@
+<h1>Welcome!</h1>
+<h4>Please insert code for experiment participation</h4>
+
+<div>
+  <input [(ngModel)]="loginCode" placeholder="Insert login code">
+</div>
+<div class="row">
+  <div class="col-">
+    <button (click)="login()" class="btn btn-lg btn-primary participation-button" name="ParticipationButton" id="ParticipationButton">Participate</button>
+  </div>
+  <span></span>
+  <div class="col-">
+    <button (click)="loginWCode('10_Prosumer_12')" class="btn btn-lg btn-primary" id="ProsumerLoginButton">Login 10_Prosumer_12</button>
+  </div>
+  <div class="col-">
+    <button (click)="loginWCode('10_ExperimentDesigner')" class="btn btn-lg btn-primary" id="ExperimentDesignerLoginButton">Login 10_ExperimentDesigner</button>
+  </div>
+</div>
+{{errorCode}}
+<button class="rdfButton" (click)="printTestRDF()">printRDF</button>
+<div style="width: 500px;white-space: pre-line">{{rdfString}}</div>

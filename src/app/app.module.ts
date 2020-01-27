@@ -7,17 +7,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { TimeService } from './core/time.service';
 import { GridOperatorModule } from './grid-operator/grid-operator.module';
 import { DataProvisionService } from './core/data-provision.service';
-// import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from './in-memory-data.service';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
 import { CoreModule } from './core/core-module';
 // import { ResearcherModule } from './researcher/researcher.module';
-// import { PublicActorModule } from './public-actor/public-actor.module';
+import { PublicActorModule } from './public-actor/public-actor.module';
 // import { ProsumerModule } from './prosumer/prosumer.module';
 import { ExperimentStateService } from './core/experiment-state.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,10 +25,10 @@ import { ExperimentStateService } from './core/experiment-state.service';
     AppRoutingModule,
     HttpClientModule,
     GridOperatorModule,
-//    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}),
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}),
     CoreModule,
 //    ResearcherModule,
-//    PublicActorModule,
+    PublicActorModule,
 //    ProsumerModule
   ],
   providers: [

@@ -13,7 +13,8 @@ import { TimeService } from './core/time.service';
  */
 export class AppComponent {
   title = 'labPlayground';
-  constructor(private timeService: TimeService) {}
+  constructor(private timeService: TimeService) {
+  }
 
   /**
    * Method to advance time for testing purposes

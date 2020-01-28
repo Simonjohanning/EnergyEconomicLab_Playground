@@ -10,7 +10,7 @@ describe('Comp: GridOperator', () => {
 
   let gridOperatorComponent: GridOperatorComponent;
   let fixture: ComponentFixture<GridOperatorComponent>;
-  let testBedService: ExperimentStateService
+  let testBedService: ExperimentStateService;
   let gridOperatorService: ExperimentStateService;
 
   beforeEach(() => {

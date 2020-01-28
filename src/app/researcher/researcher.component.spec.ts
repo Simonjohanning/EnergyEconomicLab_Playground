@@ -1,6 +1,6 @@
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
-import {ResearcherComponent} from './researcher.component';
-import {ExperimentStateService} from '../core/experiment-state.service';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ResearcherComponent } from './researcher.component';
+import { ExperimentStateService } from '../core/experiment-state.service';
 
 class MockExperimentStateService extends ExperimentStateService {
   experimentID = 123456;
@@ -32,7 +32,7 @@ describe('Comp: Researcher', () => {
     // ExperimentStateService provided to the TestBed
     testBedService = TestBed.get(ExperimentStateService);
 
-    // ExperimentStateService provided by the GridOperatorComponent (should return MockExperimentStateService)
+    // ExperimentStateService provided by the ResearcherComponent (should return MockExperimentStateService)
     researcherService = fixture.debugElement.injector.get(ExperimentStateService);
   });
 

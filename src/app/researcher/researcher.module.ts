@@ -10,8 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { StorageEditorComponent } from './storage-editor/storage-editor.component';
 import { CGEditorComponent } from './cgeditor/cgeditor.component';
 // import { NCGEditorComponent } from './ncgeditor/ncgeditor.component';
-import { ExperimentDescriptionEditorComponent } from 'experiment-description-editor/experiment-description-editor.component';
-// import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
+// import { ExperimentDescriptionEditorComponent } from 'experiment-description-editor/experiment-description-editor.component';
+import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
 // import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-data-editor.component';
 
 @NgModule({
@@ -23,8 +23,8 @@ import { ExperimentDescriptionEditorComponent } from 'experiment-description-edi
 //    StorageEditorComponent,
     CGEditorComponent,
 //    NCGEditorComponent,
-    ExperimentDescriptionEditorComponent,
-//    ExperimentInstanceEditorComponent,
+//    ExperimentDescriptionEditorComponent,
+    ExperimentInstanceEditorComponent,
 //    ProsumerDataEditorComponent
   ],
   exports: [

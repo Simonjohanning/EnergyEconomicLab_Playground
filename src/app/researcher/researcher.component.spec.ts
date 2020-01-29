@@ -1,6 +1,8 @@
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { ResearcherComponent } from './researcher.component';
 import { ExperimentStateService } from '../core/experiment-state.service';
+import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 class MockExperimentStateService extends ExperimentStateService {
   experimentID = 123456;
@@ -15,8 +17,12 @@ describe('Comp: Researcher', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResearcherComponent],
-      providers: [ExperimentStateService]
+      declarations: [
+        ResearcherComponent,
+        ExperimentInstanceEditorComponent
+      ],
+      providers: [ExperimentStateService],
+      imports: [FormsModule, ReactiveFormsModule]
     });
     TestBed.overrideComponent(
       ResearcherComponent,

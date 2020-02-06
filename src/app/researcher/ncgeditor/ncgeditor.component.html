@@ -2,7 +2,7 @@
   <select name="ncgs" [(ngModel)]="selectedModel" (change)="setParameters()">
     <option *ngFor="let currentNCG of ncgs" [selected]="selectedModel === currentNCG.model">{{currentNCG.model}}</option>
   </select>
-  <button class="btn btn-danger" (click)="resetParameters()">reset</button>
+  <button id="resetButton" class="btn btn-danger" (click)="resetParameters()">reset</button>
 </div>
 {{selectedModel}}
 <form [formGroup]="nCGForm">
@@ -24,5 +24,5 @@
     <small id="projectedGenerationHelp" *ngIf="(!nCGForm.get('draftProjectedGeneration').errors)" class="form-text text-muted">The generation profile of the load as comma-separated list of floats</small>
     <small *ngIf="nCGForm.get('draftProjectedGeneration').errors" class="form-text text-muted">Error: {{nCGForm.get('draftProjectedGeneration').errors.projectedGenerationError}}</small>
   </div>
-  <button class="btn btn-success" *ngIf="nCGForm.valid && !nCGForm.pristine" (click)="storeNCGTemplate()">Store Template</button>
+  <button id="saveButton" class="btn btn-success" *ngIf="nCGForm.valid && !nCGForm.pristine" (click)="storeNCGTemplate()">Store Template</button>
 </form>

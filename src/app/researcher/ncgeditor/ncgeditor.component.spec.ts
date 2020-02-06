@@ -1,8 +1,9 @@
 import { NCGEditorComponent } from './ncgeditor.component';
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import { MockEDMService } from '../../core/mock-edm.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {By} from '@angular/platform-browser';
 
 class MockedMockEDMService extends MockEDMService {}
 
@@ -58,4 +59,45 @@ describe('Comp: NCGEditor', () => {
     expect(ncgEditorService instanceof MockedMockEDMService).toBeTruthy();
   });
 
+  it('clicking reset button should call reset function', async (() => {
+    spyOn(ncgEditorComponent, 'resetParameters');
+    const button = fixture.debugElement.query(By.css('#resetButton'));
+    button.triggerEventHandler('click', {});
+    fixture.whenStable().then(() => {
+      expect(ncgEditorComponent.resetParameters).toHaveBeenCalled();
+    });
+  }));
+
+  // TODO in order to check store button several things have to be set and validated
+  // TODO fill in something for ids model, peakPower as well as projectedGeneration
+  xit('after filling in the form the store button should be clickable but not before?', () => {
+    spyOn(ncgEditorComponent, 'storeNCGTemplate');
+
+    const inputModel = fixture.debugElement.query(By.css('#model'));
+    const elModel = inputModel.nativeElement;
+
+    elModel.value = 'model234';
+    elModel.dispatchEvent(new Event('input'));
+
+    const inputProjectedGeneration = fixture.debugElement.query(By.css('#projectedGeneration'));
+    const elProjectedGeneration = inputProjectedGeneration.nativeElement;
+
+    elProjectedGeneration.value = '2.3,3.4,4.5,5.6';
+    elProjectedGeneration.dispatchEvent(new Event('input'));
+
+    const inputPeakPower = fixture.debugElement.query(By.css('#peakPower'));
+    const elPeakPower = inputPeakPower.nativeElement;
+
+    elPeakPower.value = 7.3;
+    elPeakPower.dispatchEvent(new Event('input'));
+
+
+    const saveButton = fixture.debugElement.query(By.css('#saveButton'));
+    saveButton.triggerEventHandler('click', {});
+
+    fixture.whenStable().then(() => {
+      expect(ncgEditorComponent.setParameters).toHaveBeenCalled();
+    });
+
+  });
 });

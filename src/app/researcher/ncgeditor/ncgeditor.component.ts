@@ -87,10 +87,13 @@ export class NCGEditorComponent implements OnInit {
    */
   private peakPowerValidator(): ValidatorFn {
     return (control: AbstractControl) => {
-      // TODO added this.nCGForm === undefined is the output still correct?
-      if (control.value < 0 ||  this.nCGForm === undefined) {
+      if (control.value < 0) {
         return {
-          peakPowerError: 'Peak power cant be negative'
+          peakPowerError: 'Peak power cannot be negative'
+        };
+      } else if (this.nCGForm === undefined) {
+        return {
+          peakPowerError: 'Peak power has to be defined'
         };
       } else {
         const projectedGeneration = this.nCGForm.get('draftProjectedGeneration').value.split(',');
@@ -115,7 +118,7 @@ export class NCGEditorComponent implements OnInit {
     const lpRegex = /^([0-9]*\.[0-9]*,\s*)*([0-9]*\.[0-9]*)$/i;
     return (control: AbstractControl) => {
       return lpRegex.test(control.value) ? null : {
-        projectedGenerationError: 'Projecte Generation needs to consist of a comma-separated series of floating point numbers'
+        projectedGenerationError: 'Projected Generation needs to consist of a comma-separated series of floating point numbers'
       };
     };
   }

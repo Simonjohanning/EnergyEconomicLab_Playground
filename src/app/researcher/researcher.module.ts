@@ -12,7 +12,7 @@ import { CGEditorComponent } from './cgeditor/cgeditor.component';
 import { NCGEditorComponent } from './ncgeditor/ncgeditor.component';
 // import { ExperimentDescriptionEditorComponent } from 'experiment-description-editor/experiment-description-editor.component';
 import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
-// import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-data-editor.component';
+import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-data-editor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/
     NCGEditorComponent,
 //    ExperimentDescriptionEditorComponent,
     ExperimentInstanceEditorComponent,
-//    ProsumerDataEditorComponent
+    ProsumerDataEditorComponent
   ],
   exports: [
 //    LoadEditorComponent

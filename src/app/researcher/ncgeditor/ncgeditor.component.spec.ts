@@ -34,6 +34,7 @@ describe('Comp: NCGEditor', () => {
 
     // create component and test fixture
     fixture = TestBed.createComponent(NCGEditorComponent);
+    fixture.detectChanges();
 
     // get test component from the fixture
     ncgEditorComponent = fixture.componentInstance;
@@ -68,9 +69,7 @@ describe('Comp: NCGEditor', () => {
     });
   }));
 
-  // TODO in order to check store button several things have to be set and validated
-  // TODO fill in something for ids model, peakPower as well as projectedGeneration
-  xit('after filling in the form the store button should be clickable but not before?', () => {
+  it('after filling in the form the store button should be clickable but not before?', () => {
     spyOn(ncgEditorComponent, 'storeNCGTemplate');
 
     const inputModel = fixture.debugElement.query(By.css('#model'));
@@ -91,12 +90,12 @@ describe('Comp: NCGEditor', () => {
     elPeakPower.value = 7.3;
     elPeakPower.dispatchEvent(new Event('input'));
 
-
+    fixture.detectChanges();
     const saveButton = fixture.debugElement.query(By.css('#saveButton'));
     saveButton.triggerEventHandler('click', {});
 
     fixture.whenStable().then(() => {
-      expect(ncgEditorComponent.setParameters).toHaveBeenCalled();
+      expect(ncgEditorComponent.storeNCGTemplate).toHaveBeenCalled();
     });
 
   });

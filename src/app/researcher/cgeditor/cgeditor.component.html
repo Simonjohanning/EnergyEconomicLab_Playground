@@ -2,7 +2,7 @@
   <select name="cgs" [(ngModel)]="selectedModel" (change)="setParameters()">
     <option *ngFor="let currentCG of cgs" [selected]="selectedModel === currentCG.model">{{currentCG.model}}</option>
   </select>
-  <button class="btn btn-danger" (click)="resetParameters()">reset</button>
+  <button id="resetButton" class="btn btn-danger" (click)="resetParameters()">reset</button>
 </div>
 {{selectedModel}}
 <form [formGroup]="cgForm">
@@ -42,5 +42,5 @@
     <small id="heatCouplingNumberHelp" *ngIf="(!cgForm.get('draftHeatCouplingNumber').errors)" class="form-text text-muted">The heat coupling number (relating heat and electrical generation)</small>
     <small *ngIf="cgForm.get('draftHeatCouplingNumber').errors" class="form-text text-muted">Error: {{cgForm.get('draftHeatCouplingNumber').errors.heatCouplingNumberError}}</small>
   </div>
-  <button class="btn btn-success" *ngIf="cgForm.valid && !cgForm.pristine" (click)="storeCGTemplate()">Store Template</button>
+  <button id="saveButton" class="btn btn-success" *ngIf="cgForm.valid && !cgForm.pristine" (click)="storeCGTemplate()">Store Template</button>
 </form>

@@ -128,7 +128,7 @@ export class CGEditorComponent implements OnInit {
     return (control: AbstractControl) => {
       if (control.value < 0) {
         return {
-          minimalUptimeError: 'Minimal Uptime cant be negative'
+          minimalUptimeError: 'Minimal Uptime cannot be negative'
         };
       } else {
         return null;
@@ -162,7 +162,7 @@ export class CGEditorComponent implements OnInit {
     return (control: AbstractControl) => {
       if (control.value < 0) {
         return {
-          heatCouplingNumberError: 'Heat Coupling Number cant be negative'
+          heatCouplingNumberError: 'Heat Coupling Number cannot be negative'
         };
       } else {
         return null;

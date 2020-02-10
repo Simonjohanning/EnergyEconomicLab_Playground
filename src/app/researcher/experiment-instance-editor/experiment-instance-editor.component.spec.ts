@@ -3,6 +3,7 @@ import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { MockEDMService } from '../../core/mock-edm.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {By} from '@angular/platform-browser';
 
 class MockedMockEDMService extends MockEDMService {}
 
@@ -30,6 +31,7 @@ describe('Comp: ExperimentInstanceLoader', () => {
 
     // create component and test fixture
     fixture = TestBed.createComponent(ExperimentInstanceEditorComponent);
+    fixture.detectChanges();
 
     // get test component from the fixture
     experimentInstanceEditorComponent = fixture.componentInstance;
@@ -55,6 +57,20 @@ describe('Comp: ExperimentInstanceLoader', () => {
     expect(componentService instanceof MockedMockEDMService).toBeTruthy();
   });
 
-  // remaining methods and variables  are private and thus are not testable
+  it('after choosing an experiment instance from MockEDMService and clicking suggest ID button, the save button has to be shown', () => {
+
+    const selectEl: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown')).nativeElement;
+    selectEl.value = selectEl.options[0].value;
+    selectEl.dispatchEvent(new Event('change'));
+
+    const suggestIDButton = fixture.debugElement.query(By.css('#buttonSuggestID'));
+    suggestIDButton.triggerEventHandler('click', {});
+
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(fixture.debugElement.query(By.css('#saveButton'))).toBeTruthy();
+    });
+  });
 
 });

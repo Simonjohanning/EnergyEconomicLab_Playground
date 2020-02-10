@@ -1,5 +1,5 @@
 <div class="spanNav-row" id="spanNav-row">
-  <select name="experimentDescriptions" [(ngModel)]="selectedED">
+  <select id="dropdown" name="experimentDescriptions" [(ngModel)]="selectedED">
     <option *ngFor="let currentED of experimentDescriptions" [selected]="selectedED === currentED">{{currentED.description}}</option>
   </select>
 </div>
@@ -10,7 +10,7 @@
     <small id="idHelp" *ngIf="(!experimentInstanceForm.get('id').errors)" class="form-text text-muted">The id of the experiment</small>
     <small *ngIf="experimentInstanceForm.get('id').errors" class="form-text text-muted">Error: {{experimentInstanceForm.get('id').errors.idError}}</small>
     <br>
-    <button (click)="experimentInstanceForm.setValue({id: suggestID()});">Suggest an ID</button>
+    <button id="buttonSuggestID" (click)="experimentInstanceForm.setValue({id: suggestID()});">Suggest an ID</button>
   </div>
-  <button (click)="saveExperimentInstance()" *ngIf="experimentInstanceForm.valid && selectedED">Save instance</button>
+  <button id="saveButton" (click)="saveExperimentInstance()" *ngIf="experimentInstanceForm.valid && selectedED">Save instance</button>
 </form>

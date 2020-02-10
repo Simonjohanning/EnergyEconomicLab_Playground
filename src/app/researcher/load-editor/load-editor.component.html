@@ -30,5 +30,5 @@
     <small id="temporalShiftingCapabilityHelp" *ngIf="(!loadForm.get('draftTemporalShiftingCapability').errors)" class="form-text text-muted">The amount of time load can be shifted (in time slices)</small>
     <small *ngIf="loadForm.get('draftTemporalShiftingCapability').errors" class="form-text text-muted">Error: {{loadForm.get('draftTemporalShiftingCapability').errors.temporalShiftingCapabilityError}}</small>
   </div>
-  <button id="saveButton" class="btn btn-success" *ngIf="!loadForm.pristine" (click)="storeLoadTemplate()">Store Template</button>
+  <button id="saveButton" class="btn btn-success" *ngIf="loadForm.valid && !loadForm.pristine" (click)="storeLoadTemplate()">Store Template</button>
 </form>

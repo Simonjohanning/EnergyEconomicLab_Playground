@@ -7,7 +7,7 @@ import { CoreModule } from '../core/core-module';
 // import { P2pMarketdesignEditorComponent } from '../researcher/p2p-marketdesign-editor/p2p-marketdesign-editor.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadEditorComponent } from './load-editor/load-editor.component';
-// import { StorageEditorComponent } from './storage-editor/storage-editor.component';
+import { StorageEditorComponent } from './storage-editor/storage-editor.component';
 import { CGEditorComponent } from './cgeditor/cgeditor.component';
 import { NCGEditorComponent } from './ncgeditor/ncgeditor.component';
 // import { ExperimentDescriptionEditorComponent } from 'experiment-description-editor/experiment-description-editor.component';
@@ -20,7 +20,7 @@ import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-dat
 //    ProsumerEditorComponent,
 //    P2pMarketdesignEditorComponent,
     LoadEditorComponent,
-//    StorageEditorComponent,
+    StorageEditorComponent,
     CGEditorComponent,
     NCGEditorComponent,
 //    ExperimentDescriptionEditorComponent,

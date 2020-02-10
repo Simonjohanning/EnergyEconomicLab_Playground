@@ -1,0 +1,33 @@
+<h3>P2P Market Design</h3>
+<form [formGroup]="p2pMarketDesignForm">
+  <div class="form-group">
+    <label for="bidClosure">Bid Closure Time</label>
+    <input type="number" class="form-control" id="bidClosure" aria-describedby="bidClosureHelp" formControlName="bidClosure" required>
+    <small id="bidClosureHelp" *ngIf="(!p2pMarketDesignForm.get('bidClosure').errors) || p2pMarketDesignForm.get('bidClosure').untouched" class="form-text text-muted">The bidClosure time (i.e. after what time bids are not considered for clearing anymore)</small>
+    <small *ngIf="p2pMarketDesignForm.get('bidClosure').errors  && p2pMarketDesignForm.get('bidClosure').touched" class="form-text text-muted">Error: {{p2pMarketDesignForm.get('bidClosure').errors.bidClosureIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="timeSliceLength">Time Slice Length</label>
+    <input type="number" class="form-control" id="timeSliceLength" aria-describedby="timeSliceLengthHelp" formControlName="timeSliceLength" required>
+    <small id="timeSliceLengthHelp" *ngIf="(!p2pMarketDesignForm.get('timeSliceLength').errors) || p2pMarketDesignForm.get('timeSliceLength').untouched" class="form-text text-muted">The length of a trading time slice in the market (how long a given power has to be fed in)</small>
+    <small *ngIf="p2pMarketDesignForm.get('timeSliceLength').errors  && p2pMarketDesignForm.get('timeSliceLength').touched" class="form-text text-muted">Error: {{p2pMarketDesignForm.get('timeSliceLength').errors.timeSliceLengthIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="minBidSize">Minimum Bid Size</label>
+    <input type="number" class="form-control" id="minBidSize" aria-describedby="minBidSizeHelp" formControlName="minBidSize" required>
+    <small id="minBidSizeHelp" *ngIf="(!p2pMarketDesignForm.get('minBidSize').errors) || p2pMarketDesignForm.get('minBidSize').untouched" class="form-text text-muted">The minimal size of a bid (in kW)</small>
+    <small *ngIf="p2pMarketDesignForm.get('minBidSize').errors  && p2pMarketDesignForm.get('minBidSize').touched" class="form-text text-muted">Error: {{p2pMarketDesignForm.get('minBidSize').errors.minBidSizeIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="maxPrice">Maxmimum Price</label>
+    <input type="number" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" required>
+    <small id="maxPriceHelp" *ngIf="(!p2pMarketDesignForm.get('maxPrice').errors) || p2pMarketDesignForm.get('maxPrice').untouched" class="form-text text-muted">The maximal price (per kW) a trade can have (i.e. the trade price cap)</small>
+    <small *ngIf="p2pMarketDesignForm.get('maxPrice').errors  && p2pMarketDesignForm.get('maxPrice').touched" class="form-text text-muted">Error: {{p2pMarketDesignForm.get('maxPrice').errors.maxPriceIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="feeAmount">Fee Amount</label>
+    <input type="number" class="form-control" id="feeAmount" aria-describedby="feeAmountHelp" formControlName="feeAmount" required>
+    <small id="feeAmountHelp" *ngIf="(!p2pMarketDesignForm.get('feeAmount').errors) || p2pMarketDesignForm.get('feeAmount').untouched" class="form-text text-muted">The fraction of a trade that is taken as a fee for the public actor</small>
+    <small *ngIf="p2pMarketDesignForm.get('feeAmount').errors  && p2pMarketDesignForm.get('feeAmount').touched" class="form-text text-muted">Error: {{p2pMarketDesignForm.get('feeAmount').errors.feeAmountIssue}}</small>
+  </div>
+</form>

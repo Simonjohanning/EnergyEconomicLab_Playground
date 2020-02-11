@@ -62,9 +62,6 @@ describe('Component: ProsumerEditor', () => {
 
   });
 
-  // TODO untouched form??
-  // TODO testing child components?
-
   describe('ChildComponent: LoadEditorComponent', () => {
     let fixtureLoadEditor: ComponentFixture<LoadEditorComponent>
     beforeEach(() => {

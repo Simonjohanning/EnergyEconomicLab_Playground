@@ -1,0 +1,52 @@
+<h3>Current Prosumers</h3>
+<table class="table">
+  <thead>
+  <tr>
+    <th><i>Prosumer ID</i></th>
+    <th><i>Prosumer name</i></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let prosumer of prosumerList" [ngStyle]="{'background': (prosumer === selectedProsumer) ? '#42A948' : '#FFFFFF'}" (click)="selectedProsumer = prosumer">
+    <td>{{prosumer.id}}</td>
+    <td>{{prosumer.name}}</td>
+    <button (click)="removeProsumer(prosumer)">remove</button>
+  </tr>
+  </tbody>
+</table>
+<div class="panel panel-primary" *ngIf="selectedProsumer">
+  <div class="panel-heading" (click)="showAssets = !showAssets">
+    <h3 class="panel-title">Prosumer {{selectedProsumer.name}}s assets</h3>
+  </div>
+  <div class="panel-body" *ngIf="showAssets">
+    <ul class="nav nav-pills">
+      <li><button id="loadsButton" class="rounded-pill btn" [ngClass]="(selectedPill == 'Loads')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Loads'">Loads</button></li>
+      <li><button class="rounded-pill btn" [ngClass]="(selectedPill == 'Storage')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Storage'">Storage</button></li>
+      <li><button class="rounded-pill btn" [ngClass]="(selectedPill == 'Controllable Generation')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Controllable Generation'">Controllable Generation</button></li>
+      <li><button class="rounded-pill btn" [ngClass]="(selectedPill == 'Non-controllable Generation')? 'btn-success' : 'btn-primary'" (click)="selectedPill = 'Non-controllable Generation'">Non-controllable Generation</button></li>
+    </ul>
+    <div [ngSwitch]="selectedPill">
+      <app-load-editor *ngSwitchCase="'Loads'"></app-load-editor>
+      <app-storage-editor *ngSwitchCase="'Storage'"></app-storage-editor>
+      <app-cgeditor *ngSwitchCase="'Controllable Generation'"></app-cgeditor>
+      <app-ncgeditor *ngSwitchCase="'Non-controllable Generation'"></app-ncgeditor>
+    </div>
+  </div>
+</div>
+<app-prosumer-data-editor></app-prosumer-data-editor>
+<form [formGroup]="prosumerAddForm">
+  <div class="form-group">
+    <label for="prosumerId">ID</label>
+    <input type="number" class="form-control" id="prosumerId" aria-describedby="idHelp" formControlName="id" value="{{idSuggestion}}" required>
+    <small id="idHelp" *ngIf="(!prosumerAddForm.get('id').errors) || prosumerAddForm.get('id').untouched" class="form-text text-muted">The ID of the prosumer to add</small>
+    <small *ngIf="prosumerAddForm.get('id').errors  && prosumerAddForm.get('id').touched" class="form-text text-muted">Error: {{prosumerAddForm.get('id').errors.idIssue}}</small>
+  </div>
+  <div class="form-group">
+    <label for="prosumerName">Name</label>
+    <input type="text" class="form-control" id="prosumerName" aria-describedby="nameHelp" formControlName="name" required>
+    <small id="nameHelp" *ngIf="(!prosumerAddForm.get('name').errors) || prosumerAddForm.get('name').untouched" class="form-text text-muted">The name of the prosumer to add</small>
+    <small *ngIf="prosumerAddForm.get('name').errors  && prosumerAddForm.get('name').touched" class="form-text text-muted">Error: {{prosumerAddForm.get('name').errors.nameIssue}}</small>
+  </div>
+  <button id="buttonAddProsumer" *ngIf="prosumerAddForm.valid" (click)="addProsumer()" [disabled]="!prosumerAddForm.valid">Add Prosumer</button>
+</form>

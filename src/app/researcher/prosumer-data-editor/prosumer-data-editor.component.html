@@ -12,4 +12,5 @@
     <small id="feedinCoordinatesHelp" *ngIf="(!prosumerDataForm.get('feedinCoordinates').errors) || prosumerDataForm.get('feedinCoordinates').untouched" class="form-text text-muted">The coordinates of the meter point where the Prosumer feeds in</small>
     <small *ngIf="prosumerDataForm.get('feedinCoordinates').errors  && prosumerDataForm.get('feedinCoordinates').touched" class="form-text text-muted">Error: {{prosumerDataForm.get('feedinCoordinates').errors.feedinCoordinatesIssue}}</small>
   </div>
+  <!-- is there a submit button lacking? -->
 </form>

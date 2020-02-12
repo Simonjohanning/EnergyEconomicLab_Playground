@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
+import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 
 @Component({
@@ -15,7 +15,7 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/f
  */
 export class P2pMarketdesignEditorComponent implements OnInit {
   /** container variable to hold the market design for the parent component to access */
-  // public preliminaryP2PMarketDesign: P2PMarketDesign;
+  public preliminaryP2PMarketDesign: P2PMarketDesign;
   /** Form group to hold the form information of the market design to develop */
   private p2pMarketDesignForm = new FormGroup(
     {
@@ -34,13 +34,13 @@ export class P2pMarketdesignEditorComponent implements OnInit {
    *
    * @returns the validity of the form group
    */
-  /*
+
   public formValid(): boolean {
     return this.p2pMarketDesignForm.valid;
   }
 
   ngOnInit() {
-  }*/
+  }
 
   /**
    * Validator for determining the validity of the bidClosure parameterization.
@@ -111,8 +111,4 @@ export class P2pMarketdesignEditorComponent implements OnInit {
       } else { return null; }
     };
   }
-
-  ngOnInit(): void {
-  }
-
 }

@@ -1,0 +1,19 @@
+<form [formGroup]="descriptionForm">
+  <div class="form-group">
+    <label for="description">Experiment Design Description</label>
+    <input type="string" class="form-control" id="description" aria-describedby="descriptionHelp" formControlName="description" required>
+    <small id="descriptionHelp" *ngIf="!(descriptionForm.get('description').errors)" class="form-text text-muted">The description of this experiment design</small>
+    <small *ngIf="descriptionForm.get('description').errors" class="form-text text-muted">Error: {{descriptionForm.get('description').errors.descriptionError}}</small>
+  </div>
+</form>
+<div class="row">
+  <div class="col-md-8">
+    <app-prosumer-editor></app-prosumer-editor>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <app-p2p-marketdesign-editor></app-p2p-marketdesign-editor>
+  </div>
+</div>
+<button id="submitButton" *ngIf="(prosumerEditor.prosumerList.length > 0) && (p2pmdEditor.formValid()) && descriptionForm.valid" (click)="submitExperimentDesign()">Submit Experiment Design</button>

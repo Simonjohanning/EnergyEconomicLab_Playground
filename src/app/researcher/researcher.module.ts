@@ -10,7 +10,7 @@ import { LoadEditorComponent } from './load-editor/load-editor.component';
 import { StorageEditorComponent } from './storage-editor/storage-editor.component';
 import { CGEditorComponent } from './cgeditor/cgeditor.component';
 import { NCGEditorComponent } from './ncgeditor/ncgeditor.component';
-// import { ExperimentDescriptionEditorComponent } from 'experiment-description-editor/experiment-description-editor.component';
+import { ExperimentDescriptionEditorComponent } from './experiment-description-editor/experiment-description-editor.component';
 import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
 import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-data-editor.component';
 
@@ -23,12 +23,12 @@ import { ProsumerDataEditorComponent } from './prosumer-data-editor/prosumer-dat
     StorageEditorComponent,
     CGEditorComponent,
     NCGEditorComponent,
-//    ExperimentDescriptionEditorComponent,
+    ExperimentDescriptionEditorComponent,
     ExperimentInstanceEditorComponent,
     ProsumerDataEditorComponent
   ],
   exports: [
-//    LoadEditorComponent
+    LoadEditorComponent
   ],
   imports: [
     CommonModule,

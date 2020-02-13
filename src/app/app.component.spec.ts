@@ -72,6 +72,13 @@ describe('Component: App', () => {
     expect(compiled.querySelector('button').textContent).toContain('Proceed');
   }));
 
+  it('should have clickable proceed time', () => {
+    // TODO discrete time is shown
+    // TODO get the button
+    // TODO get the time shown
+    // TODO click button and check whether time shown has proceeded
+  });
+
   // TODO check whether you can actually click it? HOW?
 
 });

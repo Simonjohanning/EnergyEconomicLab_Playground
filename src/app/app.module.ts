@@ -12,7 +12,7 @@ import { InMemoryDataService } from './in-memory-data.service';
 import { CoreModule } from './core/core-module';
 import { ResearcherModule } from './researcher/researcher.module';
 import { PublicActorModule } from './public-actor/public-actor.module';
-// import { ProsumerModule } from './prosumer/prosumer.module';
+import { ProsumerModule } from './prosumer/prosumer.module';
 import { ExperimentStateService } from './core/experiment-state.service';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { ExperimentStateService } from './core/experiment-state.service';
     CoreModule,
     ResearcherModule,
     PublicActorModule,
-//    ProsumerModule
+    ProsumerModule
   ],
   providers: [
     DataProvisionService,

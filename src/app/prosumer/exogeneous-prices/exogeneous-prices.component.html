@@ -1,0 +1,8 @@
+<div class="well">
+  <span *ngIf="currentGasPrice" class="col-6">Current gas price: {{currentGasPrice}}</span>
+  <span *ngIf="!currentGasPrice" class="col-6">No gas price available at this time</span>
+</div>
+<div class="well">
+  <span *ngIf="currentCarbonPrice" class="col-6">Current carbon price: {{currentCarbonPrice}}</span>
+  <span *ngIf="!currentCarbonPrice" class="col-6">No carbon price available at this time</span>
+</div>

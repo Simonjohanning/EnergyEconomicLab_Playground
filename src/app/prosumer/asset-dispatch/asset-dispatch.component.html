@@ -1,0 +1,62 @@
+<div *ngIf="(prosumerInstance | async) as currentProsumerInstance; else loading">
+  <div *ngIf="(currentProsumerInstance.controllableGenerators.length + currentProsumerInstance.loads.length + currentProsumerInstance.storage.length) === 0">
+    <p>
+      No assets to dispatch
+    </p>
+  </div>
+  <div *ngIf="currentProsumerInstance.controllableGenerators">
+    <div *ngFor="let currentCG of currentProsumerInstance.controllableGenerators">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 class="panel-title" (click)="selectedAsset = currentCG.model">{{currentCG.model}}</h5>
+            </div>
+            <div *ngIf="selectedAsset === currentCG.model" class="panel-body">
+              <app-cgdispatch [asset]="currentCG" [timeService]="timeService" (cgGenerationScheduling)="updateAssetScheduling($event)"></app-cgdispatch>
+              <button (click)="printSchedule(currentCG)">Show Schedule</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentProsumerInstance.storage">
+    <div *ngFor="let currentStorage of currentProsumerInstance.storage">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 class="panel-title" (click)="selectedAsset = currentStorage.model">{{currentStorage.model}}</h5>
+            </div>
+            <div *ngIf="selectedAsset === currentStorage.model" class="panel-body">
+              <app-storage-dispatch [asset]="currentStorage" [timeService]="timeService" (storageScheduling)="updateAssetScheduling($event)"></app-storage-dispatch>
+              <button (click)="printSchedule(currentStorage)">Show Schedule</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentProsumerInstance.loads">
+    <div *ngFor="let currentLoad of currentProsumerInstance.loads">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 class="panel-title" (click)="selectedAsset = currentLoad.model">{{currentLoad.model}}</h5>
+            </div>
+            <div *ngIf="selectedAsset === currentLoad.model" class="panel-body">
+              <app-load-dispatch [asset]="currentLoad" [timeService]="timeService" (loadScheduling)="updateAssetScheduling($event)"></app-load-dispatch>
+              <button (click)="printSchedule(currentLoad)">Show Schedule</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{scheduledDispatch}}
+<ng-template #loading>
+  Loading stuff...
+</ng-template>

@@ -1,0 +1,17 @@
+<h4>Aggregated fees and levies over the course of the simulation: </h4> {{aggregatedFees}}
+<table class="table">
+  <thead>
+  <tr>
+    <th><i>Delivery Time</i></th>
+    <th><i>Value</i></th>
+    <th><i class=".icon-shopping-cart">Fee</i> </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let feeToDisplay of respectiveTransactionFees">
+    <td>{{feeToDisplay.correspondingBid.deliveryTime}}</td>
+    <td>{{feeToDisplay.correspondingBid.price}} </td>
+    <td>{{feeToDisplay.amount}} </td>
+  </tr>
+  </tbody>
+</table>

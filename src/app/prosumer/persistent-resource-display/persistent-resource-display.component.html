@@ -1,0 +1,23 @@
+<p *ngIf="prosumerInstance">
+  Tokens: {{prosumerInstance.amountTokens}}
+</p>
+<app-feed-in-point-display [prosumerObservable]="prosumerInstanceObservable"></app-feed-in-point-display>
+<app-exogeneous-prices></app-exogeneous-prices>
+<app-residual-load [prosumerObservable]="prosumerInstanceObservable"></app-residual-load>
+<span *ngIf="prosumerInstance">
+    <p *ngFor="let resource of prosumerInstance.controllableGenerators">
+      <app-controllable-generation-prd [resource]="resource"></app-controllable-generation-prd>
+    </p>
+    <p *ngFor="let currentNCg of prosumerInstance.nonControllableGenerators">
+      <app-non-controllable-generation-prd [resource]="currentNCg"></app-non-controllable-generation-prd>
+    </p>
+    <p *ngFor="let load of prosumerInstance.loads">
+      <app-load-prd [resource]="load"></app-load-prd>
+    </p>
+    <p *ngFor="let currentStorage of prosumerInstance.storage">
+      <app-storage-prd [resource]="currentStorage"></app-storage-prd>
+    </p>
+  </span>
+<div *ngIf="!prosumerInstance">
+  Loading stuff...
+</div>

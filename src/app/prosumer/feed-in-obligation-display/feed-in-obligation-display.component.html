@@ -1,0 +1,11 @@
+Feed-In obligation for the next time slice: {{nextFIT}}
+
+Feed-In obligation graph:
+<div [hidden]="!obligationPlot">
+  <canvas #canvas>{{obligationPlot}}</canvas>
+</div>
+<div [hidden]="obligationPlot">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 import { ResearcherComponent } from './researcher.component';
 import { ExperimentStateService } from '../core/experiment-state.service';
 import { ExperimentInstanceEditorComponent } from './experiment-instance-editor/experiment-instance-editor.component';
@@ -11,6 +11,7 @@ import {StorageEditorComponent} from './storage-editor/storage-editor.component'
 import {CGEditorComponent} from './cgeditor/cgeditor.component';
 import {NCGEditorComponent} from './ncgeditor/ncgeditor.component';
 import {ProsumerDataEditorComponent} from './prosumer-data-editor/prosumer-data-editor.component';
+import {By} from '@angular/platform-browser';
 
 class MockExperimentStateService extends ExperimentStateService {
   experimentID = 123456;
@@ -38,7 +39,10 @@ describe('Comp: Researcher', () => {
         ProsumerDataEditorComponent
       ],
       providers: [ExperimentStateService],
-      imports: [FormsModule, ReactiveFormsModule]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule
+      ]
     });
     TestBed.overrideComponent(
       ResearcherComponent,
@@ -72,5 +76,23 @@ describe('Comp: Researcher', () => {
     expect(researcherService instanceof MockExperimentStateService).toBeTruthy();
   });
 
-  // TODO are all DOM elements of both available? --> if not, in the beginning there should be none, in the end only the respective one (also after clicking around)
+  it('clicking on Design Editor opens experiment design editor', fakeAsync(() => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('label') === null);
+  }));
+});
+
+describe('interaction', () => {
+
+  it('', () => {
+  /*
+    const designElement = fixture.debugElement.query(By.css('#designEditor'));
+    designElement.triggerEventHandler('click', {});
+
+    tick();
+
+    fixture.whenStable().then(() => {
+      expect(compiled.querySelector('label').textContent).toContain('Experiment Design Description');
+    });*/
+  });
 });

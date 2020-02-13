@@ -8,11 +8,11 @@ import { ControllableGenerator} from './data-types/ControllableGenerator';
 import { NonControllableGenerator} from './data-types/NonControllableGenerator';
 import { Load} from './data-types/Load';
 import { StorageUnit } from './data-types/StorageUnit';
-import {P2PBid} from './data-types/P2PBid';
-import {P2PMarketDesign} from './data-types/P2PMarketDesign';
-import {ExperimentDescription} from './data-types/ExperimentDescription';
-import {TransactionFeeEntry} from './data-types/TransactionFeeEntry';
-import {ExperimentInstance} from './data-types/ExperimentInstance';
+import { P2PBid } from './data-types/P2PBid';
+import { P2PMarketDesign } from './data-types/P2PMarketDesign';
+import { ExperimentDescription } from './data-types/ExperimentDescription';
+import { TransactionFeeEntry } from './data-types/TransactionFeeEntry';
+import { ExperimentInstance } from './data-types/ExperimentInstance';
 
 @Injectable({
   providedIn: 'root'

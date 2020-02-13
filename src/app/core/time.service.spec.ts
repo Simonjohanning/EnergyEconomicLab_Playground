@@ -39,6 +39,12 @@ describe('Service: TimeService', () => {
     });
   });
 
-  // TODO: Asynchronous time?
-  // TODO: stops when time's up? with whenStable?
+  it('should stop when time exceeds end time', () => {
+    timeService.timeEmitter.subscribe(time => {
+      timeService.advanceTime(timeService.getEndTime() + 1);
+      // TODO: stops when time's up? with whenStable?
+    });
+  });
+
+
 });

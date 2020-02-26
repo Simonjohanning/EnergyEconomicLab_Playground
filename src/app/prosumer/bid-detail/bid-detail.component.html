@@ -1,16 +1,22 @@
-<div class="row mb-3" *ngIf="bid">
+<div *ngIf="bid">
+  <div id="bid">
   <h4>Details for bid {{bid.id}}:</h4>
-  <div class="col-md-8 themed-grid-col">
-    <div class="row">
-      <div class ="cold-md-6 themed-grid-col"><i>Delivery Time</i> {{bid.deliveryTime}}</div>
-      <div class ="cold-md-6 themed-grid-col"><i class=".icon-time">Duration</i> {{bid.duration}}</div>
-    </div>
-    <div class="row">
-      <div class ="cold-md-6 themed-grid-col"><i class=".icon-shopping-cart">Price</i> {{bid.price}}</div>
-      <div class ="cold-md-6 themed-grid-col"><i>Power</i> {{bid.power}}</div>
-    </div>
-  </div>
-  <div class="col-md-4 themed-grid-col">
-    <button class="btn btn-info" (click)="purchase()">Purchase</button>
+  <tr>
+    <td><i>Delivery Time </i></td>
+    <td>{{bid.deliveryTime}}</td>
+  </tr>
+  <tr>
+    <td><i class=".icon-time">Duration </i></td>
+    <td>{{bid.duration}}</td>
+  </tr>
+  <tr>
+    <td><i class=".icon-shopping-cart">Price </i></td>
+    <td>{{bid.price}}</td>
+  </tr>
+  <tr>
+    <td><i>Power</i> </td>
+    <td>{{bid.power}}</td>
+  </tr>
+  <button class="btn btn-info" (click)="purchase()">Purchase</button>
   </div>
 </div>

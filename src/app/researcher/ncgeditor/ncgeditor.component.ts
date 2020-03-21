@@ -152,8 +152,7 @@ export class NCGEditorComponent implements OnInit {
   storeNCGTemplate(): void {
     this.mes.addNewNonControllableGenerator(new NonControllableGenerator(
       this.nCGForm.get('draftModel').value,
-      this.nCGForm.get('draftPeakPower').value,
-      this.nCGForm.get('draftProjectedGeneration').value
+      this.nCGForm.get('draftPeakPower').value
     ));
   }
 }

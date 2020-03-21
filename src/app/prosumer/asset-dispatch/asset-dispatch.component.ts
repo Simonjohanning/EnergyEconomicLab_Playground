@@ -58,8 +58,14 @@ export class AssetDispatchComponent implements OnInit {
    * @param asset The (dispatchable) asset to display the schedule for
    */
   printSchedule(asset: DispatchableAsset) {
-    this.scheduledDispatch = 'Dispatch data for ' + asset.model + ': [';
-    asset.scheduledGeneration.forEach(currentEntry => { this.scheduledDispatch += (currentEntry + ', '); });
-    this.scheduledDispatch += ']';
+    if (asset.scheduledGeneration === undefined) {
+      this.scheduledDispatch = 'Please provide data';
+    } else {
+      this.scheduledDispatch = 'Dispatch data for ' + asset.model + ': [';
+      asset.scheduledGeneration.forEach(currentEntry => {
+        this.scheduledDispatch += (currentEntry + ', ');
+      });
+      this.scheduledDispatch += ']';
+    }
   }
 }

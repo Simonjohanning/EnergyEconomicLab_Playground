@@ -50,7 +50,7 @@ export class StorageDispatchComponent implements OnInit {
    */
   adjustSlider() {
     this.maxCharge = AssetOperationLogicService.deriveMaxChargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.maxDischarge = -AssetOperationLogicService.deriveMaxDischargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxDischarge = AssetOperationLogicService.deriveMaxDischargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     console.log('Slider been readjusted to [' + this.maxDischarge + ', ' + this.maxCharge + '].');
   }
 

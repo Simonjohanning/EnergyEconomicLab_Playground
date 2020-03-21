@@ -30,18 +30,22 @@ export class LoadDispatchComponent implements OnInit {
   private timeServiceSubject: Subject<TimeService> = new Subject<TimeService>();
   /** The form group to contain and validate the dispatch data for the generator in question */
   private scheduledDispatchForm = new FormGroup({
-    timeStep: new FormControl('', this.timeStepValidator(this.timeServiceSubject)),
+    timeStep: new FormControl('', this.timeStepValidator()),
     scheduledDispatch: new FormControl('')
   });
 
   constructor() {
   }
 
+  // is this ever used???
   ngOnInit() {
     // emit the respective time service when it is available to the component in order to make it available for the temporal validator
     this.timeServiceSubject.next(this.timeService);
-    this.maxLoad = Math.max(...this.asset.loadProfile) * (1 + this.asset.temporalShiftingCapability);
-    this.minLoad = Math.min(...this.asset.loadProfile) * (1 - this.asset.temporalShiftingCapability);
+    this.maxLoad = this.asset.getScheduledGenerationAtTime(this.timeService.getCurrentTime()) +
+      this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
+    this.minLoad = this.asset.getScheduledGenerationAtTime(this.timeService.getCurrentTime()) -
+      this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
+    console.log('blubb');
   }
 
   /**
@@ -50,7 +54,7 @@ export class LoadDispatchComponent implements OnInit {
    */
   adjustSlider() {
     this.maxLoad = AssetOperationLogicService.deriveMaxLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.minLoad = -AssetOperationLogicService.deriveMinLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.minLoad = AssetOperationLogicService.deriveMinLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     console.log('Slider been readjusted to [' + this.minLoad + ', ' + this.maxLoad + '].');
   }
 
@@ -71,18 +75,18 @@ export class LoadDispatchComponent implements OnInit {
 
   /**
    * Validator function to provide validation for the temporal dimension of the asset dispatch scheduling
-   *
-   * @param timeServSub The subject the provides the time service needed for the temporal validation
    */
-  private timeStepValidator(timeServSub: Subject<TimeService>): ValidatorFn {
+  private timeStepValidator(): ValidatorFn {
+
+    // TODO is this correct?
     let timeServ: TimeService = null;
     return (control: AbstractControl) => {
-      timeServSub.subscribe(tService => {
+     this.timeServiceSubject.subscribe(tService => {
         console.log('subscription active');
         timeServ = tService;
       });
-      console.log('in tsVal, the service is ' + timeServ);
-      if (timeServ) {
+     console.log('in tsVal, the service is ' + timeServ);
+     if (timeServ) {
         console.log(timeServ.getCurrentTime());
         if (control.value <= timeServ.getCurrentTime()) {
           return {

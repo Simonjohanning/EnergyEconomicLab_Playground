@@ -50,7 +50,7 @@ export class MockEDMService {
 
   addNewLoad(load: Load): void {
     console.log('Load ' + load.model + ' added as mock functionality');
-    console.log('Newly added load has a load time series of ' + load.loadProfile);
+    console.log('Newly added load has a load time series of ' + load.scheduledGeneration);
   }
 
   addNewControllableGenerator(cg: ControllableGenerator): void {

@@ -36,14 +36,14 @@ export class LoadPRDComponent implements OnInit, AfterViewInit {
    */
   loadGraph(): void {
     // TODO fix reload panel issue
-    this.labels = this.resource.loadProfile.map(currentValue => ('t = ' + this.resource.loadProfile.indexOf(currentValue)));
+    this.labels = this.resource.scheduledGeneration.map(currentValue => ('t = ' + this.resource.scheduledGeneration.indexOf(currentValue)));
     this.loadChart = new Chart((this.canvas.nativeElement as HTMLCanvasElement).getContext('2d'), {
       type: 'line',
       data: {
         labels: this.labels,
         datasets: [{
           label: 'scheduled load',
-          data: this.resource.loadProfile
+          data: this.resource.scheduledGeneration
         }]
       },
       options: {

@@ -4,9 +4,9 @@ import { TimeRegime } from './data-types/TimeRegime';
 import { Coordinates } from './data-types/Coordinates';
 import { Prosumer } from './data-types/Prosumer';
 import { ProsumerInstance } from './data-types/ProsumerInstance';
-import { ControllableGenerator} from './data-types/ControllableGenerator';
-import { NonControllableGenerator} from './data-types/NonControllableGenerator';
-import { Load} from './data-types/Load';
+import { ControllableGenerator } from './data-types/ControllableGenerator';
+import { NonControllableGenerator } from './data-types/NonControllableGenerator';
+import { Load } from './data-types/Load';
 import { StorageUnit } from './data-types/StorageUnit';
 import { P2PBid } from './data-types/P2PBid';
 import { P2PMarketDesign } from './data-types/P2PMarketDesign';
@@ -182,44 +182,47 @@ export class DataProvisionService {
   }
 
   static getNCGenerator(): NonControllableGenerator {
-    return {
-      model: 'SolarPanel #3',
-      peakPower: 4.1,
-      projectedGeneration: [1.2, 2.3, 2.1]
-    };
+    const pv =  new NonControllableGenerator('SolarPanel #3',
+      4.1)
+    this.getExperimentLength().subscribe(length => pv.initiateProjectedGeneration(length));
+    return pv;
   }
 
   static getCGenerator(): ControllableGenerator {
     const model = 'controllable Generator #2';
     const maximalGeneration = 2.0;
-    const minimalDowntime = 0.3;
-    const minimalUptime = 0.4;
+    const minimalDowntime = 3;
+    const minimalUptime = 4;
     const rampingParameter = 0.2;
-    const heatCouplingNumber = 1.3;
-    return new ControllableGenerator(
+    const cg2 = new ControllableGenerator(
       model,
       maximalGeneration,
       minimalDowntime,
       minimalUptime,
-      rampingParameter,
-      heatCouplingNumber
-    );
+      rampingParameter
+      );
+    this.getExperimentLength().subscribe(length => cg2.initiateSchedule(length));
+    return cg2;
   }
 
   static getLoad1(): Load {
     const model = 'Load1';
-    const loadProfile =  [1.2, 1.3, 0.4];
-    const relativeControllability = 0.2;
-    const temporalShiftingCapability = 0.7;
-    return new Load(model, loadProfile, relativeControllability, temporalShiftingCapability);
+    const relativeControllability = 0.5;
+    const temporalShiftingCapability = 5;
+    const load1 = new Load(model, relativeControllability, temporalShiftingCapability);
+    this.getExperimentLength().subscribe(length =>
+    load1.initiateSchedule(length));
+    return load1;
   }
 
   static getLoad2(): Load {
     const model = 'Load2';
-    const loadProfile = [1.3, 1.1, 0.7];
-    const relativeControllability = 0.2;
-    const temporalShiftingCapability = 0.7;
-    return new Load(model, loadProfile, relativeControllability, temporalShiftingCapability);
+    const relativeControllability = 0.1;
+    const temporalShiftingCapability = 1;
+    const load2 = new Load(model, relativeControllability, temporalShiftingCapability);
+    this.getExperimentLength().subscribe(length =>
+      load2.initiateSchedule(length));
+    return load2;
   }
 
   static getStorage(): StorageUnit {
@@ -229,7 +232,9 @@ export class DataProvisionService {
     const feedoutPower = 0.3;
     const cycleEfficiency = 0.9;
     const initialSOC = 0.2;
-    return new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, initialSOC);
+    const coolStore = new StorageUnit(model, storageCapacity, feedinPower, feedoutPower, cycleEfficiency, initialSOC);
+    this.getExperimentLength().subscribe(length => coolStore.initiateSchedule(length));
+    return coolStore;
   }
 
   getMockProsumerInstance(id = 1): ProsumerInstance {

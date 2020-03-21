@@ -1,5 +1,6 @@
 import {DispatchableAsset} from './DispatchableAsset';
 import {TimeService} from '../time.service';
+import {min} from 'rxjs/operators';
 
 /**
  * Representation of a storage unit as a storage asset within the simulation.
@@ -14,7 +15,6 @@ import {TimeService} from '../time.service';
  */
 export class StorageUnit extends DispatchableAsset {
   /** history of the storage unit in amount of charge for each point in time within the simulation */
-  public storageHistory: Array<number>;
   private unitScheduleInitiated = false;
 
   constructor(
@@ -26,10 +26,6 @@ export class StorageUnit extends DispatchableAsset {
     readonly initialSOC: number
   ) {
     super(model);
-    this.storageHistory = new Array<number>();
-    console.log('initializing storage ' + model + ' with history ' + this.storageHistory);
-    this.storageHistory[0] = initialSOC;
-    console.log('storage history of ' + model + ' is ' + this.storageHistory + ' with its first entry of ' + this.storageHistory[0] + ' and second entry ' + this.storageHistory[1]);
   }
 
 
@@ -41,21 +37,26 @@ export class StorageUnit extends DispatchableAsset {
    * @param chargeChange The change in battery charge level requested. If negative, this represents a discharge of the battery
    */
   public changeStorage(currentTime: number, chargeChange: number) {
-    this.storageHistory[currentTime] = (this.storageHistory[currentTime - 1] + chargeChange);
-    console.log('Updating storage unit ' + this.model + ' to ' + this.storageHistory[currentTime]);
+    for (let i = currentTime; i < this.scheduledGeneration.length; i++) {
+      this.scheduledGeneration[i] = (this.scheduledGeneration[i] + chargeChange);
+    }
+    console.log('Updating storage unit ' + this.model + ' to ' + this.scheduledGeneration[currentTime]);
   }
 
-  /**
-   * Method to initialize the storage schedule if not yet initialized
-   * For this, storage is prepared with 0 schedule.
-   * If storage is already initialized, nothing happens
-   *
-   * @param timeService The time service used within the simulation
-   */
-  public initiateStorageSchedule(timeService: TimeService) {
-    if (this.scheduledGeneration === undefined) {
-      this.scheduledGeneration = new Array<number>(timeService.getEndTime());
-      this.scheduledGeneration.fill(0);
+  public initiateSchedule(experimentLength: number) {
+    this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => this.initialSOC);
+  }
+
+  public scheduleGeneration(timeService: TimeService, timeStep: number, dispatchValue: number) {
+    if (dispatchValue + Math.min(...this.scheduledGeneration.slice(timeStep)) < 0) {
+      console.error('dispatch value results in negative storage values ' + (Math.min(...this.scheduledGeneration) + dispatchValue));
+    } else
+    if (dispatchValue + Math.max(...this.scheduledGeneration.slice(timeStep)) > this.storageCapacity) {
+      console.error('dispatch value leads to overstepping the storage capacity of ' + this.storageCapacity);
+    } else {
+      for (let i = timeStep; i < this.scheduledGeneration.length; i++) {
+        this.scheduledGeneration[i] = this.scheduledGeneration[i] + dispatchValue;
+      }
     }
   }
 }

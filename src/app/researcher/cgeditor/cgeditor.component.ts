@@ -181,7 +181,6 @@ export class CGEditorComponent implements OnInit {
         this.cgForm.get('draftMinimalDowntime').setValue(currentCg.minimalDowntime);
         this.cgForm.get('draftMinimalUptime').setValue(currentCg.minimalUptime);
         this.cgForm.get('draftRampingParameter').setValue(currentCg.rampingParameter);
-        this.cgForm.get('draftHeatCouplingNumber').setValue(currentCg.heatCouplingNumber);
       }
     });
   }
@@ -195,7 +194,6 @@ export class CGEditorComponent implements OnInit {
     this.cgForm.get('draftMinimalDowntime').setValue(0);
     this.cgForm.get('draftMinimalUptime').setValue(0);
     this.cgForm.get('draftRampingParameter').setValue(0);
-    this.cgForm.get('draftHeatCouplingNumber').setValue(0);
   }
 
   /**
@@ -209,7 +207,6 @@ export class CGEditorComponent implements OnInit {
         this.cgForm.get('draftMinimalDowntime').value,
         this.cgForm.get('draftMinimalUptime').value,
         this.cgForm.get('draftRampingParameter').value,
-        this.cgForm.get('draftHeatCouplingNumber').value
       ));
   }
 }

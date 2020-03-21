@@ -3,7 +3,9 @@
     <label for="scheduledDispatch">Scheduled Generation for time step </label>
     <input type="number" id="timeStep" class="form-control" formControlName="timeStep" (change)="adjustSlider()">
     <small *ngIf="scheduledDispatchForm.get('timeStep').errors" class="form-text text-muted">Error: {{scheduledDispatchForm.get('timeStep').errors.timeStepError}}</small>
-    <input type="range" min="{{minGenerationRange}}" max="{{maxGenerationRange}}" class="form-control" id="scheduledDispatch" aria-describedby="scheduledDispatchHelp" formControlName="scheduledDispatch" (change)="scheduleTimeStep()">{{scheduledDispatchForm.get('scheduledDispatch').value}}
-    <small id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity the production is scheduled for</small>
+    <input *ngIf="scheduledDispatchForm.get('timeStep').dirty" type="range" min="{{minGenerationRange}}" max="{{maxGenerationRange}}" step="0.01" class="form-control" id="scheduledDispatch" aria-describedby="scheduledDispatchHelp" formControlName="scheduledDispatch">
+    <p *ngIf="scheduledDispatchForm.get('timeStep').dirty">selected value: {{scheduledDispatchForm.get('scheduledDispatch').value}}</p>
+    <small *ngIf="scheduledDispatchForm.get('timeStep').dirty" id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity the production is scheduled for</small>
+    <button *ngIf="scheduledDispatchForm.get('scheduledDispatch').dirty" id="scheduleButton" (click)="scheduleTimeStep()" style="float: right;">Schedule!</button>
   </div>
 </form>

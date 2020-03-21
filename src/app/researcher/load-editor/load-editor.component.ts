@@ -134,7 +134,7 @@ export class LoadEditorComponent implements OnInit {
     this.loads.forEach(currentLoad => {
       if (currentLoad.model === this.selectedModel) {
         this.loadForm.get('draftModel').setValue(currentLoad.model);
-        this.loadForm.get('draftLoadProfile').setValue(currentLoad.loadProfile.toString());
+        this.loadForm.get('draftLoadProfile').setValue(currentLoad.scheduledGeneration.toString());
         this.loadForm.get('draftRelativeControllability').setValue(currentLoad.relativeControllability);
         this.loadForm.get('draftTemporalShiftingCapability').setValue(currentLoad.temporalShiftingCapability);
       }
@@ -157,7 +157,6 @@ export class LoadEditorComponent implements OnInit {
   storeLoadTemplate() {
     this.mes.addNewLoad(new Load(
       this.loadForm.get('draftModel').value,
-      this.loadForm.get('draftLoadProfile').value.split(',').map(parseFloat),
       this.loadForm.get('draftRelativeControllability').value,
       this.loadForm.get('draftTemporalShiftingCapability').value
     ));

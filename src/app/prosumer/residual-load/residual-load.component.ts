@@ -94,11 +94,11 @@ export class ResidualLoadComponent implements OnInit, AfterViewInit {
       this.prosumerInstance.nonControllableGenerators.forEach(currentNCG => generatorArrays.push(currentNCG.projectedGeneration));
       aggregateGeneration = this.helper.aggregateArrays(generatorArrays);
     } else {
-      aggregateGeneration = Array(this.prosumerInstance.loads[0].loadProfile.length).fill(0);
+      aggregateGeneration = Array(this.prosumerInstance.loads[0].scheduledGeneration.length).fill(0);
     }
     if (this.prosumerInstance.loads[0]) {
       const loadArrays = [];
-      this.prosumerInstance.loads.forEach(currentLoad => loadArrays.push(currentLoad.loadProfile));
+      this.prosumerInstance.loads.forEach(currentLoad => loadArrays.push(currentLoad.scheduledGeneration));
       aggregateLoad = this.helper.aggregateArrays(loadArrays);
     } else {
       aggregateLoad = Array(this.prosumerInstance.nonControllableGenerators[0].projectedGeneration.length).fill(0);

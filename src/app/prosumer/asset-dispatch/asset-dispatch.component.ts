@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ProsumerInstance} from '../../core/data-types/ProsumerInstance';
-import {DispatchableAsset} from '../../core/data-types/DispatchableAsset';
-import {TimeService} from '../../core/time.service';
-import {Observable} from 'rxjs';
-import {AssetSchedulingDataPoint} from '../../core/data-types/AssetSchedulingDataPoint';
+import { Component, Input, OnInit } from '@angular/core';
+import { ProsumerInstance } from '../../core/data-types/ProsumerInstance';
+import { DispatchableAsset } from '../../core/data-types/DispatchableAsset';
+import { TimeService } from '../../core/time.service';
+import { Observable } from 'rxjs';
+import { AssetSchedulingDataPoint } from '../../core/data-types/AssetSchedulingDataPoint';
 
 @Component({
   selector: 'app-asset-dispatch',
@@ -49,7 +49,7 @@ export class AssetDispatchComponent implements OnInit {
    * @param schedulingData An AssetSchedulingDataPoint that comprises the asset to schedule, the time step to schedule the asset for and the value to schedule dispatch for
    */
   updateAssetScheduling(schedulingData: AssetSchedulingDataPoint) {
-    this.scheduledGeneration.get(schedulingData.asset.model).scheduleGeneration(this.timeService, schedulingData.scheduledTimeStep, schedulingData.plannedDispatchValue);
+    this.scheduledGeneration.get(schedulingData.asset.model).scheduleGeneration(schedulingData.scheduledTimeStep, schedulingData.plannedDispatchValue);
   }
 
   /**

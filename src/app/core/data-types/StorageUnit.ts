@@ -1,6 +1,4 @@
-import {DispatchableAsset} from './DispatchableAsset';
-import {TimeService} from '../time.service';
-import {min} from 'rxjs/operators';
+import { DispatchableAsset } from './DispatchableAsset';
 
 /**
  * Representation of a storage unit as a storage asset within the simulation.
@@ -47,7 +45,7 @@ export class StorageUnit extends DispatchableAsset {
     this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => this.initialSOC);
   }
 
-  public scheduleGeneration(timeService: TimeService, timeStep: number, dispatchValue: number) {
+  public scheduleGeneration(timeStep: number, dispatchValue: number) {
     if (dispatchValue + Math.min(...this.scheduledGeneration.slice(timeStep)) < 0) {
       console.error('dispatch value results in negative storage values ' + (Math.min(...this.scheduledGeneration) + dispatchValue));
     } else

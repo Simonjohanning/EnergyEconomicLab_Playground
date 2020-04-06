@@ -21,22 +21,14 @@ export class DispatchableAsset {
    * Method to schedule the generation of the respective asset.
    * Does not perform validity checks, which need to be done with the respective methods
    *
-   * @param timeService A TimeService that can be used to determine the temporal parameters of the simulation
    * @param timeStep The time step the generation is to be scheduled for
    * @param amount The quantity of generation scheduled for the respective time
    */
-  /*public scheduleGeneration(timeService: TimeService, timeStep: number, amount: number): boolean {
-    if (this.scheduledGeneration === undefined) {
-      this.scheduledGeneration = new Array<number>(timeService.getEndTime());
-    }
-    if (timeService.getCurrentTime() >= timeStep) {
-      return false;
-    } else {
-      // TODO load dispatch changes two times steps
-      this.scheduledGeneration[timeStep] = amount;
-      return true;
-    }
-  }*/
+  public scheduleGeneration(timeStep: number, dispatchValue: number) {
+    this.scheduledGeneration[timeStep] = dispatchValue;
+    console.error('please define scheduleGeneration for model: ' + this.model);
+  }
+
 
   // TODO? gehoert das ueberhaupt hier her?
   public validateTimeStep(timeService: TimeService, timeStep: number): boolean {
@@ -59,9 +51,5 @@ export class DispatchableAsset {
       this.scheduledGeneration = new Array<number>(experimentLength);
       this.scheduledGeneration.fill(0);
     }
-  }
-
-  public scheduleGeneration(timeService: TimeService, timeStep: number, dispatchValue: number) {
-    console.error('please define scheduleGeneration for model: ' + this.model);
   }
 }

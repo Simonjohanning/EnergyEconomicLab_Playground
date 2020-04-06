@@ -1,6 +1,5 @@
 import { DispatchableAsset } from './DispatchableAsset';
-import { TimeService } from '../time.service';
-import {AfterViewChecked} from '@angular/core';
+import { AfterViewChecked } from '@angular/core';
 
 /**
  * Representation of a controllable generator as energy generation asset.
@@ -112,11 +111,12 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
     this.ramping = Array.from({length: experimentLength + 1}, () => 'r');
   }
 
-  public scheduleGeneration(timeService: TimeService, timeStep: number, dispatchValue: number) {
-    if (timeService.getCurrentTime() > timeStep) {
-      console.error('chosen time step is prior to current time');
-      return;
-    }
+  public scheduleGeneration(timeStep: number, dispatchValue: number) {
+    // TODO check time!
+    // if (timeService.getCurrentTime() > timeStep) {
+    //  console.error('chosen time step is prior to current time');
+    //  return;
+    // }
 
     const currentGeneration = this.scheduledGeneration[timeStep];
     let timeStepCopy = timeStep - 1;

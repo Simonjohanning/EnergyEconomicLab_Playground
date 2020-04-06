@@ -1,7 +1,4 @@
-import {DispatchableAsset} from './DispatchableAsset';
-import {EventEmitter} from '@angular/core';
-import {TimeService} from '../time.service';
-import {max, min} from 'rxjs/operators';
+import { DispatchableAsset } from './DispatchableAsset';
 
 /**
  * An asset that represents a load, where the use of electricity is interpreted as negative generation.
@@ -50,7 +47,7 @@ export class Load extends DispatchableAsset {
     return this.shiftingPotential[time];
   }
 
-  public scheduleGeneration(timeService: TimeService, timeStep: number, amount: number) {
+  public scheduleGeneration(timeStep: number, amount: number) {
     // this.scheduledGeneration[timeStep] = amount;
     let diff = Math.round((amount - this.scheduledGeneration[timeStep]) * 100) / 100;
     if (diff < 0) {

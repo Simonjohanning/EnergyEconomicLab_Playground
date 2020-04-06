@@ -3,7 +3,7 @@ import { Load } from '../../core/data-types/Load';
 import { TimeService } from '../../core/time.service';
 import { Subject } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { AssetOperationLogicService } from '../asset-operation-logic.service';
+import { LoadOperationLogicService } from '../load-operation-logic.service';
 
 @Component({
   selector: 'app-load-dispatch',
@@ -53,8 +53,8 @@ export class LoadDispatchComponent implements OnInit {
    * Derives new generation range bounds based on the operational constraints as asserted by the AssetOperationLogicService
    */
   adjustSlider() {
-    this.maxLoad = AssetOperationLogicService.deriveMaxLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.minLoad = AssetOperationLogicService.deriveMinLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxLoad = LoadOperationLogicService.deriveMaxLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.minLoad = LoadOperationLogicService.deriveMinLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     console.log('Slider been readjusted to [' + this.minLoad + ', ' + this.maxLoad + '].');
   }
 

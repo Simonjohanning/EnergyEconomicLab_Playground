@@ -3,7 +3,7 @@ import { StorageUnit } from '../../core/data-types/StorageUnit';
 import { TimeService } from '../../core/time.service';
 import { Subject } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { AssetOperationLogicService } from '../asset-operation-logic.service';
+import { StorageOperationLogicService } from '../storage-operation-logic.service';
 
 @Component({
   selector: 'app-storage-dispatch',
@@ -49,8 +49,8 @@ export class StorageDispatchComponent implements OnInit {
    * Derives new generation range bounds based on the operational constraints as asserted by the AssetOperationLogicService
    */
   adjustSlider() {
-    this.maxCharge = AssetOperationLogicService.deriveMaxChargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.maxDischarge = AssetOperationLogicService.deriveMaxDischargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxCharge = StorageOperationLogicService.deriveMaxChargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxDischarge = StorageOperationLogicService.deriveMaxDischargeStorage(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     console.log('Slider been readjusted to [' + this.maxDischarge + ', ' + this.maxCharge + '].');
   }
 

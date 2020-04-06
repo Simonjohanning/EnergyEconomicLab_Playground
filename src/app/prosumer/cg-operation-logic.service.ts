@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ControllableGenerator } from '../core/data-types/ControllableGenerator';
-import { StorageUnit } from '../core/data-types/StorageUnit';
 
 @Injectable({
   providedIn: 'root'
 })
 
 // TODO whole class a mess that needs to be implemented badly!
-export class AssetOperationLogicService {
+export class CGOperationLogicService {
 
   constructor() { }
 

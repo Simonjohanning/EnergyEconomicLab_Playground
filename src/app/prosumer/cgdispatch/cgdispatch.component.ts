@@ -3,7 +3,7 @@ import { ControllableGenerator } from '../../core/data-types/ControllableGenerat
 import { TimeService } from '../../core/time.service';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { AssetOperationLogicService } from '../asset-operation-logic.service';
+import { CGOperationLogicService } from '../cg-operation-logic.service';
 
 @Component({
   selector: 'app-cgdispatch',
@@ -49,8 +49,8 @@ export class CGDispatchComponent implements OnInit {
    * Derives new generation range bounds based on the operational constraints as asserted by the AssetOperationLogicService
    */
   adjustSlider() {
-    this.minGenerationRange = AssetOperationLogicService.deriveMinimalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.maxGenerationRange = AssetOperationLogicService.deriveMaximalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.minGenerationRange = CGOperationLogicService.deriveMinimalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxGenerationRange = CGOperationLogicService.deriveMaximalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     if (this.minGenerationRange > this.maxGenerationRange) {
       this.minGenerationRange = this.maxGenerationRange;
     } else if (this.maxGenerationRange < this.minGenerationRange) {

@@ -6,13 +6,9 @@ import {TimeService} from '../core/time.service';
   providedIn: 'root'
 })
 
-// TODO whole class a mess that needs to be implemented badly!
 export class CGOperationLogicService {
 
-  private timeServiceSub: TimeService;
-
-  constructor(timeService: TimeService) {
-    this.timeServiceSub = timeService;
+  constructor() {
   }
 
   /**

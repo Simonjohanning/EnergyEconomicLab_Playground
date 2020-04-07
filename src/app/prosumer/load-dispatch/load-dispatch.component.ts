@@ -53,7 +53,7 @@ export class LoadDispatchComponent implements OnInit {
    * Derives new generation range bounds based on the operational constraints as asserted by the AssetOperationLogicService
    */
   adjustSlider() {
-    this.maxLoad = LoadOperationLogicService.deriveMaxLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
+    this.maxLoad = LoadOperationLogicService.deriveMaxLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value, this.timeService.getCurrentTime());
     this.minLoad = LoadOperationLogicService.deriveMinLoadOperationValue(this.asset, this.scheduledDispatchForm.get('timeStep').value);
     console.log('Slider been readjusted to [' + this.minLoad + ', ' + this.maxLoad + '].');
   }

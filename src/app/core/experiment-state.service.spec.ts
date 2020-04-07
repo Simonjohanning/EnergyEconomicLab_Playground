@@ -9,7 +9,7 @@ describe('ExperimentStateService', () => {
     experimentStateService = new ExperimentStateService();
   });
 
-  it('current prosumer should be the first prosumer created in the data provision service', () => {
+  xit('current prosumer should be the first prosumer created in the data provision service', () => {
     DataProvisionService.getProsumerData(1).subscribe(prosumerInstance => {
       expect(experimentStateService.getCurrentProsumer()).toEqual(prosumerInstance);
     });

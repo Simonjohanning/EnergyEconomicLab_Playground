@@ -46,16 +46,11 @@ export class CGDispatchComponent implements OnInit {
 
   /**
    * Method to change the slider ranges for the dispatch form element when the temporal context for the dispatch changes
-   * Derives new generation range bounds based on the operational constraints as asserted by the AssetOperationLogicService
+   * Derives new generation range bounds based on the operational constraints as asserted by the CGOperationLogicService
    */
   adjustSlider() {
-    this.minGenerationRange = CGOperationLogicService.deriveMinimalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    this.maxGenerationRange = CGOperationLogicService.deriveMaximalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value);
-    if (this.minGenerationRange > this.maxGenerationRange) {
-      this.minGenerationRange = this.maxGenerationRange;
-    } else if (this.maxGenerationRange < this.minGenerationRange) {
-      this.maxGenerationRange = this.minGenerationRange;
-    }
+    this.minGenerationRange = CGOperationLogicService.deriveMinimalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value, this.timeService.getCurrentTime());
+    this.maxGenerationRange = CGOperationLogicService.deriveMaximalGenerationCG(this.asset, this.scheduledDispatchForm.get('timeStep').value, this.timeService.getCurrentTime());
     console.log('Slider been readjusted to [' + this.minGenerationRange + ', ' + this.maxGenerationRange + '].');
   }
 
@@ -84,7 +79,7 @@ export class CGDispatchComponent implements OnInit {
     return (control: AbstractControl) => {
       // once the time service is provided, set it internally
       timeServSub.subscribe(tService => {
-        console.log('subscription active');
+        console.log('subscription active, current time is ' + tService.getCurrentTime());
         timeServ = tService;
       });
       console.log('in tsVal, the service is ' + timeServ);

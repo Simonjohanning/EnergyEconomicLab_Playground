@@ -26,7 +26,7 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
   /** A time series of the generation history, with entries at the respective time points where it generated (warning: array might be sparse, i.e. contain undefined values) */
   public generationHistory: number[];
   /** ramping contains actions: + for ramping up, - for ramping down, x for down/up time and r for ready */
-  private ramping: any[];
+  public ramping: any[];
   constructor(
     readonly model: string,
     readonly maximalGeneration: number,

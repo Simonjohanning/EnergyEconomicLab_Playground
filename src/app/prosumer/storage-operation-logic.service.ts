@@ -6,13 +6,21 @@ import { StorageUnit } from '../core/data-types/StorageUnit';
 })
 
 export class StorageOperationLogicService {
-  /** returns the maximum possible value for charging storage unit from a time step on */
+  /** returns the maximum possible value for charging storage unit at a time step
+   * *
+   * @param asset Storage unit under consideration
+   * @param timeStep Time step of (dis-)charge
+   */
   static deriveMaxChargeStorage(asset: StorageUnit, timeStep: number) {
-    return asset.storageCapacity - Math.max(...asset.scheduledGeneration.slice(timeStep));
+    return Math.min(asset.storageCapacity - Math.max(...asset.scheduledGeneration.slice(timeStep)), asset.feedinPower);
   }
 
-  /** returns minimum value of remaining scheduled storage that can be discharged from a time step on */
+  /** returns minimum value of remaining scheduled storage that can be discharged at a time step
+   *
+   * @param asset Storage unit under consideration
+   * @param timeStep Time step of (dis-)charge
+   */
   static deriveMaxDischargeStorage(asset: StorageUnit, timeStep: number) {
-    return -Math.min(...asset.scheduledGeneration.slice(timeStep));
+    return -Math.min(...asset.scheduledGeneration.slice(timeStep), asset.feedoutPower);
   }
 }

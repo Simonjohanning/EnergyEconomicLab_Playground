@@ -12,8 +12,6 @@ import { DispatchableAsset } from './DispatchableAsset';
  * @param initialSOC The percentage of charge already in the storage unit at the beginning of the simulation
  */
 export class StorageUnit extends DispatchableAsset {
-  /** history of the storage unit in amount of charge for each point in time within the simulation */
-  private unitScheduleInitiated = false;
 
   constructor(
     readonly model: string,

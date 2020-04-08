@@ -1,5 +1,6 @@
 import { DispatchableAsset } from './DispatchableAsset';
 import { AfterViewChecked } from '@angular/core';
+import {CGOperationLogicService} from '../../prosumer/cg-operation-logic.service';
 
 /**
  * Representation of a controllable generator as energy generation asset.
@@ -118,93 +119,8 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
     //  return;
     // }
 
-    const currentGeneration = this.scheduledGeneration[timeStep];
-    let timeStepCopy = timeStep - 1;
-    // checking validity
-    while (timeStepCopy >= 0 && this.scheduledGeneration[timeStepCopy] === currentGeneration) {
-      timeStepCopy = timeStepCopy - 1;
-    }
-    // generator was ramped down
-    if (this.ramping[timeStep] === 'x') {
-      console.error('cannot schedule ' + dispatchValue + ' at time step ' + timeStep + ' as ' + this.model + ' is still in minimal up or down time');
-    } else {
-      // still ramping up
-      if (this.scheduledGeneration[timeStep - 1] < dispatchValue && this.ramping[timeStep - 1] === '+') {
-        this.ramping[timeStep] = '+';
-        // TODO check validity i.e. t-1 + rampParameter >= dispatchValue
-        this.scheduledGeneration[timeStep] = dispatchValue;
-        for (let i = timeStep + 1; i <= timeStep + this.minimalUptime; i++) {
-          this.ramping[i] = 'x';
-        }
-        // TODO schedule to the end
-      } else
-      // still ramping down
-      if (this.scheduledGeneration[timeStep - 1] > dispatchValue && this.ramping[timeStep - 1] === '-') {
-        this.ramping[timeStep] = '-';
-        for (let i = timeStep + 1; i <= timeStep + this.minimalDowntime; i++) {
-          this.ramping[i] = '-';
-        }
-        // TODO schedule to the end
-      } else {
-        if (dispatchValue > currentGeneration) {
+    CGOperationLogicService.schedule(this, timeStep, dispatchValue, currentTime);
 
-          // this.scheduledGeneration[timeStep] = dispatchValue;
-          let startRampingTime = timeStep;
-          let diff = dispatchValue;
-          while (diff > 0) {
-            diff = Math.round((diff - (this.maximalGeneration * this.rampingParameter)) * 100) / 100;
-            startRampingTime = startRampingTime - 1;
-          }
 
-          // start ramping up
-          const gradient = (dispatchValue - this.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
-          console.log('blubb ' +  gradient);
-
-          let startTime = startRampingTime + 1;
-          while (startTime <= timeStep) {
-            this.scheduledGeneration[startTime] = this.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
-            this.ramping[startTime] = '+';
-            startTime++;
-          }
-          // block ramping
-          for (let i = timeStep + 1; i < this.scheduledGeneration.length; i++) {
-            // TODO more logic if we schedule later
-            this.scheduledGeneration[i] = dispatchValue;
-            if (i <= timeStep + this.minimalUptime) {
-              this.ramping[i] = 'x';
-            }
-          }
-        } else {
-          // dispatch value is below
-          let startRampingTime = timeStep;
-          console.log(dispatchValue);
-          let diff = -dispatchValue;
-          while (diff < 0) {
-            diff = Math.round((diff - (this.maximalGeneration * this.rampingParameter)) * 100) / 100;
-            startRampingTime = startRampingTime - 1;
-          }
-
-          // start ramping up
-          const gradient = (dispatchValue - this.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
-
-          console.log('gradient is ' +  gradient + ' ' + (timeStep - startRampingTime));
-
-          let startTime = startRampingTime + 1;
-          while (startTime <= timeStep) {
-            this.scheduledGeneration[startTime] = this.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
-            this.ramping[startTime] = '+';
-            startTime++;
-          }
-          // block ramping
-          for (let i = timeStep + 1; i < this.scheduledGeneration.length; i++) {
-            // TODO more logic if we schedule later
-            this.scheduledGeneration[i] = dispatchValue;
-            if (i <= timeStep + this.minimalUptime) {
-              this.ramping[i] = 'x';
-            }
-          }
-        }
-      }
-    }
   }
 }

@@ -45,7 +45,6 @@ export class LoadDispatchComponent implements OnInit {
       this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
     this.minLoad = this.asset.getScheduledGenerationAtTime(this.timeService.getCurrentTime()) -
       this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
-    console.log('blubb');
   }
 
   /**

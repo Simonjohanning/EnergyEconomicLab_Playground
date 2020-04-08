@@ -21,7 +21,7 @@ export class AssetDispatchComponent implements OnInit {
   /** selector string to display the respective asset component */
   private selectedAsset: string;
   /** Map to hold the assets the prosumer manages as dispachable (i.e. scheduable) assets */
-  public scheduledGeneration: Map<string, DispatchableAsset> = new Map<string, DispatchableAsset>();
+  public scheduledAssets: Map<string, DispatchableAsset> = new Map<string, DispatchableAsset>();
   /** Informative string to display the dispatch schedule for an asset */
   private scheduledDispatch = '';
 
@@ -32,13 +32,13 @@ export class AssetDispatchComponent implements OnInit {
     // derive the assets of the respective instance and set up the dispach map
     this.prosumerInstance.subscribe(emittedProsumerInstance => {
       emittedProsumerInstance.controllableGenerators.forEach(currentAsset => {
-        this.scheduledGeneration.set(currentAsset.model, currentAsset);
+        this.scheduledAssets.set(currentAsset.model, currentAsset);
       });
       emittedProsumerInstance.storage.forEach(currentAsset => {
-        this.scheduledGeneration.set(currentAsset.model, currentAsset);
+        this.scheduledAssets.set(currentAsset.model, currentAsset);
       });
       emittedProsumerInstance.loads.forEach(currentAsset => {
-        this.scheduledGeneration.set(currentAsset.model, currentAsset);
+        this.scheduledAssets.set(currentAsset.model, currentAsset);
       });
     });
   }
@@ -49,7 +49,7 @@ export class AssetDispatchComponent implements OnInit {
    * @param schedulingData An AssetSchedulingDataPoint that comprises the asset to schedule, the time step to schedule the asset for and the value to schedule dispatch for
    */
   updateAssetScheduling(schedulingData: AssetSchedulingDataPoint) {
-    this.scheduledGeneration.get(schedulingData.asset.model).scheduleGeneration(schedulingData.scheduledTimeStep, schedulingData.plannedDispatchValue);
+    this.scheduledAssets.get(schedulingData.asset.model).scheduleGeneration(schedulingData.scheduledTimeStep, schedulingData.plannedDispatchValue, this.timeService.getCurrentTime());
   }
 
   /**

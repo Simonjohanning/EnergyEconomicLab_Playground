@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ControllableGenerator } from '../core/data-types/ControllableGenerator';
 import {TimeService} from '../core/time.service';
+import {max} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,16 +23,17 @@ export class CGOperationLogicService {
     let minimalGeneration: number;
 
     if (timeStep > 0 && asset.scheduledGeneration !== undefined) {
-      // obtain number of time steps since last downtime/uptime
+      // obtain number of time steps since last down or up time
       const possibleTimeStepsBack = CGOperationLogicService.getPossibleTimeStepsBack(asset, timeStep, currentTime);
+      // obtain number of time steps to next down or up time considering the minimal down time
+      const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalDowntime);
 
       // get generation at last up or down time and calculate minimum generation
-      minimalGeneration = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] - possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
-      if (minimalGeneration < 0) {
-        return 0;
-      } else {
-        return minimalGeneration;
-      }
+      const minimalGenerationPast = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] - possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
+      // get generation before future ramping and calculate minimum generation
+      const minimalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalDowntime] - possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
+      minimalGeneration = Math.max(0, minimalGenerationPast, minimalGenerationFuture);
+      return minimalGeneration;
     } else {
       return undefined;
     }
@@ -50,14 +52,17 @@ export class CGOperationLogicService {
     if (timeStep > 0 && asset.scheduledGeneration !== undefined) {
       // obtain number of time steps since last downtime/uptime
       const possibleTimeStepsBack = CGOperationLogicService.getPossibleTimeStepsBack(asset, timeStep, currentTime);
+      // obtain number of time steps that can be taken to next ramping considering the minimal up time
+      const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalUptime);
 
       // get generation at last up or down time and calculate maximum generation
-      maximalGeneration = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] + possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
-      if (maximalGeneration > asset.maximalGeneration) {
-        return maximalGeneration;
-      } else {
-        return maximalGeneration;
-      }
+      const maximalGenerationPast = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] + possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
+
+      // get generation before future ramping and calculate minimum generation
+      const maximalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalUptime] + possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
+
+      maximalGeneration = Math.min(asset.maximalGeneration, maximalGenerationPast, maximalGenerationFuture);
+      return maximalGeneration;
     } else {
       return undefined;
     }
@@ -80,6 +85,24 @@ export class CGOperationLogicService {
     }
 
     return numberStepsBack;
+  }
+
+  /**
+   * Returns the number of time steps that would be free for down time
+   *
+   * @param asset The controllable generator currently operated
+   * @param schedulingTime The time under consideration
+   */
+  private static getPossibleTimeStepsInFuture(asset: ControllableGenerator, schedulingTime: number): number {
+    let numberFutureSteps = 0;
+    let timeCopy = schedulingTime;
+
+    while (asset.ramping[timeCopy] === 'r' && timeCopy < asset.ramping.length) {
+      numberFutureSteps += 1;
+      timeCopy += 1;
+    }
+
+    return numberFutureSteps;
   }
 
   public static schedule(asset: ControllableGenerator, timeStep: number, dispatchValue: number, currentTime: number) {

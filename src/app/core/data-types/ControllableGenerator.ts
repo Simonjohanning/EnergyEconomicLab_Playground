@@ -111,7 +111,7 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
     this.ramping = Array.from({length: experimentLength + 1}, () => 'r');
   }
 
-  public scheduleGeneration(timeStep: number, dispatchValue: number) {
+  public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime) {
     // TODO check time!
     // if (timeService.getCurrentTime() > timeStep) {
     //  console.error('chosen time step is prior to current time');

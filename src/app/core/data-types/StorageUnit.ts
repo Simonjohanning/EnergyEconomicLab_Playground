@@ -43,7 +43,7 @@ export class StorageUnit extends DispatchableAsset {
     this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => this.initialSOC);
   }
 
-  public scheduleGeneration(timeStep: number, dispatchValue: number) {
+  public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime: number) {
     if (dispatchValue + Math.min(...this.scheduledGeneration.slice(timeStep)) < 0) {
       console.error('dispatch value results in negative storage values ' + (Math.min(...this.scheduledGeneration) + dispatchValue));
     } else

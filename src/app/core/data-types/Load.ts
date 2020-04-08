@@ -47,7 +47,7 @@ export class Load extends DispatchableAsset {
     return this.shiftingPotential[time];
   }
 
-  public scheduleGeneration(timeStep: number, amount: number) {
+  public scheduleGeneration(timeStep: number, amount: number, currentTime: number) {
     // this.scheduledGeneration[timeStep] = amount;
     let diff = Math.round((amount - this.scheduledGeneration[timeStep]) * 100) / 100;
     if (diff < 0) {

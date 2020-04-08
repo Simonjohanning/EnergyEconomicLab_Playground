@@ -22,9 +22,10 @@ export class DispatchableAsset {
    * Does not perform validity checks, which need to be done with the respective methods
    *
    * @param timeStep The time step the generation is to be scheduled for
-   * @param amount The quantity of generation scheduled for the respective time
+   * @param dispatchValue The quantity of generation scheduled for the respective time
+   * @param currentTime The amount of time progressed in the experiment
    */
-  public scheduleGeneration(timeStep: number, dispatchValue: number) {
+  public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime: number) {
     this.scheduledGeneration[timeStep] = dispatchValue;
     console.error('please define scheduleGeneration for model: ' + this.model);
   }
@@ -44,7 +45,7 @@ export class DispatchableAsset {
    * For this, storage is prepared with 0 schedule.
    * If storage is already initialized, nothing happens
    *
-   * @param timeService The time service used within the simulation
+   * @param experimentLength The planned experiment lengthß
    */
   public initiateSchedule(experimentLength: number) {
     if (this.scheduledGeneration === undefined) {

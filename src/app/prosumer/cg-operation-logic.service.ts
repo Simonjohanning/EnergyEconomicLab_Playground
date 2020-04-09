@@ -128,6 +128,12 @@ export class CGOperationLogicService {
           startRampingTime = startRampingTime - 1;
         }
 
+        if (startRampingTime <= currentTime) {
+          // TODO throw error?
+          console.error('ramping start preceeds current time!');
+          return;
+        }
+
         // calc gradient given correct starting time
         const gradient = (dispatchValue - asset.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
 
@@ -150,6 +156,12 @@ export class CGOperationLogicService {
         while (diff < 0) {
           diff = diff + (asset.maximalGeneration * asset.rampingParameter);
           startRampingTime = startRampingTime - 1;
+        }
+
+        if (startRampingTime <= currentTime) {
+          // TODO throw error?
+          console.error('ramping start preceeds current time!');
+          return;
         }
 
         // calc gradient given correct starting time

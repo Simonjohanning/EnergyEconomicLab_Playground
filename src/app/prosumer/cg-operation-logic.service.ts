@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ControllableGenerator } from '../core/data-types/ControllableGenerator';
-import {TimeService} from '../core/time.service';
-import {max} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +7,7 @@ import {max} from 'rxjs/operators';
 
 export class CGOperationLogicService {
 
+  // TODO future ramping might start earlier or later but needs to be recalculated in either case!
   constructor() {
   }
 
@@ -26,13 +25,16 @@ export class CGOperationLogicService {
       // obtain number of time steps since last down or up time
       const possibleTimeStepsBack = CGOperationLogicService.getPossibleTimeStepsBack(asset, timeStep, currentTime);
       // obtain number of time steps to next down or up time considering the minimal down time
-      const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalDowntime);
+      // const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalDowntime);
 
       // get generation at last up or down time and calculate minimum generation
       const minimalGenerationPast = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] - possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
       // get generation before future ramping and calculate minimum generation
-      const minimalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalDowntime] - possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
-      minimalGeneration = Math.max(0, minimalGenerationPast, minimalGenerationFuture);
+      // let minimalGenerationFuture = 0;
+      // if (timeStep + possibleTimeStepsToFuture + asset.minimalDowntime < asset.ramping.length) {
+      //   minimalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalDowntime] - possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
+      // }
+      minimalGeneration = Math.max(0, minimalGenerationPast); // , minimalGenerationFuture);
       return minimalGeneration;
     } else {
       return undefined;
@@ -53,15 +55,17 @@ export class CGOperationLogicService {
       // obtain number of time steps since last downtime/uptime
       const possibleTimeStepsBack = CGOperationLogicService.getPossibleTimeStepsBack(asset, timeStep, currentTime);
       // obtain number of time steps that can be taken to next ramping considering the minimal up time
-      const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalUptime);
+      // const possibleTimeStepsToFuture = CGOperationLogicService.getPossibleTimeStepsInFuture(asset, timeStep + asset.minimalUptime);
 
       // get generation at last up or down time and calculate maximum generation
       const maximalGenerationPast = asset.scheduledGeneration[timeStep - possibleTimeStepsBack] + possibleTimeStepsBack * (asset.rampingParameter * asset.maximalGeneration);
 
       // get generation before future ramping and calculate minimum generation
-      const maximalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalUptime] + possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
-
-      maximalGeneration = Math.min(asset.maximalGeneration, maximalGenerationPast, maximalGenerationFuture);
+      // let maximalGenerationFuture = asset.maximalGeneration;
+      // if (timeStep + possibleTimeStepsToFuture + asset.minimalUptime < asset.ramping.length) {
+      //   maximalGenerationFuture = asset.scheduledGeneration[timeStep + possibleTimeStepsToFuture + asset.minimalUptime] + possibleTimeStepsToFuture * (asset.rampingParameter * asset.maximalGeneration);
+      //   }
+      maximalGeneration = Math.min(asset.maximalGeneration, maximalGenerationPast); // , maximalGenerationFuture);
       return maximalGeneration;
     } else {
       return undefined;
@@ -96,6 +100,8 @@ export class CGOperationLogicService {
   private static getPossibleTimeStepsInFuture(asset: ControllableGenerator, schedulingTime: number): number {
     let numberFutureSteps = 0;
     let timeCopy = schedulingTime;
+
+    // TODO Einbeziehen von DispatchValues, welche ueber max(scheduledGen[schedulingTime], scheduledGeneration[nextDispatch]) oder unter deren min liegen, da diese unter Umstaenden eine laengere Rampingdauer benoetigen!
 
     while (asset.ramping[timeCopy] === 'r' && timeCopy < asset.ramping.length) {
       numberFutureSteps += 1;
@@ -134,7 +140,7 @@ export class CGOperationLogicService {
         for (let i = timeStep + 1; i <= timeStep + asset.minimalDowntime; i++) {
           asset.ramping[i] = '-';
         }
-        // TODO schedule to the end
+        // TODO schedule to the next event!!! maybe recalculate ramping!
       } else {
         if (dispatchValue > currentGeneration) {
 

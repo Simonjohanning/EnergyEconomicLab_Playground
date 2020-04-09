@@ -1,6 +1,6 @@
 import { DispatchableAsset } from './DispatchableAsset';
 import { AfterViewChecked } from '@angular/core';
-import {CGOperationLogicService} from '../../prosumer/cg-operation-logic.service';
+import { CGOperationLogicService } from '../../prosumer/cg-operation-logic.service';
 
 /**
  * Representation of a controllable generator as energy generation asset.
@@ -38,9 +38,7 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
     super(model);
   }
 
-  // TODO init stuff in ngoninit
   // TODO ngdocheck for change of inputs ngAfterContentChecked oder ngAfterViewChecked
-
   // TODO after content checked, set view parameters again
 
   ngAfterViewChecked(): void {
@@ -107,20 +105,24 @@ export class ControllableGenerator extends DispatchableAsset implements AfterVie
     }
   }
 
+  /**
+   * Initiates scheduling and ramping arrays.
+   *
+   * @param experimentLength The preset time of the experiment
+   */
   public initiateSchedule(experimentLength: number) {
     this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => 0);
     this.ramping = Array.from({length: experimentLength + 1}, () => 'r');
   }
 
-  public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime) {
-    // TODO check time!
-    // if (timeService.getCurrentTime() > timeStep) {
-    //  console.error('chosen time step is prior to current time');
-    //  return;
-    // }
-
+  /**
+   * Schedules the generation by setting respective generation values in scheduled generation and blocks duration in ramping array.
+   *
+   * @param timeStep Time in experiment where generator is dispatched
+   * @param dispatchValue Value the generator is dispatched to
+   * @param currentTime Progressed time of the experiment
+   */
+  public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime: number) {
     CGOperationLogicService.schedule(this, timeStep, dispatchValue, currentTime);
-
-
   }
 }

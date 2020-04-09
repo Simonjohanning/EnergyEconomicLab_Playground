@@ -101,8 +101,6 @@ export class CGOperationLogicService {
     let numberFutureSteps = 0;
     let timeCopy = schedulingTime;
 
-    // TODO Einbeziehen von DispatchValues, welche ueber max(scheduledGen[schedulingTime], scheduledGeneration[nextDispatch]) oder unter deren min liegen, da diese unter Umstaenden eine laengere Rampingdauer benoetigen!
-
     while (asset.ramping[timeCopy] === 'r' && timeCopy < asset.ramping.length) {
       numberFutureSteps += 1;
       timeCopy += 1;
@@ -113,17 +111,72 @@ export class CGOperationLogicService {
 
   public static schedule(asset: ControllableGenerator, timeStep: number, dispatchValue: number, currentTime: number) {
 
-    // TODO work with possible steps back
-    const currentGeneration = asset.scheduledGeneration[timeStep];
-    let timeStepCopy = timeStep - 1;
-    // checking validity
-    while (timeStepCopy >= 0 && asset.scheduledGeneration[timeStepCopy] === currentGeneration) {
-      timeStepCopy = timeStepCopy - 1;
-    }
-    // generator was ramped down
+    // check validity
     if (asset.ramping[timeStep] === 'x') {
       console.error('cannot schedule ' + dispatchValue + ' at time step ' + timeStep + ' as ' + asset.model + ' is still in minimal up or down time');
+    } else if (asset.ramping[timeStep] === '+' || asset.ramping[timeStep] === '-') {
+      console.error('cannot schedule ' + dispatchValue + ' at time step ' + timeStep + ' as ' + asset.model + ' is still ramping');
     } else {
+      let startRampingTime = timeStep;
+      let diff = dispatchValue - asset.scheduledGeneration[timeStep];
+      // Case 1: ramping up
+      if (diff > 0) {
+        // this.scheduledGeneration[timeStep] = dispatchValue;
+
+        while (diff > 0) {
+          diff = diff - (asset.maximalGeneration * asset.rampingParameter);
+          startRampingTime = startRampingTime - 1;
+        }
+
+        // calc gradient given correct starting time
+        const gradient = (dispatchValue - asset.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
+
+        // start ramping up
+        let startTime = startRampingTime + 1;
+        while (startTime <= timeStep) {
+          asset.scheduledGeneration[startTime] = asset.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
+          asset.ramping[startTime] = '+';
+          startTime++;
+        }
+        // block ramping
+        for (let i = timeStep + 1; i < asset.scheduledGeneration.length; i++) {
+          asset.scheduledGeneration[i] = dispatchValue;
+          if (i <= timeStep + asset.minimalUptime) {
+            asset.ramping[i] = 'x';
+          }
+        }
+      } else {
+        // Case 2: ramping down
+        while (diff < 0) {
+          diff = diff + (asset.maximalGeneration * asset.rampingParameter);
+          startRampingTime = startRampingTime - 1;
+        }
+
+        // calc gradient given correct starting time
+        const gradient = (dispatchValue - asset.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
+
+        // start ramping down
+        let startTime = startRampingTime + 1;
+        while (startTime <= timeStep) {
+          asset.scheduledGeneration[startTime] = asset.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
+          asset.ramping[startTime] = '-';
+          startTime++;
+        }
+
+        // block ramping
+        for (let i = timeStep + 1; i < asset.scheduledGeneration.length; i++) {
+          asset.scheduledGeneration[i] = dispatchValue;
+          if (i <= timeStep + asset.minimalUptime) {
+            asset.ramping[i] = 'x';
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+removed code from scheduling at a point in time where cg is still ramping which is code that cannot be reached
       // still ramping up
       if (asset.scheduledGeneration[timeStep - 1] < dispatchValue && asset.ramping[timeStep - 1] === '+') {
         asset.ramping[timeStep] = '+';
@@ -140,69 +193,5 @@ export class CGOperationLogicService {
         for (let i = timeStep + 1; i <= timeStep + asset.minimalDowntime; i++) {
           asset.ramping[i] = '-';
         }
-        // TODO schedule to the next event!!! maybe recalculate ramping!
-      } else {
-        if (dispatchValue > currentGeneration) {
-
-          // this.scheduledGeneration[timeStep] = dispatchValue;
-          let startRampingTime = timeStep;
-          let diff = dispatchValue;
-          while (diff > 0) {
-            diff = Math.round((diff - (asset.maximalGeneration * asset.rampingParameter)) * 100) / 100;
-            startRampingTime = startRampingTime - 1;
-          }
-
-          // start ramping up
-          const gradient = (dispatchValue - asset.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
-          console.log('blubb ' +  gradient);
-
-          let startTime = startRampingTime + 1;
-          while (startTime <= timeStep) {
-            asset.scheduledGeneration[startTime] = asset.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
-            asset.ramping[startTime] = '+';
-            startTime++;
-          }
-          // block ramping
-          for (let i = timeStep + 1; i < asset.scheduledGeneration.length; i++) {
-            // TODO more logic if we schedule later
-            asset.scheduledGeneration[i] = dispatchValue;
-            if (i <= timeStep + asset.minimalUptime) {
-              asset.ramping[i] = 'x';
-            }
-          }
-        } else {
-          // dispatch value is below
-          let startRampingTime = timeStep;
-          console.log(dispatchValue);
-          let diff = -dispatchValue;
-          while (startRampingTime > 0) {
-            diff = Math.round((diff - (asset.maximalGeneration * asset.rampingParameter)) * 100) / 100;
-            startRampingTime = startRampingTime - 1;
-          }
-
-          // start ramping up
-          const gradient = (dispatchValue - asset.scheduledGeneration[startRampingTime]) / (timeStep - startRampingTime); // y/x
-
-          console.log('gradient is ' +  gradient + ' ' + (timeStep - startRampingTime));
-
-          let startTime = startRampingTime + 1;
-          while (startTime <= timeStep) {
-            asset.scheduledGeneration[startTime] = asset.scheduledGeneration[startTime] + (gradient * (startTime - startRampingTime));
-            asset.ramping[startTime] = '+';
-            startTime++;
-          }
-          // block ramping
-          for (let i = timeStep + 1; i < asset.scheduledGeneration.length; i++) {
-            // TODO more logic if we schedule later
-            asset.scheduledGeneration[i] = dispatchValue;
-            if (i <= timeStep + asset.minimalUptime) {
-              asset.ramping[i] = 'x';
-            }
-          }
-        }
       }
-    }
-    console.log(asset.ramping);
-  }
-
-}
+ */

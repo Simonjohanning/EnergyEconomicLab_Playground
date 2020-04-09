@@ -5,7 +5,8 @@
     <small *ngIf="scheduledDispatchForm.get('timeStep').errors" class="form-text text-muted">Error: {{scheduledDispatchForm.get('timeStep').errors.timeStepError}}</small>
     <input *ngIf="scheduledDispatchForm.get('timeStep').dirty" type="range" min="{{minGenerationRange}}" max="{{maxGenerationRange}}" step="0.01" class="form-control" id="scheduledDispatch" aria-describedby="scheduledDispatchHelp" formControlName="scheduledDispatch">
     <p *ngIf="scheduledDispatchForm.get('timeStep').dirty">selected value: {{scheduledDispatchForm.get('scheduledDispatch').value}}</p>
-    <small *ngIf="scheduledDispatchForm.get('timeStep').dirty" id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity the production is scheduled for</small>
+    <small *ngIf="scheduledDispatchForm.get('timeStep').dirty" id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity the production is scheduled for.
+      NOTE: Scheduling resets any subsequently scheduled generation!</small>
     <button *ngIf="scheduledDispatchForm.get('scheduledDispatch').dirty" id="scheduleButton" (click)="scheduleTimeStep()" style="float: right;">Schedule!</button>
   </div>
 </form>

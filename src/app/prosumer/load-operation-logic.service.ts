@@ -76,87 +76,99 @@ export class LoadOperationLogicService {
 
     let diff = Math.round((amount - asset.scheduledGeneration[timeStep]) * 100) / 100;
 
-    // shift away
-    if (diff < 0) {
+    if (diff === 0) {
+      return;
+    } else if (diff < 0) {
+      // shift away
       this.shiftAway(asset, timeStep, diff, currentTime);
-
     } else {
-      console.log('diff: ' + diff);
-      // get shifted potential back first
-      let minColumn = timeStep - asset.temporalShiftingCapability;
-      if (minColumn < 0) { minColumn = 0; }
-      let maxColumn = timeStep + asset.temporalShiftingCapability;
-      if (maxColumn > asset.shiftingPotential.length) { maxColumn = asset.shiftingPotential.length - 1; }
+      // shift towards
 
-      let minColumnCopy = minColumn;
-      while (minColumnCopy <= maxColumn && diff > 0) {
-        if (minColumnCopy !== timeStep && asset.shiftingPotential[timeStep][minColumnCopy] !== undefined) {
-          if (asset.shiftingPotential[timeStep][minColumnCopy] > 0) {
-            if (asset.shiftingPotential[timeStep][minColumnCopy] >= diff) {
-              asset.shiftingPotential[timeStep][minColumnCopy] = asset.shiftingPotential[timeStep][minColumnCopy] - diff;
-              asset.scheduledGeneration[minColumnCopy] = asset.scheduledGeneration[minColumnCopy] - diff;
+      // 1. get shifted potential back first
+      diff = this.retrieveShiftedPotential(asset, timeStep, diff, currentTime);
 
-              asset.shiftingPotential[timeStep][timeStep] = asset.shiftingPotential[timeStep][timeStep] + diff;
-              asset.scheduledGeneration[timeStep] = asset.scheduledGeneration[timeStep] + diff;
-
-              diff = 0;
-            } else {
-
-              asset.scheduledGeneration[minColumnCopy] =
-                asset.scheduledGeneration[minColumnCopy] - asset.shiftingPotential[timeStep][minColumnCopy];
-              asset.scheduledGeneration[timeStep] =
-                asset.scheduledGeneration[timeStep] + asset.shiftingPotential[timeStep][minColumnCopy];
-              diff = Math.round((diff - asset.shiftingPotential[timeStep][minColumnCopy]) * 100) / 100;
-
-              asset.shiftingPotential[timeStep][timeStep] =
-                asset.shiftingPotential[timeStep][timeStep] + asset.shiftingPotential[timeStep][minColumnCopy];
-              asset.shiftingPotential[timeStep][minColumnCopy] = 0;
-            }
-          }
-        }
-        minColumnCopy += 1;
-      }
+      // 2. get shiftable potential from time steps within temporal shifting capability
 
       // obtain lacking potential from leftmost entries i.e. entries with lesser row index
-      let minRow = timeStep - asset.temporalShiftingCapability;
-      if (minRow < 0) { minRow = 0; }
-      let maxRow = timeStep + asset.temporalShiftingCapability;
-      if (maxRow > asset.scheduledGeneration.length) { maxRow = asset.scheduledGeneration.length; }
-      while (minRow <= maxRow) {
-        minColumnCopy = minColumn;
-        while (diff > 0 && minColumnCopy <= maxColumn) {
-          console.log('diff still not 0, but ' + diff + ' finding new entry to take from');
-          if (minColumn !== timeStep && asset.shiftingPotential[minRow][minColumnCopy] !== undefined) {
+      const maxColumn = this.getRightBoundary(asset, timeStep);
+      let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
 
-            console.log('sollte hier landen');
-            if (asset.shiftingPotential[minRow][minColumnCopy] > 0) {
-              if (asset.shiftingPotential[minRow][minColumnCopy] >= diff) {
-                asset.shiftingPotential[minRow][minColumnCopy] = Math.round((asset.shiftingPotential[minRow][minColumnCopy] - diff) * 100) / 100;
-                asset.scheduledGeneration[minColumnCopy] = Math.round( (asset.scheduledGeneration[minColumnCopy] - diff) * 100) / 100;
+      let minRow = this.getLeftBoundary(asset, timeStep, currentTime);
+      const maxRow = this.getRightBoundary(asset, timeStep);
+      while (minRow <= maxRow) {
+        minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+        while (diff > 0 && minColumn <= maxColumn) {
+          if (minColumn !== timeStep && asset.shiftingPotential[minRow][minColumn] !== undefined) {
+
+            if (asset.shiftingPotential[minRow][minColumn] > 0) {
+              if (asset.shiftingPotential[minRow][minColumn] >= diff) {
+                asset.shiftingPotential[minRow][minColumn] = Math.round((asset.shiftingPotential[minRow][minColumn] - diff) * 100) / 100;
+                asset.scheduledGeneration[minColumn] = Math.round( (asset.scheduledGeneration[minColumn] - diff) * 100) / 100;
 
                 asset.shiftingPotential[minRow][timeStep] = asset.shiftingPotential[minRow][timeStep] + diff;
                 asset.scheduledGeneration[timeStep] = asset.scheduledGeneration[timeStep] + diff;
 
                 diff = 0;
               } else {
-                asset.scheduledGeneration[minColumnCopy] =
-                  Math.round( (asset.scheduledGeneration[minColumnCopy] - asset.shiftingPotential[minRow][minColumnCopy]) * 100) / 100;
+                asset.scheduledGeneration[minColumn] =
+                  Math.round( (asset.scheduledGeneration[minColumn] - asset.shiftingPotential[minRow][minColumn]) * 100) / 100;
                 asset.scheduledGeneration[timeStep] =
-                  asset.scheduledGeneration[timeStep] + asset.shiftingPotential[minRow][minColumnCopy];
+                  asset.scheduledGeneration[timeStep] + asset.shiftingPotential[minRow][minColumn];
 
-                diff = Math.round((diff - asset.shiftingPotential[minRow][minColumnCopy]) * 100) / 100;
+                diff = Math.round((diff - asset.shiftingPotential[minRow][minColumn]) * 100) / 100;
 
                 asset.shiftingPotential[minRow][timeStep] =
-                  asset.shiftingPotential[minRow][timeStep] + asset.shiftingPotential[timeStep][minColumnCopy];
-                asset.shiftingPotential[minRow][minColumnCopy] = 0;
+                  asset.shiftingPotential[minRow][timeStep] + asset.shiftingPotential[timeStep][minColumn];
+                asset.shiftingPotential[minRow][minColumn] = 0;
               }
             }
           }
-          minColumnCopy += 1;
+          minColumn += 1;
         }
         minRow += 1;
       }
     }
+  }
+
+  private static retrieveShiftedPotential(asset, timeStep, diff, currentTime): number {
+    const maxColumn = this.getRightBoundary(asset, timeStep);
+    let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+
+    // calculate row
+    let sum = 0;
+    while (minColumn <= maxColumn) {
+      if (minColumn !== timeStep && asset.shiftingPotential[timeStep][minColumn] !== undefined) {
+        sum += asset.shiftingPotential[timeStep][minColumn];
+      }
+      minColumn++;
+    }
+
+    // relative shift
+    let relativeShift = 1;
+    if (sum < diff) {
+      relativeShift = sum / diff;
+    }
+
+    // resetting minColumn
+    minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+
+    // shift back potentials relative to the potential shifted to timeStep
+    while (minColumn <= maxColumn) {
+      if (minColumn !== timeStep && asset.shiftingPotential[timeStep][minColumn] !== undefined) {
+        // account for rounding errors
+        const amountShiftedBack = Math.min(Math.round((asset.shiftingPotential[timeStep][minColumn] * relativeShift * 100) / 100), diff);
+
+        // shift potential back
+        asset.shiftingPotential[timeStep][minColumn] -= amountShiftedBack;
+        asset.shiftingPotential[timeStep][timeStep] += amountShiftedBack;
+
+        // calculate new difference
+        diff -= amountShiftedBack;
+      }
+      minColumn++;
+    }
+
+    return diff;
   }
 
   /**
@@ -165,12 +177,11 @@ export class LoadOperationLogicService {
    * @param asset Load of the shifted amount
    * @param timeStep Time step the shift is scheduled to
    * @param diff Difference to the original value
+   * @param currentTime The progressed time of the experiment
    */
   private static shiftAway(asset: Load, timeStep: number, diff: number, currentTime: number) {
-    // shiftingPotential[timeStep][timeStep] <= diff < 0
-    asset.scheduledGeneration[timeStep] += diff;
-    asset.shiftingPotential[timeStep][timeStep] += diff;
 
+    // 1. shift back all potential shifted here
     let sum = 0;
 
     let leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
@@ -193,11 +204,10 @@ export class LoadOperationLogicService {
       // reset leftBoundary
       leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
 
-      let amountShiftedBack = 0;
       // shift back potentials relative to the potential shifted to timeStep
       while (leftBoundary <= rightBoundary) {
         // account for rounding errors
-        amountShiftedBack = Math.min(Math.round((asset.shiftingPotential[leftBoundary][timeStep] * relativeShift * 100) / 100), -diff);
+        const amountShiftedBack = Math.min(Math.round((asset.shiftingPotential[leftBoundary][timeStep] * relativeShift * 100) / 100), -diff);
 
         if (leftBoundary !== timeStep) {
           // shift potential back
@@ -215,7 +225,12 @@ export class LoadOperationLogicService {
       }
     }
 
-    // basic step: push difference to next time step
+    // 2. basic step: push difference to next time step
+
+    // shiftingPotential[timeStep][timeStep] <= diff < 0
+    asset.scheduledGeneration[timeStep] += diff;
+    asset.shiftingPotential[timeStep][timeStep] += diff;
+
     if (timeStep < asset.shiftingPotential.length - 1) {
       asset.shiftingPotential[timeStep][timeStep + 1] = Math.round ((asset.shiftingPotential[timeStep][timeStep + 1] - diff) * 100) / 100;
       asset.scheduledGeneration[timeStep + 1] = Math.round( (asset.scheduledGeneration[timeStep + 1] - diff) * 100) / 100;

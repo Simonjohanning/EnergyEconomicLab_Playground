@@ -184,32 +184,35 @@ export class LoadOperationLogicService {
       leftBoundary++;
     }
 
-    let relativeShift = 1;
-    if (sum < diff) {
-      relativeShift = sum / diff;
-    }
-
-    // reset leftBoundary
-    leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
-
-    // shift back potentials relative to the potential shifted to timeStep
-    while (leftBoundary <= rightBoundary) {
-      const amountShiftedBack = Math.round( (asset.shiftingPotential[leftBoundary][timeStep] * relativeShift * 100) / 100);
-
-      if (leftBoundary !== timeStep) {
-        // shift potential back
-        asset.shiftingPotential[leftBoundary][timeStep] -= amountShiftedBack;
-        asset.shiftingPotential[leftBoundary][leftBoundary] += amountShiftedBack;
-
-        // calculate new difference
-        diff -= amountShiftedBack;
+    if (sum > 0) {
+      let relativeShift = 1;
+      if (sum < diff) {
+        relativeShift = sum / diff;
       }
-      leftBoundary++;
-    }
 
-    // end here if difference is now zero (thanks to rounding it could not be zero though)
-    if (diff === 0) {
-      return;
+      // reset leftBoundary
+      leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
+
+      let amountShiftedBack = 0;
+      // shift back potentials relative to the potential shifted to timeStep
+      while (leftBoundary <= rightBoundary) {
+        // account for rounding errors
+        amountShiftedBack = Math.min(Math.round((asset.shiftingPotential[leftBoundary][timeStep] * relativeShift * 100) / 100), -diff);
+
+        if (leftBoundary !== timeStep) {
+          // shift potential back
+          asset.shiftingPotential[leftBoundary][timeStep] -= amountShiftedBack;
+          asset.shiftingPotential[leftBoundary][leftBoundary] += amountShiftedBack;
+
+          // calculate new difference
+          diff += amountShiftedBack;
+        }
+        leftBoundary++;
+      }
+
+      if (diff === 0) {
+          return;
+      }
     }
 
     // basic step: push difference to next time step

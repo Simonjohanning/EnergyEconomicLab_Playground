@@ -1,4 +1,5 @@
 import { DispatchableAsset } from './DispatchableAsset';
+import {LoadOperationLogicService} from '../../prosumer/load-operation-logic.service';
 
 /**
  * An asset that represents a load, where the use of electricity is interpreted as negative generation.
@@ -18,7 +19,7 @@ export class Load extends DispatchableAsset {
   /** An array that remains untouched */
   private loadProfile: number[];
   /** An array containing the shifting potential of each time step */
-  private shiftingPotential: number[][];
+  shiftingPotential: number[][];
 
 
   constructor(
@@ -31,112 +32,22 @@ export class Load extends DispatchableAsset {
     this.currentLoad = 0;
   }
 
+  /**
+   * Initiates all essential arrays with respect to the length of the experiment
+   *
+   * @param experimentLength Length of the experiment
+   */
   public initiateSchedule(experimentLength: number) {
     this.scheduledGeneration = Array.from({length: experimentLength}, () => Math.floor(Math.random() * 300) / 100);
-   // this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => 1);
     this.loadProfile = this.scheduledGeneration.slice();
     this.initiateShiftingPotential(experimentLength);
   }
 
-  public getScheduledGenerationAtTime(currentTime: number): number {
-    return this.scheduledGeneration[currentTime];
-  }
-
-  /** returns the the shifted potential of requested time */
-  public getShiftingPotentialAtTime(time: number): number[] {
-    return this.shiftingPotential[time];
-  }
-
+  /**
+   * Schedules load shift at a given time step to a certain amount of energy
+   */
   public scheduleGeneration(timeStep: number, amount: number, currentTime: number) {
-    // this.scheduledGeneration[timeStep] = amount;
-    let diff = Math.round((amount - this.scheduledGeneration[timeStep]) * 100) / 100;
-    if (diff < 0) {
-      this.shiftingPotential[timeStep][timeStep] = this.shiftingPotential[timeStep][timeStep] + diff;
-      if (timeStep < this.loadProfile.length - 1) {
-        this.shiftingPotential[timeStep][timeStep + 1] = this.shiftingPotential[timeStep][timeStep + 1] - diff;
-        this.scheduledGeneration[timeStep + 1] = Math.round( (this.scheduledGeneration[timeStep + 1] - diff) * 100) / 100;
-      } else {
-        this.shiftingPotential[timeStep][timeStep - 1] = this.shiftingPotential[timeStep][timeStep - 1] - diff;
-        this.scheduledGeneration[timeStep - 1] = Math.round((this.scheduledGeneration[timeStep - 1] - diff) * 100) / 100;
-      }
-      this.scheduledGeneration[timeStep] = amount;
-    } else {
-      console.log('diff: ' + diff);
-      // get shifted potential back first
-      let minColumn = timeStep - this.temporalShiftingCapability;
-      if (minColumn < 0) { minColumn = 0; }
-      let maxColumn = timeStep + this.temporalShiftingCapability;
-      if (maxColumn > this.loadProfile.length) { maxColumn = this.loadProfile.length - 1; }
-
-      let minColumnCopy = minColumn;
-      while (minColumnCopy <= maxColumn && diff > 0) {
-        if (minColumnCopy !== timeStep && this.shiftingPotential[timeStep][minColumnCopy] !== undefined) {
-          if (this.shiftingPotential[timeStep][minColumnCopy] > 0) {
-            if (this.shiftingPotential[timeStep][minColumnCopy] >= diff) {
-              this.shiftingPotential[timeStep][minColumnCopy] = this.shiftingPotential[timeStep][minColumnCopy] - diff;
-              this.scheduledGeneration[minColumnCopy] = this.scheduledGeneration[minColumnCopy] - diff;
-
-              this.shiftingPotential[timeStep][timeStep] = this.shiftingPotential[timeStep][timeStep] + diff;
-              this.scheduledGeneration[timeStep] = this.scheduledGeneration[timeStep] + diff;
-
-              diff = 0;
-            } else {
-
-              this.scheduledGeneration[minColumnCopy] =
-                this.scheduledGeneration[minColumnCopy] - this.shiftingPotential[timeStep][minColumnCopy];
-              this.scheduledGeneration[timeStep] =
-                this.scheduledGeneration[timeStep] + this.shiftingPotential[timeStep][minColumnCopy];
-              diff = Math.round((diff - this.shiftingPotential[timeStep][minColumnCopy]) * 100) / 100;
-
-              this.shiftingPotential[timeStep][timeStep] =
-                this.shiftingPotential[timeStep][timeStep] + this.shiftingPotential[timeStep][minColumnCopy];
-              this.shiftingPotential[timeStep][minColumnCopy] = 0;
-            }
-          }
-        }
-        minColumnCopy += 1;
-      }
-
-      // obtain lacking potential from leftmost entries i.e. entries with lesser row index
-      let minRow = timeStep - this.temporalShiftingCapability;
-      if (minRow < 0) { minRow = 0; }
-      let maxRow = timeStep + this.temporalShiftingCapability;
-      if (maxRow > this.loadProfile.length) { maxRow = this.loadProfile.length; }
-      while (minRow <= maxRow) {
-        minColumnCopy = minColumn;
-        while (diff > 0 && minColumnCopy <= maxColumn) {
-          console.log('diff still not 0, but ' + diff + ' finding new entry to take from');
-          if (minColumn !== timeStep && this.shiftingPotential[minRow][minColumnCopy] !== undefined) {
-
-            console.log('sollte hier landen');
-            if (this.shiftingPotential[minRow][minColumnCopy] > 0) {
-              if (this.shiftingPotential[minRow][minColumnCopy] >= diff) {
-                this.shiftingPotential[minRow][minColumnCopy] = Math.round((this.shiftingPotential[minRow][minColumnCopy] - diff) * 100) / 100;
-                this.scheduledGeneration[minColumnCopy] = Math.round( (this.scheduledGeneration[minColumnCopy] - diff) * 100) / 100;
-
-                this.shiftingPotential[minRow][timeStep] = this.shiftingPotential[minRow][timeStep] + diff;
-                this.scheduledGeneration[timeStep] = this.scheduledGeneration[timeStep] + diff;
-
-                diff = 0;
-              } else {
-                this.scheduledGeneration[minColumnCopy] =
-                  Math.round( (this.scheduledGeneration[minColumnCopy] - this.shiftingPotential[minRow][minColumnCopy]) * 100) / 100;
-                this.scheduledGeneration[timeStep] =
-                  this.scheduledGeneration[timeStep] + this.shiftingPotential[minRow][minColumnCopy];
-
-                diff = Math.round((diff - this.shiftingPotential[minRow][minColumnCopy]) * 100) / 100;
-
-                this.shiftingPotential[minRow][timeStep] =
-                  this.shiftingPotential[minRow][timeStep] + this.shiftingPotential[timeStep][minColumnCopy];
-                this.shiftingPotential[minRow][minColumnCopy] = 0;
-              }
-            }
-          }
-          minColumnCopy += 1;
-        }
-        minRow += 1;
-      }
-    }
+    LoadOperationLogicService.schedule(this, timeStep, amount, currentTime);
   }
 
   private initiateShiftingPotential(experimentLength: number) {

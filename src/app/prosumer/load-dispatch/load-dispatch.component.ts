@@ -41,10 +41,10 @@ export class LoadDispatchComponent implements OnInit {
   ngOnInit() {
     // emit the respective time service when it is available to the component in order to make it available for the temporal validator
     this.timeServiceSubject.next(this.timeService);
-    this.maxLoad = this.asset.getScheduledGenerationAtTime(this.timeService.getCurrentTime()) +
-      this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
-    this.minLoad = this.asset.getScheduledGenerationAtTime(this.timeService.getCurrentTime()) -
-      this.asset.getShiftingPotentialAtTime(this.timeService.getCurrentTime())[this.timeService.getCurrentTime()];
+    this.maxLoad = this.asset.scheduledGeneration[this.timeService.getCurrentTime()] +
+      this.asset.shiftingPotential[this.timeService.getCurrentTime()][this.timeService.getCurrentTime()];
+    this.minLoad = this.asset.scheduledGeneration[this.timeService.getCurrentTime()] -
+      this.asset.temporalShiftingCapability[this.timeService.getCurrentTime()][this.timeService.getCurrentTime()];
   }
 
   /**

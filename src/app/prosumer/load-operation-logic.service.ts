@@ -44,6 +44,7 @@ export class LoadOperationLogicService {
    * @param timeStep The time step of the shift
    */
   static deriveMinLoadOperationValue(asset: Load, timeStep: number) {
+    // not necessary to consider shifted potential as they have no influence on the minimal value of not shiftable load!
     return (asset.getLoad(timeStep) * (1 - asset.relativeControllability));
   }
 
@@ -63,19 +64,22 @@ export class LoadOperationLogicService {
     return rightBoundary;
   }
 
+  /**
+   * Schedules the load shift.
+   *
+   * @param asset Load that is being shifted.
+   * @param timeStep Time of shift.
+   * @param amount New load value
+   * @param currentTime The progressed time in the experiment.
+   */
   static schedule(asset: Load, timeStep: number, amount: number, currentTime: number) {
 
     let diff = Math.round((amount - asset.scheduledGeneration[timeStep]) * 100) / 100;
+
+    // shift away
     if (diff < 0) {
-      asset.shiftingPotential[timeStep][timeStep] = asset.shiftingPotential[timeStep][timeStep] + diff;
-      if (timeStep < asset.shiftingPotential.length - 1) {
-        asset.shiftingPotential[timeStep][timeStep + 1] = asset.shiftingPotential[timeStep][timeStep + 1] - diff;
-        asset.scheduledGeneration[timeStep + 1] = Math.round( (asset.scheduledGeneration[timeStep + 1] - diff) * 100) / 100;
-      } else {
-        asset.shiftingPotential[timeStep][timeStep - 1] = asset.shiftingPotential[timeStep][timeStep - 1] - diff;
-        asset.scheduledGeneration[timeStep - 1] = Math.round((asset.scheduledGeneration[timeStep - 1] - diff) * 100) / 100;
-      }
-      asset.scheduledGeneration[timeStep] = amount;
+      this.shiftAway(asset, timeStep, diff, currentTime);
+
     } else {
       console.log('diff: ' + diff);
       // get shifted potential back first
@@ -153,6 +157,71 @@ export class LoadOperationLogicService {
         minRow += 1;
       }
     }
+  }
+
+  /**
+   * Schedules the shift away from a given time step
+   *
+   * @param asset Load of the shifted amount
+   * @param timeStep Time step the shift is scheduled to
+   * @param diff Difference to the original value
+   */
+  private static shiftAway(asset: Load, timeStep: number, diff: number, currentTime: number) {
+    // shiftingPotential[timeStep][timeStep] <= diff < 0
+    asset.scheduledGeneration[timeStep] += diff;
+    asset.shiftingPotential[timeStep][timeStep] += diff;
+
+    let sum = 0;
+
+    let leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
+    const rightBoundary = this.getRightBoundary(asset, timeStep);
+
+    // calculate sum of all potential shifted to timeStep
+    while (leftBoundary <= rightBoundary) {
+      if (leftBoundary !== timeStep) {
+        sum += asset.shiftingPotential[leftBoundary][timeStep];
+      }
+      leftBoundary++;
+    }
+
+    let relativeShift = 1;
+    if (sum < diff) {
+      relativeShift = sum / diff;
+    }
+
+    // reset leftBoundary
+    leftBoundary = this.getLeftBoundary(asset, timeStep, currentTime);
+
+    // shift back potentials relative to the potential shifted to timeStep
+    while (leftBoundary <= rightBoundary) {
+      const amountShiftedBack = Math.round( (asset.shiftingPotential[leftBoundary][timeStep] * relativeShift * 100) / 100);
+
+      if (leftBoundary !== timeStep) {
+        // shift potential back
+        asset.shiftingPotential[leftBoundary][timeStep] -= amountShiftedBack;
+        asset.shiftingPotential[leftBoundary][leftBoundary] += amountShiftedBack;
+
+        // calculate new difference
+        diff -= amountShiftedBack;
+      }
+      leftBoundary++;
+    }
+
+    // end here if difference is now zero (thanks to rounding it could not be zero though)
+    if (diff === 0) {
+      return;
+    }
+
+    // basic step: push difference to next time step
+    if (timeStep < asset.shiftingPotential.length - 1) {
+      asset.shiftingPotential[timeStep][timeStep + 1] = Math.round ((asset.shiftingPotential[timeStep][timeStep + 1] - diff) * 100) / 100;
+      asset.scheduledGeneration[timeStep + 1] = Math.round( (asset.scheduledGeneration[timeStep + 1] - diff) * 100) / 100;
+    } else {
+      // TODO catch error earlier?
+      console.error('tried to shift to non-existing time step');
+      return;
+    }
+
   }
 
 }

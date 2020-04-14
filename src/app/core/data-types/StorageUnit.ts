@@ -1,4 +1,5 @@
 import { DispatchableAsset } from './DispatchableAsset';
+import { StorageOperationLogicService } from '../../prosumer/storage-operation-logic.service';
 
 /**
  * Representation of a storage unit as a storage asset within the simulation.
@@ -39,20 +40,22 @@ export class StorageUnit extends DispatchableAsset {
     console.log('Updating storage unit ' + this.model + ' to ' + this.scheduledGeneration[currentTime]);
   }
 
+  /**
+   * Initiated the schedule given the length of the experiment
+   *
+   * @param experimentLength Length of the experiment
+   */
   public initiateSchedule(experimentLength: number) {
     this.scheduledGeneration = Array.from({length: experimentLength + 1}, () => this.initialSOC);
   }
 
+  /**
+   * Schedules (dis)charge of a storage unit
+   * @param timeStep The time of (dis)charge
+   * @param dispatchValue Amount of (dis)charged energy
+   * @param currentTime The progressed time in the experiment
+   */
   public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime: number) {
-    if (dispatchValue + Math.min(...this.scheduledGeneration.slice(timeStep)) < 0) {
-      console.error('dispatch value results in negative storage values ' + (Math.min(...this.scheduledGeneration) + dispatchValue));
-    } else
-    if (dispatchValue + Math.max(...this.scheduledGeneration.slice(timeStep)) > this.storageCapacity) {
-      console.error('dispatch value leads to overstepping the storage capacity of ' + this.storageCapacity);
-    } else {
-      for (let i = timeStep; i < this.scheduledGeneration.length; i++) {
-        this.scheduledGeneration[i] = this.scheduledGeneration[i] + dispatchValue;
-      }
-    }
+    StorageOperationLogicService.schedule(this, timeStep, dispatchValue, currentTime);
   }
 }

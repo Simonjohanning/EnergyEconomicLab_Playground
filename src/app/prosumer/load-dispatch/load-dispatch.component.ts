@@ -44,7 +44,7 @@ export class LoadDispatchComponent implements OnInit {
     this.maxLoad = this.asset.scheduledGeneration[this.timeService.getCurrentTime()] +
       this.asset.shiftingPotential[this.timeService.getCurrentTime()][this.timeService.getCurrentTime()];
     this.minLoad = this.asset.scheduledGeneration[this.timeService.getCurrentTime()] -
-      this.asset.temporalShiftingCapability[this.timeService.getCurrentTime()][this.timeService.getCurrentTime()];
+      this.asset.scheduledGeneration[this.timeService.getCurrentTime()][this.timeService.getCurrentTime()];
   }
 
   /**

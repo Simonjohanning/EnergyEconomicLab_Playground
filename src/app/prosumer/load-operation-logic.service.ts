@@ -19,23 +19,39 @@ export class LoadOperationLogicService {
     let maxLeftBoundaryShift = this.getLeftBoundary(asset, timeStep, currentTime);
     const maxRightBoundaryShift =  this.getRightBoundary(asset, timeStep);
 
+    // shiftable potential is all potential that was either moved from timeStep and can be moved back or
+    // all potential within the temporal shifting capabilities that have not been moved to timeStep!
     let sumShiftingPotential = 0;
     while (maxLeftBoundaryShift <= maxRightBoundaryShift) {
-
-      // only surrounding loads have an influence
-      let minRow = this.getLeftBoundary(asset, timeStep, currentTime);
-      while (minRow < maxRightBoundaryShift) {
-        const value = asset.shiftingPotential[minRow][maxLeftBoundaryShift];
-        if (value !== undefined) {
-          sumShiftingPotential += value;
-        }
-        minRow += 1;
-      }
+      sumShiftingPotential += this.getRowSum(asset, timeStep, currentTime, maxLeftBoundaryShift);
       maxLeftBoundaryShift += 1;
     }
-    // TODO auslagern der rowsums?
     console.log('sumShiftingPot = ' + sumShiftingPotential);
-    return (asset.getLoad(timeStep) * (1 - asset.relativeControllability)) + sumShiftingPotential;
+    console.log(asset.scheduledGeneration[timeStep]);
+    return asset.scheduledGeneration[timeStep] + sumShiftingPotential;
+  }
+
+  /**
+   * Sums up all shiftable entries given a fixed row by ignoring all potential that is already at the time step.
+   *
+   * @param asset Load under consideration
+   * @param timeStep Time in the experiment under consideration
+   * @param currentTime The progressed time in the experiment
+   * @param row Fixed column
+   */
+  private static getRowSum(asset: Load, timeStep: number, currentTime: number, row: number): number {
+    let sum = 0;
+    let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+    const maxRightBoundaryShift =  this.getRightBoundary(asset, timeStep);
+
+    while (minColumn < maxRightBoundaryShift) {
+      const value = asset.shiftingPotential[row][minColumn];
+      if (value !== undefined && minColumn !== timeStep) {
+        sum += value;
+      }
+      minColumn += 1;
+    }
+    return sum;
   }
 
   /** returns the value scheduled value minus the one that can be shifted away
@@ -88,53 +104,78 @@ export class LoadOperationLogicService {
       diff = this.retrieveShiftedPotential(asset, timeStep, diff, currentTime);
 
       // 2. get shiftable potential from time steps within temporal shifting capability
+      this.shiftLoadFromOtherTimeSteps(asset, timeStep, diff, currentTime);
 
-      // obtain lacking potential from leftmost entries i.e. entries with lesser row index
-      const maxColumn = this.getRightBoundary(asset, timeStep);
-      let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
-
-      let minRow = this.getLeftBoundary(asset, timeStep, currentTime);
-      const maxRow = this.getRightBoundary(asset, timeStep);
-      while (minRow <= maxRow) {
-        minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
-        while (diff > 0 && minColumn <= maxColumn) {
-          if (minColumn !== timeStep && asset.shiftingPotential[minRow][minColumn] !== undefined) {
-
-            if (asset.shiftingPotential[minRow][minColumn] > 0) {
-              if (asset.shiftingPotential[minRow][minColumn] >= diff) {
-                asset.shiftingPotential[minRow][minColumn] = Math.round((asset.shiftingPotential[minRow][minColumn] - diff) * 100) / 100;
-                asset.scheduledGeneration[minColumn] = Math.round( (asset.scheduledGeneration[minColumn] - diff) * 100) / 100;
-
-                asset.shiftingPotential[minRow][timeStep] = asset.shiftingPotential[minRow][timeStep] + diff;
-                asset.scheduledGeneration[timeStep] = asset.scheduledGeneration[timeStep] + diff;
-
-                diff = 0;
-              } else {
-                asset.scheduledGeneration[minColumn] =
-                  Math.round( (asset.scheduledGeneration[minColumn] - asset.shiftingPotential[minRow][minColumn]) * 100) / 100;
-                asset.scheduledGeneration[timeStep] =
-                  asset.scheduledGeneration[timeStep] + asset.shiftingPotential[minRow][minColumn];
-
-                diff = Math.round((diff - asset.shiftingPotential[minRow][minColumn]) * 100) / 100;
-
-                asset.shiftingPotential[minRow][timeStep] =
-                  asset.shiftingPotential[minRow][timeStep] + asset.shiftingPotential[timeStep][minColumn];
-                asset.shiftingPotential[minRow][minColumn] = 0;
-              }
-            }
-          }
-          minColumn += 1;
-        }
-        minRow += 1;
-      }
     }
   }
 
+  /**
+   * Shifts load from other time steps to a certain time step
+   *
+   * @param asset Load where shift occurs
+   * @param timeStep The time step load is shifted to
+   * @param diff The load difference that has to be filled up
+   * @param currentTime The time that has already progressed in the experiment
+   */
+  private static shiftLoadFromOtherTimeSteps(asset: Load, timeStep: number, diff: number, currentTime: number) {
+    // diff > 0!
+
+    // obtain lacking potential from leftmost entries i.e. entries with lesser row index
+    let minColumn: number;
+    let minRow = this.getLeftBoundary(asset, timeStep, currentTime);
+    const maxTimeStep = this.getRightBoundary(asset, timeStep);
+
+    // 1. obtain sum of shiftable potential
+
+    // shiftable potential is all potential that was either moved from timeStep and can be moved back or
+    // all potential within the temporal shifting capabilities that have not been moved to timeStep!
+    let sumShiftingPotential = 0;
+    while (minRow <= maxTimeStep) {
+      sumShiftingPotential += this.getRowSum(asset, timeStep, currentTime, minRow);
+      minRow++;
+    }
+
+    // resetting minRow
+    minRow =  this.getLeftBoundary(asset, timeStep, currentTime);
+
+    // 2. calc relative shift
+    // relative shift
+    // sum >= diff!
+    const relativeShift = diff / sumShiftingPotential;
+
+    // 3. shift relative to sum of shiftable potential
+    while (minRow <= maxTimeStep) {
+      minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+      while (minColumn <= maxTimeStep) {
+        if (minRow !== timeStep && minColumn !== timeStep && asset.shiftingPotential[minRow][minColumn] !== undefined) {
+          const shiftValue =  Math.round((asset.shiftingPotential[minRow][minColumn] * relativeShift) * 100) / 100;
+          asset.shiftingPotential[minRow][minColumn] -= shiftValue;
+          asset.scheduledGeneration[minColumn] -= shiftValue;
+
+          asset.shiftingPotential[minRow][timeStep] += shiftValue;
+          asset.scheduledGeneration[timeStep] += shiftValue;
+        }
+        minColumn += 1;
+      }
+      minRow += 1;
+    }
+  }
+
+  /**
+   * Intermediate step for shift to a certain time step that retrieves all potential that has been previously shifted away
+   *
+   * @param asset Load that is shifted
+   * @param timeStep Time step that load is shifted to
+   * @param diff The difference between old and new scheduled amount
+   * @param currentTime The time progressed to far in the experiment
+   *
+   * @return The remaining difference in load that has to be still shifted
+   */
   private static retrieveShiftedPotential(asset, timeStep, diff, currentTime): number {
     const maxColumn = this.getRightBoundary(asset, timeStep);
     let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
 
-    // calculate row
+    // calculate row sums
     let sum = 0;
     while (minColumn <= maxColumn) {
       if (minColumn !== timeStep && asset.shiftingPotential[timeStep][minColumn] !== undefined) {

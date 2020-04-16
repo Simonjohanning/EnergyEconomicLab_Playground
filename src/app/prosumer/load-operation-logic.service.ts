@@ -44,7 +44,7 @@ export class LoadOperationLogicService {
     let minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
     const maxRightBoundaryShift =  this.getRightBoundary(asset, timeStep);
 
-    while (minColumn < maxRightBoundaryShift) {
+    while (minColumn <= maxRightBoundaryShift) {
       const value = asset.shiftingPotential[row][minColumn];
       if (value !== undefined && minColumn !== timeStep) {
         sum += value;
@@ -236,6 +236,7 @@ export class LoadOperationLogicService {
       leftBoundary++;
     }
 
+    // calculate relative shift
     if (sum > 0) {
       let relativeShift = 1;
       if (sum < diff) {

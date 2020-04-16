@@ -1,5 +1,5 @@
 import { DispatchableAsset } from './DispatchableAsset';
-import {LoadOperationLogicService} from '../../prosumer/load-operation-logic.service';
+import { LoadOperationLogicService } from '../../prosumer/load-operation-logic.service';
 
 /**
  * An asset that represents a load, where the use of electricity is interpreted as negative generation.

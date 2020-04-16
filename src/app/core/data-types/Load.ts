@@ -86,29 +86,13 @@ export class Load extends DispatchableAsset {
     });
   }
 
-  private updateShiftingPotential(currentTime: number, shiftedAmountAtTimeStep: number, timeStep: number) {
-    let maxLeftEntry = timeStep - this.temporalShiftingCapability;
-    if (maxLeftEntry < 0) {
-      maxLeftEntry = 0;
-    }
-    if (maxLeftEntry < currentTime) {
-      maxLeftEntry = currentTime;
-    }
-    let maxRightEntry = timeStep + this.temporalShiftingCapability;
-    if (maxRightEntry > this.loadProfile.length) {
-      maxRightEntry = this.loadProfile.length;
-    }
-
-    if (maxLeftEntry <= maxRightEntry) {
-      // TODO this.shiftingPotential[maxLeftEntry] = this.shiftingPotential[maxLeftEntry] - shiftedAmountAtTimeStep;
-    }
-  }
-
+  // TODO implement
   private timeUpdate(time: number) {
     // sets time steps that are done to undefined
     this.shiftingPotential.forEach(entry => {
       entry[time] = undefined;
     });
+    // TODO also for shiftingPotential[time] = Array of undefined entries!
   }
 
   public getLoad(time: number): number {

@@ -65,6 +65,8 @@ export class AssetDispatchComponent implements OnInit {
       asset.scheduledGeneration.forEach(currentEntry => {
         this.scheduledDispatch += (currentEntry + ', ');
       });
+      // remove last two characters (', ')
+      this.scheduledDispatch = this.scheduledDispatch.slice(0, -2);
       this.scheduledDispatch += ']';
     }
   }

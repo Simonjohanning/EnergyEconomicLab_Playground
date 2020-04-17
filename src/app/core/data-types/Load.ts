@@ -38,7 +38,8 @@ export class Load extends DispatchableAsset {
    * @param experimentLength Length of the experiment
    */
   public initiateSchedule(experimentLength: number) {
-    this.scheduledGeneration = Array.from({length: experimentLength}, () => Math.floor(Math.random() * 300) / 100);
+    // this.scheduledGeneration = Array.from({length: experimentLength}, () => Math.floor(Math.random() * 300) / 100);
+    this.scheduledGeneration = Array.from({length: experimentLength}, () => 1);
     this.loadProfile = this.scheduledGeneration.slice();
     this.initiateShiftingPotential(experimentLength);
   }

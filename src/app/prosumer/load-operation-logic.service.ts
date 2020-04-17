@@ -26,8 +26,6 @@ export class LoadOperationLogicService {
       sumShiftingPotential += this.getRowSum(asset, timeStep, currentTime, maxLeftBoundaryShift);
       maxLeftBoundaryShift += 1;
     }
-    console.log('sumShiftingPot = ' + sumShiftingPotential);
-    console.log(asset.scheduledGeneration[timeStep]);
     return asset.scheduledGeneration[timeStep] + sumShiftingPotential;
   }
 
@@ -184,24 +182,27 @@ export class LoadOperationLogicService {
       minColumn++;
     }
 
-    // relative shift
-    let relativeShift = 1;
-    if (sum < diff) {
-      relativeShift = sum / diff;
-    }
-
     // resetting minColumn
     minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
+    console.log(minColumn + ' left boundary');
 
     // shift back potentials relative to the potential shifted to timeStep
     while (minColumn <= maxColumn) {
       if (minColumn !== timeStep && asset.shiftingPotential[timeStep][minColumn] !== undefined) {
-        // account for rounding errors
-        const amountShiftedBack = Math.min(Math.round((asset.shiftingPotential[timeStep][minColumn] * relativeShift * 100) / 100), diff);
+
+        // relative shift
+        let relativeShift = 1;
+        if (sum > 0) {
+          relativeShift = asset.shiftingPotential[timeStep][minColumn] / sum;
+        }
+
+        const amountShiftedBack = Math.min(asset.shiftingPotential[timeStep][minColumn] * relativeShift, diff);
 
         // shift potential back
         asset.shiftingPotential[timeStep][minColumn] -= amountShiftedBack;
+        asset.scheduledGeneration[minColumn] -= amountShiftedBack;
         asset.shiftingPotential[timeStep][timeStep] += amountShiftedBack;
+        asset.scheduledGeneration[timeStep] += amountShiftedBack;
 
         // calculate new difference
         diff -= amountShiftedBack;
@@ -254,7 +255,9 @@ export class LoadOperationLogicService {
         if (leftBoundary !== timeStep) {
           // shift potential back
           asset.shiftingPotential[leftBoundary][timeStep] -= amountShiftedBack;
+          // asset.scheduledGeneration[timeStep] -= amountShiftedBack;
           asset.shiftingPotential[leftBoundary][leftBoundary] += amountShiftedBack;
+          // asset.scheduledGeneration[leftBoundary] += amountShiftedBack;
 
           // calculate new difference
           diff += amountShiftedBack;

@@ -4,7 +4,7 @@
     <input type="number" id="timeStep" class="form-control" formControlName="timeStep" (change)="adjustSlider()">
     <small *ngIf="scheduledDispatchForm.get('timeStep').errors" class="form-text text-muted">Error: {{scheduledDispatchForm.get('timeStep').errors.timeStepError}}</small>
     <input type="range" *ngIf="scheduledDispatchForm.get('timeStep').dirty" min="{{maxDischarge}}" max="{{maxCharge}}" step="0.01" class="form-control" id="scheduledDispatch" aria-describedby="scheduledDispatchHelp" formControlName="scheduledDispatch">
-    <p *ngIf="scheduledDispatchForm.get('timeStep').dirty">selected storage dispatch value: {{scheduledDispatchForm.get('scheduledDispatch').value}}<p>
+    <p *ngIf="scheduledDispatchForm.get('timeStep').dirty">selected storage (dis)charge value: {{scheduledDispatchForm.get('scheduledDispatch').value}}<p>
     <small *ngIf="scheduledDispatchForm.get('timeStep').dirty" id="scheduledDispatchHelp" class="form-text text-muted">The amount of electricity fed into the storage or taken out</small>
     <button *ngIf="scheduledDispatchForm.get('scheduledDispatch').dirty" id="scheduleButton" (click)="scheduleTimeStep()" style="float: right;">Schedule!</button>
   </div>

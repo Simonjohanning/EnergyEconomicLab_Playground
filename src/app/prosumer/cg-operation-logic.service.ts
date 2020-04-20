@@ -128,7 +128,7 @@ export class CGOperationLogicService {
           startRampingTime = startRampingTime - 1;
         }
 
-        if (startRampingTime <= currentTime) {
+        if (startRampingTime < currentTime) {
           // TODO throw error?
           console.error('ramping start preceeds current time!');
           return;

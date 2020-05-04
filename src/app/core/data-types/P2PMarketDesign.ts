@@ -10,6 +10,8 @@
 export interface P2PMarketDesign {
   /** The amount of time before the delivery point that trading is closed / no more bids can be introduced into the market or can be edited */
   bidClosure: number;
+  /** The amount of time before the delivery point that trading is closed / no more asks can be introduced into the market or can be edited */
+  askClosure: number;
   /** The length of the trading intervals (delivery time length quantities) of which duration will be a multiple */
   timeSliceLength: number;
   /** The minimal size of each bid in the market (under which the bid will be rejected) */

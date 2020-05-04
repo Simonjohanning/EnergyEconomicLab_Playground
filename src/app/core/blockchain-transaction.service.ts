@@ -25,12 +25,20 @@ export class BlockchainTransactionService {
   private freeBidId = 5;
   /** Variable to track the bids that an other actor committed to */
   private committedBids: P2PBid[] = [];
+  /** Variable to track the asks that an other actor committed to */
+  private committedAsks: P2PBid[] = [];
   /** Variable to track the bids no actor committed to yet */
   private openBids: P2PBid[];
+  /** Variable to track the asks no actor committed to yet */
+  private openAsks: P2PBid[];
   /** Subject to emit the committed bids once their state changes in order to update the observers */
   public committedBidSubject: Subject<P2PBid> = new Subject<P2PBid>();
+  /** Subject to emit the committed asks once their state changes in order to update the observers */
+  public committedAskSubject: Subject<P2PBid> = new Subject<P2PBid>();
   /** Subject to emit the open bids once their state changes in order to update the observers */
   public openBidSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
+  /** Subject to emit the open asks once their state changes in order to update the observers */
+  public openAskSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
   /** Array to keep track of all transactions sent to the blockchain layer as the respective data type */
   private transactions: BCTransaction[] = [];
   /** Reference to the respective market design of the context the service is used in */
@@ -48,8 +56,12 @@ export class BlockchainTransactionService {
     this.timeService.timeEmitter.subscribe(currentTime => {
       // Filter out expired bids
       this.openBids = this.openBids.filter(currentBid => ((this.timeService.getCurrentTime() + this.p2pMarketDesign.bidClosure) > currentBid.deliveryTime));
-      // After updating the open bids, inform the oberservers about the remaining open bids
+      // Filter out expired asks
+      this.openAsks = this.openAsks.filter(currentAsk => ((this.timeService.getCurrentTime() + this.p2pMarketDesign.askClosure) > currentAsk.deliveryTime));
+      // After updating the open bids, inform the observers about the remaining open bids
       this.openBidSubject.next(this.openBids);
+      // After updating the open asks, inform all observers about remaining open asks
+      this.openAskSubject.next(this.openAsks);
     });
     // Set the P2PMarketDesign as soon as it is available
     DataProvisionService.getP2PMarketDescription(state.experimentID).subscribe(p2pMarketDesign => this.p2pMarketDesign = p2pMarketDesign);
@@ -65,6 +77,9 @@ export class BlockchainTransactionService {
    * @returns true if this was successful, false if anything out of the ordinary happened, and the bid could not be committed to
    */
   public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid): boolean {
+
+    /// TODO what about ask?
+
     this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
     this.committedBids.push(committedBid);
     this.committedBidSubject.next(committedBid);
@@ -81,7 +96,9 @@ export class BlockchainTransactionService {
   }
 
   public getCommitedBids(): P2PBid[] { return this.committedBids; }
+  public getCommitedAsks(): P2PBid[] { return this.committedAsks; }
   public getOpenBids(): P2PBid[] { return this.openBids; }
+  public getOpenAsks(): P2PBid[] { return this.openAsks; }
 
   /**
    * Returns the latest unused free bid and increases it for the next bid (in linear fashion) beting able to be used
@@ -91,6 +108,8 @@ export class BlockchainTransactionService {
   getUnusedBidId(): number {
     return ++this.freeBidId;
   }
+
+  // TODO getUnusedAsksID?
 
 
   // TODO think about whether this should check whether the prosumer could in theory provide the energy (e.g. via the residual load information) or whether extensive trading is allowed (and what happens upon non-delivery)
@@ -106,6 +125,17 @@ export class BlockchainTransactionService {
     if (((this.openBids.indexOf(bid) === - 1) && (this.committedBids.indexOf(bid) === - 1)) && this.bvs.checkBidValidity(bid)) {
       this.openBids.push(bid);
       this.openBidSubject.next(this.openBids);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // TODO documentation
+  submitAsk(ask: P2PBid): boolean {
+    if (((this.openAsks.indexOf(ask) === -1) && (this.committedAsks.indexOf(ask) === -1)) && this.bvs.checkBidValidity(ask)) {
+      this.openAsks.push(ask);
+      this.openAskSubject.next(this.openAsks);
       return true;
     } else {
       return false;

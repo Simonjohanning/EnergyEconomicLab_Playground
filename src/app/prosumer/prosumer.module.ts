@@ -25,6 +25,7 @@ import { TransactionClearingService } from '../core/transaction-clearing.service
 import { BlockchainTransactionService } from '../core/blockchain-transaction.service';
 import { ExogeneousPricesComponent } from './exogeneous-prices/exogeneous-prices.component';
 import { BidViewComponent } from './bid-view/bid-view.component';
+import { AskViewComponent } from './ask-view/ask-view.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { BidViewComponent } from './bid-view/bid-view.component';
         StorageDispatchComponent,
         LoadDispatchComponent,
         ExogeneousPricesComponent,
-        BidViewComponent
+        BidViewComponent,
+        AskViewComponent
     ],
   imports: [
     CommonModule,

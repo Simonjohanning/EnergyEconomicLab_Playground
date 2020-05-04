@@ -15,14 +15,14 @@ import { BlockchainTransactionService } from '../../core/blockchain-transaction.
 
 // TODO Constructor
 export class AskViewComponent implements OnInit {
-  /** Variable to store the bids to be shown in the view */
+  /** Variable to store the asks to be shown in the view */
   private  relevantAsks: P2PBid[] = [];
-  /** Form to allow for filtering the bid relevant for the view */
+  /** Form to allow for filtering the ask relevant for the view */
   private askFilterForm = new FormGroup(
     {
       maxPrice: new FormControl(''),
-      minFeedInTime: new FormControl(''),
-      maxFeedInTime: new FormControl(''),
+      minFeedOutTime: new FormControl(''),
+      maxFeedOutTime: new FormControl(''),
       minDuration: new FormControl(''),
       maxDuration: new FormControl(''),
       minPower: new FormControl(''),
@@ -31,15 +31,15 @@ export class AskViewComponent implements OnInit {
 
   /** variable to store the market design of the considered market */
   private p2pMarketDesign: P2PMarketDesign;
-  /** Helper variable to determine the maximal price of a bid (could be different from the value in the market design */
+  /** Helper variable to determine the maximal price of an ask (could be different from the value in the market design */
   private marketMaxPrice: number;
-  /** Helper variable to determine the maximal size of a bid */
-  private maxBidSize: number;
+  /** Helper variable to determine the maximal size of an ask */
+  private maxAskSize: number;
   /** reference variable to store which was the last slider the user changed */
   private latestChangeSlider = '';
 
-  /** reference variable to refer to the bid currently selected in the view */
-  private selectedBid: P2PBid;
+  /** reference variable to refer to the ask currently selected in the view */
+  private selectedAsk: P2PBid;
 
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
@@ -48,10 +48,10 @@ export class AskViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    // subscribe to the emitter of open bids to be able to update the view
+    // subscribe to the emitter of open asks to be able to update the view
     this.bts.openAskSubject.subscribe(openAsks => {
-      console.log('New open bids next in market view: ' + openAsks.length + ' open bids.');
-      this.relevantAsks = openAsks.filter(bid => this.conformsToFilter(bid));
+      console.log('New open asks next in market view: ' + openAsks.length + ' open asks.');
+      this.relevantAsks = openAsks.filter(ask => this.conformsToFilter(ask));
     });
     DataProvisionService.getExperimentLength().subscribe(length => {
       this.askFilterForm.get('maxFeedInTime').setValue(length);
@@ -61,23 +61,23 @@ export class AskViewComponent implements OnInit {
     this.askFilterForm.valueChanges.subscribe(form => this.checkBounds());
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       this.p2pMarketDesign = p2pMarketDescription;
-      this.askFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.bidClosure);
+      this.askFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.askClosure);
       this.askFilterForm.get('minDuration').setValue(this.p2pMarketDesign.timeSliceLength);
-      this.askFilterForm.get('minPower').setValue(this.p2pMarketDesign.minBidSize);
+      this.askFilterForm.get('minPower').setValue(this.p2pMarketDesign.minAskSize);
       if (p2pMarketDescription.maxPrice === -1) {
         this.marketMaxPrice = 10000;
       } else { this.marketMaxPrice = p2pMarketDescription.maxPrice; }
       this.askFilterForm.get('maxPrice').setValue(this.marketMaxPrice);
     });
-    this.dataProvisionService.getMaxBidSize().subscribe(size => {
-      this.maxBidSize = size;
+    this.dataProvisionService.getMaxAskSize().subscribe(size => {
+      this.maxAskSize = size;
     });
   }
 
   /**
    * Helper method to check the bounds of the last changed slider.
    * If the slider was moved out of bounds (e.g. max/min order reversed), it is corrected.
-   * Consecutively, the relevant bids are filtered according to a filter adjusted to the last slider modified
+   * Consecutively, the relevant asks are filtered according to a filter adjusted to the last slider modified
    */
   private checkBounds(): void {
     switch (this.latestChangeSlider) {
@@ -100,28 +100,28 @@ export class AskViewComponent implements OnInit {
         this.checkMinPower();
         break;
     }
-    // Filter out bids not compliant with the respective filters
+    // Filter out asks not compliant with the respective filters
     this.relevantAsks = this.bts.getOpenAsks().filter(ask => this.conformsToFilter(ask));
   }
 
   /**
-   * Method to check whether a bid conforms to a number of criteria set by the respective form.
-   * A bid is invalid if either
+   * Method to check whether a ask conforms to a number of criteria set by the respective form.
+   * A ask is invalid if either
    * - the delivery time lies outside [minimalFIT, maximalFIT]
    * - the power lies outside [minimalPower, maximalPower]
    * - the duration lies outside [minimalDuration, maximalDuration]
-   * - the bid price exceeds the maximal bid price
-   * @param bidToFilter The bid that is to be filtered for form-based filter compliance
-   * @returns true if the bid conforms to all filter criteria, false if it violates at least one
+   * - the ask price exceeds the maximal ask price
+   * @param askToFilter The ask that is to be filtered for form-based filter compliance
+   * @returns true if the ask conforms to all filter criteria, false if it violates at least one
    */
-  private conformsToFilter(bidToFilter: P2PBid): boolean {
-    if ((bidToFilter.deliveryTime < this.askFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.askFilterForm.value.maxFeedInTime)) {
+  private conformsToFilter(askToFilter: P2PBid): boolean {
+    if ((askToFilter.deliveryTime < this.askFilterForm.value.minFeedInTime) || (askToFilter.deliveryTime > this.askFilterForm.value.maxFeedInTime)) {
       return false;
-    } else if ((bidToFilter.power < this.askFilterForm.value.minPower) || (bidToFilter.deliveryTime > this.askFilterForm.value.maxPower)) {
+    } else if ((askToFilter.power < this.askFilterForm.value.minPower) || (askToFilter.deliveryTime > this.askFilterForm.value.maxPower)) {
       return false;
-    } else if ((bidToFilter.duration < this.askFilterForm.value.minDuration) || (bidToFilter.duration > this.askFilterForm.value.maxDuration)) {
+    } else if ((askToFilter.duration < this.askFilterForm.value.minDuration) || (askToFilter.duration > this.askFilterForm.value.maxDuration)) {
       return false;
-    } else if (bidToFilter.price > this.askFilterForm.value.maxPrice) {
+    } else if (askToFilter.price > this.askFilterForm.value.maxPrice) {
       return false;
     } else {
       return true;
@@ -172,16 +172,16 @@ export class AskViewComponent implements OnInit {
   }
 
   /**
-   * Helper method to set the current bid as the selected bid
+   * Helper method to set the current ask as the selected ask
    *
-   * @param bidToDisplay bid to set as selected bid
+   * @param askToDisplay ask to set as selected ask
    */
   setSelectedAsk(askToDisplay: P2PBid) {
     this.selectedAsk = askToDisplay;
   }
 
   /**
-   * Method to reset the selected bid variable (to null)
+   * Method to reset the selected ask variable (to null)
    */
   public resetAsk(): void {
     this.selectedAsk = null;

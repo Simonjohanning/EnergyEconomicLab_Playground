@@ -1,21 +1,21 @@
-<h4>Relevant Bids:</h4>
+<h4>Relevant Asks:</h4>
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="panel panel-default">
       <form [formGroup]="askFilterForm" class="range-field my-4 w-25">
         <div class="form-group">
           <label for="maxPrice">Maximum price</label>
-          <input type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{bidFilterForm.get('maxPrice').value}}
+          <input type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{askFilterForm.get('maxPrice').value}}
           <small id="maxPriceHelp" class="form-text text-muted">The maximum price willing to pay</small>
         </div>
         <div class="form-group">
-          <label for="minFeedInTime">Minimal feed-in-time</label>
-          <input type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedInTime" aria-describedby="minFeedInTimeHelp" formControlName="minFeedInTime" (change)="latestChangeSlider = 'minFeedInTime'">{{askFilterForm.get('minFeedInTime').value}}
+          <label for="minFeedOutTime">Minimal feed-out-time</label>
+          <input type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedOutTime" aria-describedby="minFeedInTimeHelp" formControlName="minFeedInTime" (change)="latestChangeSlider = 'minFeedInTime'">{{askFilterForm.get('minFeedInTime').value}}
           <small id="minFeedInTimeHelp" class="form-text text-muted">The earliest time of the feed in</small>
         </div>
         <div class="form-group">
-          <label for="maxFeedInTime">Maximum feed-in-time</label>
-          <input type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedInTime" aria-describedby="maxFeedInTimeHelp" formControlName="maxFeedInTime" (change)="latestChangeSlider = 'maxFeedInTime'">{{askFilterForm.get('maxFeedInTime').value}}
+          <label for="maxFeedOutTime">Maximum feed-out-time</label>
+          <input type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedOutTime" aria-describedby="maxFeedInTimeHelp" formControlName="maxFeedInTime" (change)="latestChangeSlider = 'maxFeedInTime'">{{askFilterForm.get('maxFeedInTime').value}}
           <small id="maxFeedInTimeHelp" class="form-text text-muted">The latest time of the feed in</small>
         </div>
         <div class="form-group">
@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
           <label for="minPower">Minimal power</label>
-          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{AskFilterForm.get('minPower').value}}
+          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{askFilterForm.get('minPower').value}}
           <small id="minPowerHelp" class="form-text text-muted">The minimal time electricity is fed in</small>
         </div>
         <div class="form-group">

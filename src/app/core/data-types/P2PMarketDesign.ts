@@ -16,6 +16,8 @@ export interface P2PMarketDesign {
   timeSliceLength: number;
   /** The minimal size of each bid in the market (under which the bid will be rejected) */
   minBidSize: number;
+  /** The minimal size of each ask in the market (under which the bid will be rejected) */
+  minAskSize: number;
   /** The maximal price of an electricity bid, if there is a price cap in the market (-1 signifying that there is no price cap) */
   maxPrice: number;
   /** The fees each trade incurs by the market operator and public actor, as a fraction of the trading price */

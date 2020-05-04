@@ -26,6 +26,7 @@ import { ExperimentInstance } from './data-types/ExperimentInstance';
  */
 export class DataProvisionService {
   maxBidSize = 10000;
+  maxAskSize = 10000;
   private mockBids: P2PBid[] = [
     {
       id: 1,
@@ -109,8 +110,10 @@ export class DataProvisionService {
   static getP2PMarketDescription(experimentId: number): Observable<P2PMarketDesign> {
     return of({
       bidClosure: 5,
+      askClosure: 5,
       timeSliceLength: 2,
       minBidSize: 0.5,
+      minAskSize: 0.5,
       maxPrice: -1,
       feeAmount: .1
     });
@@ -155,8 +158,10 @@ export class DataProvisionService {
         prosumers: new Array(),
         p2pMarketDesign: {
           bidClosure: 10,
+          askClosure: 10,
           timeSliceLength: 1,
           minBidSize: 1,
+          minAskSize: 1,
           maxPrice: 10000,
           feeAmount: .1
         },
@@ -250,6 +255,10 @@ export class DataProvisionService {
 
   getMaxBidSize() {
     return of(this.maxBidSize);
+  }
+
+  getMaxAskSize() {
+    return of(this.maxAskSize);
   }
 
   getMockExperimentInstances(): Set<ExperimentInstance> {

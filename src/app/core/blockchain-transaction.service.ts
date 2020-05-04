@@ -77,9 +77,6 @@ export class BlockchainTransactionService {
    * @returns true if this was successful, false if anything out of the ordinary happened, and the bid could not be committed to
    */
   public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid): boolean {
-
-    /// TODO what about ask?
-
     this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
     this.committedBids.push(committedBid);
     this.committedBidSubject.next(committedBid);
@@ -91,6 +88,23 @@ export class BlockchainTransactionService {
     console.log(this.committedBids);
     // TODO Think about whether this should be timed somewhere else
     this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedBid, this.p2pMarketDesign.feeAmount);
+    // TODO think about what could go wrong
+    return true;
+  }
+
+// TODO docu
+  public commitToP2PAsk(buyer: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid): boolean {
+    this.transactions.push({author: buyer, p2pbid: committedAsk, timestamp: timeOfPurchase});
+    this.committedAsks.push(committedAsk);
+    this.committedAskSubject.next(committedAsk);
+    console.log(this.openAsks.length);
+    this.openAsks = (this.openAsks.slice(0, this.openAsks.indexOf(committedAsk)).concat(this.openAsks.slice(this.openAsks.indexOf(committedAsk) + 1, this.openAsks.length)));
+    console.log(this.openAsks.length);
+    this.openAskSubject.next(this.openAsks);
+    console.log(this.transactions);
+    console.log(this.committedAsks);
+    // TODO Think about whether this should be timed somewhere else
+    this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedAsk, this.p2pMarketDesign.feeAmount);
     // TODO think about what could go wrong
     return true;
   }

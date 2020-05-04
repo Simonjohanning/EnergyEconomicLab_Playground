@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {DataProvisionService} from '../../core/data-provision.service';
-import {TimeService} from '../../core/time.service';
-import {ExperimentStateService} from '../../core/experiment-state.service';
-import {P2PMarketDesign} from '../../core/data-types/P2PMarketDesign';
-import {P2PBid} from '../../core/data-types/P2PBid';
-import {BlockchainTransactionService} from '../../core/blockchain-transaction.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DataProvisionService } from '../../core/data-provision.service';
+import { TimeService } from '../../core/time.service';
+import { ExperimentStateService } from '../../core/experiment-state.service';
+import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
+import { P2PBid } from '../../core/data-types/P2PBid';
+import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 
 @Component({
   selector: 'app-bid-view',
@@ -22,7 +22,7 @@ export class BidViewComponent implements OnInit {
     {
       maxPrice: new FormControl(''),
       minFeedInTime: new FormControl(''),
-      maxFeedInTime: new FormControl(''),
+      maxFeedOutTime: new FormControl(''),
       minDuration: new FormControl(''),
       maxDuration: new FormControl(''),
       minPower: new FormControl(''),

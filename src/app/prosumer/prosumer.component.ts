@@ -29,7 +29,7 @@ export class ProsumerComponent implements OnInit {
   /** An observable of the prosumer instance connected to the prosumer */
   private prosumerInstance: Observable<ProsumerInstance>;
   /** selection variable that indicates which other view to include in the component view */
-  private currentView = 'MarketView';
+  private currentView = undefined;
 
   constructor( private route: ActivatedRoute,
                private loader: ExperimentInstanceLoaderService,

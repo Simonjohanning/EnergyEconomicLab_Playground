@@ -1,6 +1,36 @@
-<div class="panel panel-default">
-  <app-bid-view></app-bid-view>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h5 class="panel-title" (click)="selected='bid'">Bids</h5>
+      </div>
+      <div *ngIf="selected === 'bid'" class="panel-body">
+        <app-bid-view></app-bid-view>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="panel panel-default">
-  <app-committed-transactions></app-committed-transactions>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h5 class="panel-title" (click)="selected='ask'">Asks</h5>
+      </div>
+      <div *ngIf="selected === 'ask'" class="panel-body">
+        <app-bid-view></app-bid-view>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h5 class="panel-title" (click)="selected='transactions'">Commited Transactions</h5>
+      </div>
+      <div *ngIf="selected === 'transactions'" class="panel-body">
+        <app-committed-transactions></app-committed-transactions>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-market-view',
@@ -14,6 +14,13 @@ import { Component, OnInit } from '@angular/core';
  */
 export class MarketViewComponent {
 
+  /** selector string to display the respective component */
+  private selected: string;
+
   constructor() {
+  }
+
+  public setBid() {
+    this.selected = 'bid';
   }
 }

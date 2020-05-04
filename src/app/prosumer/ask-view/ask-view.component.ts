@@ -54,14 +54,14 @@ export class AskViewComponent implements OnInit {
       this.relevantAsks = openAsks.filter(ask => this.conformsToFilter(ask));
     });
     DataProvisionService.getExperimentLength().subscribe(length => {
-      this.askFilterForm.get('maxFeedInTime').setValue(length);
+      this.askFilterForm.get('maxFeedOutTime').setValue(length);
       this.askFilterForm.get('maxDuration').setValue(length);
     });
     this.askFilterForm.get('maxPower').setValue(1000);
     this.askFilterForm.valueChanges.subscribe(form => this.checkBounds());
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       this.p2pMarketDesign = p2pMarketDescription;
-      this.askFilterForm.get('minFeedInTime').setValue(this.p2pMarketDesign.askClosure);
+      this.askFilterForm.get('minFeedOutTime').setValue(this.p2pMarketDesign.askClosure);
       this.askFilterForm.get('minDuration').setValue(this.p2pMarketDesign.timeSliceLength);
       this.askFilterForm.get('minPower').setValue(this.p2pMarketDesign.minAskSize);
       if (p2pMarketDescription.maxPrice === -1) {
@@ -81,10 +81,10 @@ export class AskViewComponent implements OnInit {
    */
   private checkBounds(): void {
     switch (this.latestChangeSlider) {
-      case 'maxFeedInTime':
+      case 'maxFeedOutTime':
         this.checkMaxFIT();
         break;
-      case 'minFeedInTime':
+      case 'minFeedOutTime':
         this.checkMinFIT();
         break;
       case 'maxDuration':
@@ -115,7 +115,7 @@ export class AskViewComponent implements OnInit {
    * @returns true if the ask conforms to all filter criteria, false if it violates at least one
    */
   private conformsToFilter(askToFilter: P2PBid): boolean {
-    if ((askToFilter.deliveryTime < this.askFilterForm.value.minFeedInTime) || (askToFilter.deliveryTime > this.askFilterForm.value.maxFeedInTime)) {
+    if ((askToFilter.deliveryTime < this.askFilterForm.value.minFeedOutTime) || (askToFilter.deliveryTime > this.askFilterForm.value.maxFeedOutTime)) {
       return false;
     } else if ((askToFilter.power < this.askFilterForm.value.minPower) || (askToFilter.deliveryTime > this.askFilterForm.value.maxPower)) {
       return false;
@@ -133,14 +133,14 @@ export class AskViewComponent implements OnInit {
    * Method to correct invalid bounds (min>max) to equal value
    */
   private checkMaxFIT() {
-    if (this.askFilterForm.value.minFeedInTime > this.askFilterForm.value.maxFeedInTime) { this.askFilterForm.get('maxFeedInTime').setValue(this.askFilterForm.value.minFeedInTime); }
+    if (this.askFilterForm.value.minFeedOutTime > this.askFilterForm.value.maxFeedOutTime) { this.askFilterForm.get('maxFeedOutTime').setValue(this.askFilterForm.value.minFeedOutTime); }
   }
 
   /**
    * Method to correct invalid bounds (min>max) to equal value
    */
   private checkMinFIT() {
-    if (this.askFilterForm.value.minFeedInTime > this.askFilterForm.value.maxFeedInTime) { this.askFilterForm.get('minFeedInTime').setValue(this.askFilterForm.value.maxFeedInTime); }
+    if (this.askFilterForm.value.minFeedOutTime > this.askFilterForm.value.maxFeedOutTime) { this.askFilterForm.get('minFeedOutTime').setValue(this.askFilterForm.value.maxFeedOutTime); }
   }
 
   /**

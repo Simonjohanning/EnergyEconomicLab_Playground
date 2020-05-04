@@ -23,6 +23,8 @@ import { ProsumerInstance } from './data-types/ProsumerInstance';
 export class BlockchainTransactionService {
   /** Variable to keep track of the ID for the next free bid to avoid ID collisions */
   private freeBidId = 5;
+  /** Variable to keep track of the ID for the next free ask to avoid ID collisions */
+  private freeAskId = 3;
   /** Variable to track the bids that an other actor committed to */
   private committedBids: P2PBid[] = [];
   /** Variable to track the asks that an other actor committed to */
@@ -52,6 +54,7 @@ export class BlockchainTransactionService {
               private tcs: TransactionClearingService) {
     // TODO remove mock bids from this
     this.openBids = this.data.getMockBids();
+    this.openAsks = this.data.getMockAsks();
     // subscribe to the time service and filter out the expired bid after every update
     this.timeService.timeEmitter.subscribe(currentTime => {
       // Filter out expired bids
@@ -93,8 +96,8 @@ export class BlockchainTransactionService {
   }
 
 // TODO docu
-  public commitToP2PAsk(buyer: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid): boolean {
-    this.transactions.push({author: buyer, p2pbid: committedAsk, timestamp: timeOfPurchase});
+  public commitToP2PAsk(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid): boolean {
+    this.transactions.push({author: seller, p2pbid: committedAsk, timestamp: timeOfPurchase});
     this.committedAsks.push(committedAsk);
     this.committedAskSubject.next(committedAsk);
     console.log(this.openAsks.length);
@@ -104,7 +107,7 @@ export class BlockchainTransactionService {
     console.log(this.transactions);
     console.log(this.committedAsks);
     // TODO Think about whether this should be timed somewhere else
-    this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedAsk, this.p2pMarketDesign.feeAmount);
+    this.tcs.clearAskCommitment(seller, timeOfPurchase, committedAsk, this.p2pMarketDesign.feeAmount);
     // TODO think about what could go wrong
     return true;
   }
@@ -121,6 +124,10 @@ export class BlockchainTransactionService {
    */
   getUnusedBidId(): number {
     return ++this.freeBidId;
+  }
+
+  getUnusedAskID(): number {
+    return ++this.freeAskId;
   }
 
   // TODO getUnusedAsksID?

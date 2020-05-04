@@ -58,4 +58,7 @@ export class P2PBidEditorComponent implements OnInit {
       this.formError = this.validationService.getBidValidityErrors(bidInQuestion).reduce((string1, string2) => string1 + string2);
     }
   }
+
+
+  // TODO submitAsk()!!!
 }

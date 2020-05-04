@@ -62,6 +62,25 @@ export class DataProvisionService {
     }
   ];
 
+  private  mockAsks: P2PBid[] = [
+    {
+      id: 1,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 81,
+      duration: 3,
+      price: 2,
+      power: 1.5
+    },
+    {
+      id: 2,
+      provider: this.getMockProsumerInstance(),
+      deliveryTime: 12,
+      duration: 2,
+      price: 1.6,
+      power: 1.5
+    }
+  ];
+
   constructor() { }
 
   static getExperimentLength(): Observable<number> {
@@ -275,6 +294,8 @@ export class DataProvisionService {
   }
 
   public getMockBids(): P2PBid[] { return this.mockBids; }
+
+  public getMockAsks(): P2PBid[] { return  this.mockAsks; }
 
   getMockPublicActorData(): Set<TransactionFeeEntry> {
     const feeEntries = new Set<TransactionFeeEntry>();

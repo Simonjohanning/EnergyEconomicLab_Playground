@@ -22,7 +22,7 @@ export class BidViewComponent implements OnInit {
     {
       maxPrice: new FormControl(''),
       minFeedInTime: new FormControl(''),
-      maxFeedOutTime: new FormControl(''),
+      maxFeedInTime: new FormControl(''),
       minDuration: new FormControl(''),
       maxDuration: new FormControl(''),
       minPower: new FormControl(''),

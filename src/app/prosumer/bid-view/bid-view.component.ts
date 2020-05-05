@@ -13,7 +13,6 @@ import { BlockchainTransactionService } from '../../core/blockchain-transaction.
   styleUrls: ['./bid-view.component.css']
 })
 
-// TODO Constructor
 export class BidViewComponent implements OnInit {
   /** Variable to store the bids to be shown in the view */
   private  relevantBids: P2PBid[] = [];

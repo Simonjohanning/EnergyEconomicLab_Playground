@@ -13,7 +13,6 @@ import { BlockchainTransactionService } from '../../core/blockchain-transaction.
   styleUrls: ['./ask-view.component.css']
 })
 
-// TODO Constructor
 export class AskViewComponent implements OnInit {
   /** Variable to store the asks to be shown in the view */
   private  relevantAsks: P2PBid[] = [];
@@ -58,7 +57,7 @@ export class AskViewComponent implements OnInit {
       this.askFilterForm.get('maxDuration').setValue(length);
     });
     this.askFilterForm.get('maxPower').setValue(1000);
-    this.askFilterForm.valueChanges.subscribe(form => this.checkBounds());
+    this.askFilterForm.valueChanges.subscribe(() => this.checkBounds());
     DataProvisionService.getP2PMarketDescription(this.sessionData.experimentID).subscribe(p2pMarketDescription => {
       this.p2pMarketDesign = p2pMarketDescription;
       this.askFilterForm.get('minFeedOutTime').setValue(this.p2pMarketDesign.askClosure);

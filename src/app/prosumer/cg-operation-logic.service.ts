@@ -131,14 +131,14 @@ export class CGOperationLogicService {
       if (diff > 0) {
         // this.scheduledGeneration[timeStep] = dispatchValue;
 
-        while (diff > 0) {
+        while (Math.round((diff * 100)) / 100 > 0) {
           diff = diff - (asset.maximalGeneration * asset.rampingParameter);
           startRampingTime = startRampingTime - 1;
         }
 
         if (startRampingTime < currentTime) {
           // TODO throw error? --> error handling!
-          console.error('ramping start preceeds current time!');
+          console.error('ramping start preceeds current time! Start time is ' + diff);
           return;
         }
 

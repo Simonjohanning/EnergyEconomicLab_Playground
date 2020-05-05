@@ -41,7 +41,7 @@ export class FeedInObligationDisplayComponent implements OnInit {
       this.obligationSeries = new Array(noElements);
     });
     this.bts.committedBidSubject.subscribe(commitedBid => {
-      if (commitedBid.provider === this.prosumer) {
+      if (commitedBid.optionCreator === this.prosumer) {
         // add the committed power delivery to each time slice that concern this committment
         let i: number;
         for (i = 0; i < commitedBid.duration; i++) {

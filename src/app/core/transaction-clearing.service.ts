@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { P2PBid } from './data-types/P2PBid';
+import { P2POption } from './data-types/P2POption';
 import { ProsumerInstance } from './data-types/ProsumerInstance';
 import { ReplaySubject } from 'rxjs';
 import { TransactionFeeEntry } from './data-types/TransactionFeeEntry';
@@ -15,15 +15,15 @@ import { TransactionFeeEntry } from './data-types/TransactionFeeEntry';
 export class TransactionClearingService {
 
   /** The set of bids already cleared formerly by the service */
-  private clearedBids: Set<P2PBid>;
+  private clearedBids: Set<P2POption>;
   /** The set of asks already cleared formerly by the service */
-  private clearedAsks: Set<P2PBid>;
+  private clearedAsks: Set<P2POption>;
   /** An emitter that informs its observers on fee entries of newly cleared transactions */
   public newlyClearedBidEmitter: ReplaySubject<TransactionFeeEntry>;
 
   constructor() {
-    this.clearedBids = new Set<P2PBid>();
-    this.clearedAsks = new Set<P2PBid>();
+    this.clearedBids = new Set<P2POption>();
+    this.clearedAsks = new Set<P2POption>();
     this.newlyClearedBidEmitter = new ReplaySubject<TransactionFeeEntry>();
   }
 
@@ -37,17 +37,17 @@ export class TransactionClearingService {
    * @param committedBid The bid in question
    * @param transactionFeeAmount The amount of transaction fee to be retained
    */
-  clearBidCommitment(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid, transactionFeeAmount: number): void {
+  clearBidCommitment(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2POption, transactionFeeAmount: number): void {
     console.log('TCS being called');
     if (!this.clearedBids.has(committedBid)) {
       buyer.amountTokens -= committedBid.price;
-      committedBid.provider.amountTokens += (committedBid.price * (1 - transactionFeeAmount));
+      committedBid.optionCreator.amountTokens += (committedBid.price * (1 - transactionFeeAmount));
       const transactionFee = {
-        payer: committedBid.provider,
+        payer: committedBid.optionCreator,
         amount: (committedBid.price * transactionFeeAmount),
         correspondingTransaction: committedBid
       };
-      committedBid.provider.addIncurredFee(transactionFee);
+      committedBid.optionCreator.addIncurredFee(transactionFee);
       console.log('adding ' + committedBid + ' to cleared bid');
       this.clearedBids.add(committedBid);
       console.log('emitting transFee');
@@ -57,7 +57,7 @@ export class TransactionClearingService {
 
   /**
    * Method to clear a ask commitment with the respective actors.
-   * Increases the tokens of the provider of the bid by the price minus the TODO transaction fees, and decreases the tokens from the buyer by the price of the ask.
+   * Increases the tokens of the seller by the price minus the transaction fees and decreases the tokens from the option creator by the price of the ask.
    * Add the cleared ask to the record of cleared asks.
    *
    * @param seller The seller of the electricity (the one committing to the ask)
@@ -65,18 +65,17 @@ export class TransactionClearingService {
    * @param committedAsk The ask in question
    * @param transactionFeeAmount The amount of transaction fee to be retained
    */
-  clearAskCommitment(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid, transactionFeeAmount: number): void {
+  clearAskCommitment(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2POption, transactionFeeAmount: number): void {
     console.log('TCS being called');
     if (!this.clearedAsks.has(committedAsk)) {
-      seller.amountTokens += committedAsk.price;
-      committedAsk.provider.amountTokens -= (committedAsk.price * (1 + transactionFeeAmount));
-      // TODO who pays the fee???
+      seller.amountTokens += (committedAsk.price * (1 - transactionFeeAmount));
+      committedAsk.optionCreator.amountTokens -= committedAsk.price;
       const transactionFee = {
-        payer: committedAsk.provider,
+        payer: committedAsk.optionCreator,
         amount: (committedAsk.price * transactionFeeAmount),
         correspondingTransaction: committedAsk
       };
-      committedAsk.provider.addIncurredFee(transactionFee);
+      committedAsk.optionCreator.addIncurredFee(transactionFee);
       console.log('adding ' + committedAsk + ' to cleared bid');
       this.clearedBids.add(committedAsk);
       console.log('emitting transFee');

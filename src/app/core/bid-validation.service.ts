@@ -5,7 +5,7 @@ import { P2PMarketDesign } from './data-types/P2PMarketDesign';
 import { DataProvisionService } from './data-provision.service';
 import { TimeService } from './time.service';
 import { ExperimentStateService } from './experiment-state.service';
-import { P2PBid } from './data-types/P2PBid';
+import { P2POption } from './data-types/P2POption';
 
 @Injectable({
   providedIn: 'root'
@@ -104,7 +104,7 @@ export class BidValidationService {
    * @param correspondingBid The bid whose validity is to be checked
    * @returns true if the bid is valid, false if it is invalid
    */
-  public checkBidValidity(correspondingBid: P2PBid): boolean {
+  public checkBidValidity(correspondingBid: P2POption): boolean {
     if ((correspondingBid.deliveryTime < this.timeService.getCurrentTime()) || (this.timeService.getCurrentTime() + this.p2pMarketDesign.bidClosure) > correspondingBid.deliveryTime) {
       return false;
     } else if ((correspondingBid.duration % this.p2pMarketDesign.timeSliceLength) !== 0) {
@@ -125,7 +125,7 @@ export class BidValidationService {
    * @param correspondingBid The bid whose validity is to be checked
    * @returns an array of errors / non-compliant aspects of the bid (if any exist), null otherwise.
    */
-  getBidValidityErrors(correspondingBid: P2PBid): string[] {
+  getBidValidityErrors(correspondingBid: P2POption): string[] {
     if (this.checkBidValidity(correspondingBid)) {
       return null;
     }

@@ -1,4 +1,4 @@
-import {P2PBid} from './P2PBid';
+import {P2POption} from './P2POption';
 import {ProsumerInstance} from './ProsumerInstance';
 
 /**
@@ -12,7 +12,7 @@ export interface BCTransaction {
   /** The prosumer instance that created the transaction */
   author: ProsumerInstance;
   /** The bid on the P2P market the transaction adds to the blockchain */
-  p2pbid?: P2PBid;
+  p2pbid?: P2POption;
   /** The time the transaction should be timestamped on the respective nodes with */
   timestamp: number;
 }

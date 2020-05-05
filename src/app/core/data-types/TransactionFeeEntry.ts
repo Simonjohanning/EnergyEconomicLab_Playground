@@ -1,4 +1,4 @@
-import { P2PBid } from './P2PBid';
+import { P2POption } from './P2POption';
 import { ProsumerInstance } from './ProsumerInstance';
 
 /**
@@ -15,5 +15,5 @@ export interface TransactionFeeEntry {
   /** The amount of transaction fee payed for the respective transaction */
   amount: number;
   /** The bid in the electricity market the transaction fee was applied on (more precisely the bid used in the trade) */
-  correspondingTransaction: P2PBid;
+  correspondingTransaction: P2POption;
 }

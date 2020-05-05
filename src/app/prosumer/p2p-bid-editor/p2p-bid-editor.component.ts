@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { BidValidationService } from '../../core/bid-validation.service';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 import { ExperimentStateService } from '../../core/experiment-state.service';
-import { P2PBid } from '../../core/data-types/P2PBid';
+import { P2POption } from '../../core/data-types/P2POption';
 
 @Component({
   selector: 'app-p2p-bid-editor',
@@ -41,9 +41,9 @@ export class P2PBidEditorComponent implements OnInit {
    */
   private submitBid(): void {
     console.log('in submit bid');
-    const bidInQuestion: P2PBid = {
+    const bidInQuestion: P2POption = {
       id: this.bts.getUnusedBidId(),
-      provider: this.sessionData.getCurrentProsumer(),
+      optionCreator: this.sessionData.getCurrentProsumer(),
       deliveryTime: this.bidForm.value.feedInTime,
       duration: this.bidForm.value.duration,
       price: this.bidForm.value.price,

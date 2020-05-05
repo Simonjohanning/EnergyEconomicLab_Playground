@@ -4,7 +4,7 @@ import { DataProvisionService } from '../../core/data-provision.service';
 import { TimeService } from '../../core/time.service';
 import { ExperimentStateService } from '../../core/experiment-state.service';
 import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
-import { P2PBid } from '../../core/data-types/P2PBid';
+import { P2POption } from '../../core/data-types/P2POption';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { BlockchainTransactionService } from '../../core/blockchain-transaction.
 
 export class AskViewComponent implements OnInit {
   /** Variable to store the asks to be shown in the view */
-  private  relevantAsks: P2PBid[] = [];
+  private  relevantAsks: P2POption[] = [];
   /** Form to allow for filtering the ask relevant for the view */
   private askFilterForm = new FormGroup(
     {
@@ -38,7 +38,7 @@ export class AskViewComponent implements OnInit {
   private latestChangeSlider = '';
 
   /** reference variable to refer to the ask currently selected in the view */
-  private selectedAsk: P2PBid;
+  private selectedAsk: P2POption;
 
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
@@ -113,7 +113,7 @@ export class AskViewComponent implements OnInit {
    * @param askToFilter The ask that is to be filtered for form-based filter compliance
    * @returns true if the ask conforms to all filter criteria, false if it violates at least one
    */
-  private conformsToFilter(askToFilter: P2PBid): boolean {
+  private conformsToFilter(askToFilter: P2POption): boolean {
     if ((askToFilter.deliveryTime < this.askFilterForm.value.minFeedOutTime) || (askToFilter.deliveryTime > this.askFilterForm.value.maxFeedOutTime)) {
       return false;
     } else if ((askToFilter.power < this.askFilterForm.value.minPower) || (askToFilter.deliveryTime > this.askFilterForm.value.maxPower)) {
@@ -175,7 +175,7 @@ export class AskViewComponent implements OnInit {
    *
    * @param askToDisplay ask to set as selected ask
    */
-  setSelectedAsk(askToDisplay: P2PBid) {
+  setSelectedAsk(askToDisplay: P2POption) {
     this.selectedAsk = askToDisplay;
   }
 

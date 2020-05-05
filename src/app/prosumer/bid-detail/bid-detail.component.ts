@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { P2PBid } from '../../core/data-types/P2PBid';
+import { P2POption } from '../../core/data-types/P2POption';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 import { ExperimentStateService } from '../../core/experiment-state.service';
 import { TimeService } from '../../core/time.service';
@@ -18,7 +18,7 @@ import { TimeService } from '../../core/time.service';
  */
 export class BidDetailComponent implements OnInit {
   /** The respective P2PBid to detail */
-  @Input() bid: P2PBid;
+  @Input() bid: P2POption;
   /** An EventEmitted for removing the component from the parent element */
   @Output() removeComponent: EventEmitter<any> = new EventEmitter();
   constructor(private bts: BlockchainTransactionService,

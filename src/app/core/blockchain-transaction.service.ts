@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { P2PBid } from './data-types/P2PBid';
+import { P2POption } from './data-types/P2POption';
 import { BCTransaction } from './data-types/BCTransaction';
 import { Subject } from 'rxjs';
 import { TimeService } from './time.service';
@@ -26,21 +26,21 @@ export class BlockchainTransactionService {
   /** Variable to keep track of the ID for the next free ask to avoid ID collisions */
   private freeAskId = 3;
   /** Variable to track the bids that an other actor committed to */
-  private committedBids: P2PBid[] = [];
+  private committedBids: P2POption[] = [];
   /** Variable to track the asks that an other actor committed to */
-  private committedAsks: P2PBid[] = [];
+  private committedAsks: P2POption[] = [];
   /** Variable to track the bids no actor committed to yet */
-  private openBids: P2PBid[];
+  private openBids: P2POption[];
   /** Variable to track the asks no actor committed to yet */
-  private openAsks: P2PBid[];
+  private openAsks: P2POption[];
   /** Subject to emit the committed bids once their state changes in order to update the observers */
-  public committedBidSubject: Subject<P2PBid> = new Subject<P2PBid>();
+  public committedBidSubject: Subject<P2POption> = new Subject<P2POption>();
   /** Subject to emit the committed asks once their state changes in order to update the observers */
-  public committedAskSubject: Subject<P2PBid> = new Subject<P2PBid>();
+  public committedAskSubject: Subject<P2POption> = new Subject<P2POption>();
   /** Subject to emit the open bids once their state changes in order to update the observers */
-  public openBidSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
+  public openBidSubject: Subject<P2POption[]> = new Subject<P2POption[]>();
   /** Subject to emit the open asks once their state changes in order to update the observers */
-  public openAskSubject: Subject<P2PBid[]> = new Subject<P2PBid[]>();
+  public openAskSubject: Subject<P2POption[]> = new Subject<P2POption[]>();
   /** Array to keep track of all transactions sent to the blockchain layer as the respective data type */
   private transactions: BCTransaction[] = [];
   /** Reference to the respective market design of the context the service is used in */
@@ -79,7 +79,7 @@ export class BlockchainTransactionService {
    * @param committedBid The bid the buyer is committing to
    * @returns true if this was successful, false if anything out of the ordinary happened, and the bid could not be committed to
    */
-  public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2PBid): boolean {
+  public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2POption): boolean {
     this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
     this.committedBids.push(committedBid);
     this.committedBidSubject.next(committedBid);
@@ -105,7 +105,7 @@ export class BlockchainTransactionService {
    * @returns true if this was successful, false if anything out of the ordinary happened, and the ask could not be committed to
    */
   // TODO implement ask-detail so this is used code
-  public commitToP2PAsk(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid): boolean {
+  public commitToP2PAsk(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2POption): boolean {
     this.transactions.push({author: seller, p2pbid: committedAsk, timestamp: timeOfPurchase});
     this.committedAsks.push(committedAsk);
     this.committedAskSubject.next(committedAsk);
@@ -121,10 +121,10 @@ export class BlockchainTransactionService {
     return true;
   }
 
-  public getCommitedBids(): P2PBid[] { return this.committedBids; }
-  public getCommitedAsks(): P2PBid[] { return this.committedAsks; }
-  public getOpenBids(): P2PBid[] { return this.openBids; }
-  public getOpenAsks(): P2PBid[] { return this.openAsks; }
+  public getCommitedBids(): P2POption[] { return this.committedBids; }
+  public getCommitedAsks(): P2POption[] { return this.committedAsks; }
+  public getOpenBids(): P2POption[] { return this.openBids; }
+  public getOpenAsks(): P2POption[] { return this.openAsks; }
 
   /**
    * Returns the latest unused free bid ID and increases it for the next bid (in linear fashion) being able to be used
@@ -154,7 +154,7 @@ export class BlockchainTransactionService {
    * @param bid The bid to be committed to the blockchain
    * @returns Returns true if the bid has not been committed before and to be valid
    */
-  submitBid(bid: P2PBid): boolean {
+  submitBid(bid: P2POption): boolean {
     if (((this.openBids.indexOf(bid) === - 1) && (this.committedBids.indexOf(bid) === - 1)) && this.bvs.checkBidValidity(bid)) {
       this.openBids.push(bid);
       this.openBidSubject.next(this.openBids);
@@ -172,7 +172,7 @@ export class BlockchainTransactionService {
    * @param ask The bid to be committed to the blockchain
    * @returns Returns true if the ask has not been committed before and to be valid
    */
-  submitAsk(ask: P2PBid): boolean {
+  submitAsk(ask: P2POption): boolean {
     if (((this.openAsks.indexOf(ask) === -1) && (this.committedAsks.indexOf(ask) === -1)) && this.bvs.checkBidValidity(ask)) {
       this.openAsks.push(ask);
       this.openAskSubject.next(this.openAsks);

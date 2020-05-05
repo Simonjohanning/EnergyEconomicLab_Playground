@@ -8,7 +8,7 @@ import { ControllableGenerator } from './data-types/ControllableGenerator';
 import { NonControllableGenerator } from './data-types/NonControllableGenerator';
 import { Load } from './data-types/Load';
 import { StorageUnit } from './data-types/StorageUnit';
-import { P2PBid } from './data-types/P2PBid';
+import { P2POption } from './data-types/P2POption';
 import { P2PMarketDesign } from './data-types/P2PMarketDesign';
 import { ExperimentDescription } from './data-types/ExperimentDescription';
 import { TransactionFeeEntry } from './data-types/TransactionFeeEntry';
@@ -27,10 +27,10 @@ import { ExperimentInstance } from './data-types/ExperimentInstance';
 export class DataProvisionService {
   maxBidSize = 10000;
   maxAskSize = 10000;
-  private mockBids: P2PBid[] = [
+  private mockBids: P2POption[] = [
     {
       id: 1,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 81,
       duration: 3,
       price: 2,
@@ -38,7 +38,7 @@ export class DataProvisionService {
     },
     {
       id: 2,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 12,
       duration: 2,
       price: 1.6,
@@ -46,7 +46,7 @@ export class DataProvisionService {
     },
     {
       id: 3,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 33,
       duration: 1,
       price: 2.2,
@@ -54,7 +54,7 @@ export class DataProvisionService {
     },
     {
       id: 4,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 13,
       duration: 2,
       price: 2.1,
@@ -62,10 +62,10 @@ export class DataProvisionService {
     }
   ];
 
-  private  mockAsks: P2PBid[] = [
+  private  mockAsks: P2POption[] = [
     {
       id: 1,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 81,
       duration: 3,
       price: 2,
@@ -73,7 +73,7 @@ export class DataProvisionService {
     },
     {
       id: 2,
-      provider: this.getMockProsumerInstance(),
+      optionCreator: this.getMockProsumerInstance(),
       deliveryTime: 12,
       duration: 2,
       price: 1.6,
@@ -293,14 +293,14 @@ export class DataProvisionService {
     return collection;
   }
 
-  public getMockBids(): P2PBid[] { return this.mockBids; }
+  public getMockBids(): P2POption[] { return this.mockBids; }
 
-  public getMockAsks(): P2PBid[] { return  this.mockAsks; }
+  public getMockAsks(): P2POption[] { return  this.mockAsks; }
 
   getMockPublicActorData(): Set<TransactionFeeEntry> {
     const feeEntries = new Set<TransactionFeeEntry>();
     this.mockBids.forEach(currentBid => {
-      const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingTransaction: currentBid};
+      const entry = {payer: currentBid.optionCreator, amount: currentBid.price * 0.1, correspondingTransaction: currentBid};
       feeEntries.add(entry);
     });
     return feeEntries;

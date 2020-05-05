@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
-import { P2PBid } from '../../core/data-types/P2PBid';
+import { P2POption } from '../../core/data-types/P2POption';
 
 @Component({
   selector: 'app-committed-transactions',
@@ -14,7 +14,7 @@ import { P2PBid } from '../../core/data-types/P2PBid';
  */
 export class CommittedTransactionsComponent implements OnInit {
   /** array to holds the bids relevant for the view */
-  respectiveBids: P2PBid[] = [];
+  respectiveBids: P2POption[] = [];
   constructor(private bts: BlockchainTransactionService) {
     this.bts.getCommitedBids().forEach(bid => this.respectiveBids.push(bid));
   }

@@ -4,7 +4,7 @@ import { DataProvisionService } from '../../core/data-provision.service';
 import { TimeService } from '../../core/time.service';
 import { ExperimentStateService } from '../../core/experiment-state.service';
 import { P2PMarketDesign } from '../../core/data-types/P2PMarketDesign';
-import { P2PBid } from '../../core/data-types/P2PBid';
+import { P2POption } from '../../core/data-types/P2POption';
 import { BlockchainTransactionService } from '../../core/blockchain-transaction.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { BlockchainTransactionService } from '../../core/blockchain-transaction.
 
 export class BidViewComponent implements OnInit {
   /** Variable to store the bids to be shown in the view */
-  private  relevantBids: P2PBid[] = [];
+  private  relevantBids: P2POption[] = [];
   /** Form to allow for filtering the bid relevant for the view */
   private bidFilterForm = new FormGroup(
     {
@@ -38,7 +38,7 @@ export class BidViewComponent implements OnInit {
   private latestChangeSlider = '';
 
   /** reference variable to refer to the bid currently selected in the view */
-  private selectedBid: P2PBid;
+  private selectedBid: P2POption;
 
   constructor(private bts: BlockchainTransactionService,
               private timeService: TimeService,
@@ -113,7 +113,7 @@ export class BidViewComponent implements OnInit {
    * @param bidToFilter The bid that is to be filtered for form-based filter compliance
    * @returns true if the bid conforms to all filter criteria, false if it violates at least one
    */
-  private conformsToFilter(bidToFilter: P2PBid): boolean {
+  private conformsToFilter(bidToFilter: P2POption): boolean {
     if ((bidToFilter.deliveryTime < this.bidFilterForm.value.minFeedInTime) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxFeedInTime)) {
       return false;
     } else if ((bidToFilter.power < this.bidFilterForm.value.minPower) || (bidToFilter.deliveryTime > this.bidFilterForm.value.maxPower)) {
@@ -175,7 +175,7 @@ export class BidViewComponent implements OnInit {
    *
    * @param bidToDisplay bid to set as selected bid
    */
-  setSelectedBid(bidToDisplay: P2PBid) {
+  setSelectedBid(bidToDisplay: P2POption) {
     this.selectedBid = bidToDisplay;
   }
 

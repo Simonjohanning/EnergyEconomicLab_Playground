@@ -96,7 +96,7 @@ export class CGOperationLogicService {
    *
    * @param asset The controllable generator currently operated
    * @param schedulingTime The time under consideration
-   */
+   */ /*
   private static getPossibleTimeStepsInFuture(asset: ControllableGenerator, schedulingTime: number): number {
     let numberFutureSteps = 0;
     let timeCopy = schedulingTime;
@@ -107,8 +107,16 @@ export class CGOperationLogicService {
     }
 
     return numberFutureSteps;
-  }
+  }*/
 
+  /**
+   * Schedules the submitted values at a given time and makes changes in scheduledGeneration as well as the shiftable load.
+   *
+   * @param asset Load under consideration
+   * @param timeStep Time step the new load value will be scheduled
+   * @param dispatchValue New load value that should be scheduled
+   * @param currentTime Time progressed in the experiment so far
+   */
   public static schedule(asset: ControllableGenerator, timeStep: number, dispatchValue: number, currentTime: number) {
 
     // check validity
@@ -129,7 +137,7 @@ export class CGOperationLogicService {
         }
 
         if (startRampingTime < currentTime) {
-          // TODO throw error?
+          // TODO throw error? --> error handling!
           console.error('ramping start preceeds current time!');
           return;
         }
@@ -159,7 +167,7 @@ export class CGOperationLogicService {
         }
 
         if (startRampingTime <= currentTime) {
-          // TODO throw error?
+          // TODO throw error? --> error handling
           console.error('ramping start preceeds current time!');
           return;
         }
@@ -192,12 +200,12 @@ removed code from scheduling at a point in time where cg is still ramping which 
       // still ramping up
       if (asset.scheduledGeneration[timeStep - 1] < dispatchValue && asset.ramping[timeStep - 1] === '+') {
         asset.ramping[timeStep] = '+';
-        // TODO check validity i.e. t-1 + rampParameter >= dispatchValue
+        // TO DO check validity i.e. t-1 + rampParameter >= dispatchValue
         asset.scheduledGeneration[timeStep] = dispatchValue;
         for (let i = timeStep + 1; i <= timeStep + asset.minimalUptime; i++) {
           asset.ramping[i] = 'x';
         }
-        // TODO schedule to the end
+        // TO DO schedule to the end
       } else
         // still ramping down
       if (asset.scheduledGeneration[timeStep - 1] > dispatchValue && asset.ramping[timeStep - 1] === '-') {

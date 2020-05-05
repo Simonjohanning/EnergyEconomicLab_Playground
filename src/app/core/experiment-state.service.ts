@@ -6,7 +6,7 @@ import { ProsumerInstance } from './data-types/ProsumerInstance';
   providedIn: 'root'
 })
 
-// TODO Include / think about registering for experiments, signal readiness and handling experimental data
+// TODO Include/think about registering for experiments, signal readiness and handling experimental data
 // TODO think if session data considering the respective prosumer should be stored here
 /**
  * This service holds and provides stateful information about an experiment (instance) to respective agents.
@@ -29,10 +29,18 @@ export class ExperimentStateService {
     });
   }
 
+  /**
+   * returns currently active prosumer
+   */
   getCurrentProsumer(): ProsumerInstance {
     return this.currentProsumer;
   }
 
+  /**
+   * Sets a prosumer as active prosumer
+   *
+   * @param prosumerToSet Prosumer that is activated
+   */
   setCurrentProsumer(prosumerToSet: ProsumerInstance): boolean {
     if (this.prosumers === undefined) {
       this.prosumers = new Array(prosumerToSet);

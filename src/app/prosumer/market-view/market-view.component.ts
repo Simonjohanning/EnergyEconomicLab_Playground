@@ -19,8 +19,4 @@ export class MarketViewComponent {
 
   constructor() {
   }
-
-  public setBid() {
-    this.selected = 'bid';
-  }
 }

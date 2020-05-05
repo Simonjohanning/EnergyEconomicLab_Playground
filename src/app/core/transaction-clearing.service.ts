@@ -55,6 +55,16 @@ export class TransactionClearingService {
     }
   }
 
+  /**
+   * Method to clear a ask commitment with the respective actors.
+   * Increases the tokens of the provider of the bid by the price minus the TODO transaction fees, and decreases the tokens from the buyer by the price of the ask.
+   * Add the cleared ask to the record of cleared asks.
+   *
+   * @param seller The seller of the electricity (the one committing to the ask)
+   * @param timeOfPurchase The time of purchase of the electricity
+   * @param committedAsk The ask in question
+   * @param transactionFeeAmount The amount of transaction fee to be retained
+   */
   clearAskCommitment(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid, transactionFeeAmount: number): void {
     console.log('TCS being called');
     if (!this.clearedAsks.has(committedAsk)) {

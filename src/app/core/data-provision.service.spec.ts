@@ -1,7 +1,5 @@
 import { DataProvisionService } from './data-provision.service';
 import { TimeRegime } from './data-types/TimeRegime';
-import { Coordinates } from './data-types/Coordinates';
-import {HttpClient} from '@angular/common/http';
 
 let dataProvService: DataProvisionService;
 

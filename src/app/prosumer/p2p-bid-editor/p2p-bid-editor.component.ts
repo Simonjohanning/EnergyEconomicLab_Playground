@@ -53,7 +53,7 @@ export class P2PBidEditorComponent implements OnInit {
     if (this.validationService.checkBidValidity(bidInQuestion)) {
       this.bts.submitBid(bidInQuestion);
     } else {
-      console.log('vaidation service should be false, is ' + this.validationService.checkBidValidity(this.bidForm.value));
+      console.log('validation service should be false, is ' + this.validationService.checkBidValidity(this.bidForm.value));
       console.log(this.validationService.getBidValidityErrors(bidInQuestion));
       this.formError = this.validationService.getBidValidityErrors(bidInQuestion).reduce((string1, string2) => string1 + string2);
     }

@@ -37,7 +37,6 @@ export class LoadDispatchComponent implements OnInit {
   constructor() {
   }
 
-  // is this ever used???
   ngOnInit() {
     // emit the respective time service when it is available to the component in order to make it available for the temporal validator
     this.timeServiceSubject.next(this.timeService);

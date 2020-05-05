@@ -110,6 +110,18 @@ export abstract class RDFAnnotationService {
           '      \t\t\t\tvcard:hasTelephone [ \ta vcard:Work,\n' +
           '        \t\t\t\t\t\t\t\t\tvcard:Voice;\n' +
           '        \t\t\t\t\t\t\t\t\tvcard:hasValue <tel:+493419733554> ] .\n\n';
+      case 'Nancy':
+        return 'iirm:NancyRetzlaff a vcard:individual;\n' +
+          '\t\t\t\t\tvcard:hasEmail <mailto:retzlaff@wifa.uni-leipzig.de>;\n' +
+          '      \t\t\t\tvcard:fn "Nancy Retzlaff";\n' +
+          '      \t\t\t\tvcard:hasAddress [ \ta vcard:Work;\n' +
+          '        \t\t\t\t\t\t\t\tvcard:country-name "Germany";\n' +
+          '        \t\t\t\t\t\t\t\tvcard:locality "Leipzig";\n' +
+          '        \t\t\t\t\t\t\t\tvcard:postal-code "04109";\n' +
+          '        \t\t\t\t\t\t\t\tvcard:street-address "Grimmaische Strasse 12" ];\n' +
+          '      \t\t\t\tvcard:hasTelephone [ \ta vcard:Work,\n' +
+          '        \t\t\t\t\t\t\t\t\tvcard:Voice;\n' +
+          '        \t\t\t\t\t\t\t\t\tvcard:hasValue <tel:+493419733554> ] .\n\n';
       default:
         throw new Error('Author ' + author + ' is unknown; might create invalid RDF');
     }

@@ -1,6 +1,3 @@
-import { TimeService } from '../time.service';
-import { OnInit } from '@angular/core';
-
 /**
  * Superclass for all assets whose generation / consumption of energy can be changed arbitrarily (at least to some degree), i.e. that can be dispatched.
  * Allows to schedule the generation / consumption (as negative generation) of the respective assets.
@@ -12,7 +9,6 @@ export class DispatchableAsset {
 
   public scheduledGeneration: number[];
 
-  // TODO think about whether to encapsulate timeService in here (better checking, but shouldn't be part of the asset (?))
   constructor(
     readonly model: string
     ) {}
@@ -28,16 +24,6 @@ export class DispatchableAsset {
   public scheduleGeneration(timeStep: number, dispatchValue: number, currentTime: number) {
     this.scheduledGeneration[timeStep] = dispatchValue;
     console.error('please define scheduleGeneration for model: ' + this.model);
-  }
-
-
-  // TODO? gehoert das ueberhaupt hier her?
-  public validateTimeStep(timeService: TimeService, timeStep: number): boolean {
-    if (timeService.getCurrentTime() >= timeStep) {
-      return false;
-    } else {
-      return true;
-    }
   }
 
   /**

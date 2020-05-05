@@ -56,8 +56,6 @@ export class LoadEditorComponent implements OnInit {
   /**
    * Validator for the model entry in the form.
    * The model name must be different from any other model in the data base in order to validate
-   *
-   * @param loadSub A subject emitting the loads in the data base to compare against
    */
   modelValidator(): ValidatorFn {
     return (control: AbstractControl) => {

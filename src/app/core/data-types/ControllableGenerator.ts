@@ -15,16 +15,8 @@ import { CGOperationLogicService } from '../../prosumer/cg-operation-logic.servi
 export class ControllableGenerator extends DispatchableAsset {
   /** A boolean indicating whether the generator is currently generating electricity (true) or is shut down (false) */
   public operationStatus: boolean;
-  /** A number indicating the time since the last change of direction of the generated amount (i.e. (non-)increasing or (non-)descreasing generation). More specifically, when the generation gradiant / difference switches signs (0 not considered a switch) */
-  public lastOperationStatusSwitch: number;
   /** The amount of electricity the generator produces at the 'current time' */
   public currentGeneration: number;
-  /** The time of the last electricity generation recording (when the data point for the lastGenerationAmount property was set) */
-  public lastGenerationTime: number;
-  /** The generation level of the generator at the time of the last generation level recording */
-  public lastGenerationAmount: number;
-  /** A time series of the generation history, with entries at the respective time points where it generated (warning: array might be sparse, i.e. contain undefined values) */
-  public generationHistory: number[];
   /** ramping contains actions: + for ramping up, - for ramping down, x for down/up time and r for ready */
   public ramping: any[];
   constructor(

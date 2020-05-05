@@ -25,7 +25,6 @@ export class ExperimentInstanceEditorComponent implements OnInit {
   /** Local data to host experiment descriptions to choose from (to associate with the experiment instance) */
   private experimentDescriptions: ExperimentDescription[];
 
-  // TODO What is the MockEdMService needed for??
   constructor(private edm: MockEDMService) { }
 
   /** Form to hold the information associated with this instance */

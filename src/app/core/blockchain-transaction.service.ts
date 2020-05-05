@@ -56,7 +56,7 @@ export class BlockchainTransactionService {
     this.openBids = this.data.getMockBids();
     this.openAsks = this.data.getMockAsks();
     // subscribe to the time service and filter out the expired bid after every update
-    this.timeService.timeEmitter.subscribe(currentTime => {
+    this.timeService.timeEmitter.subscribe(() => {
       // Filter out expired bids
       this.openBids = this.openBids.filter(currentBid => ((this.timeService.getCurrentTime() + this.p2pMarketDesign.bidClosure) > currentBid.deliveryTime));
       // Filter out expired asks
@@ -95,7 +95,16 @@ export class BlockchainTransactionService {
     return true;
   }
 
-// TODO docu
+  /**
+   * Method to commit to (accept) an open ask by an interested actor.
+   * Adds the respective transaction to the blockchain, and does the respective housekeeping updating the open and committed bids stored in this service as well as informing the respective observers
+   *
+   * @param seller The prosumer that committed to the ask
+   * @param timeOfPurchase The point in the simulation that the prosumer sells the electricity / committed to the ask
+   * @param committedAsk The ask the seller is committing to
+   * @returns true if this was successful, false if anything out of the ordinary happened, and the ask could not be committed to
+   */
+  // TODO implement ask-detail so this is used code
   public commitToP2PAsk(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2PBid): boolean {
     this.transactions.push({author: seller, p2pbid: committedAsk, timestamp: timeOfPurchase});
     this.committedAsks.push(committedAsk);
@@ -118,7 +127,7 @@ export class BlockchainTransactionService {
   public getOpenAsks(): P2PBid[] { return this.openAsks; }
 
   /**
-   * Returns the latest unused free bid and increases it for the next bid (in linear fashion) beting able to be used
+   * Returns the latest unused free bid ID and increases it for the next bid (in linear fashion) being able to be used
    *
    * @returns a probably unused bidID, as long as bid IDs are assigned linearly; will not check whether the returned ID is already used by another bid
    */
@@ -126,11 +135,14 @@ export class BlockchainTransactionService {
     return ++this.freeBidId;
   }
 
+  /**
+   * Returns the latest unused free ask and increases it for the next ask (in linear fashion) being able to be used
+   *
+   * @returns a probably unused askID, as long as ask IDs are assigned linearly; will not check whether the returned ID is already used by another ask
+   */
   getUnusedAskID(): number {
     return ++this.freeAskId;
   }
-
-  // TODO getUnusedAsksID?
 
 
   // TODO think about whether this should check whether the prosumer could in theory provide the energy (e.g. via the residual load information) or whether extensive trading is allowed (and what happens upon non-delivery)
@@ -152,7 +164,14 @@ export class BlockchainTransactionService {
     }
   }
 
-  // TODO documentation
+  /**
+   * Method to submit a ask to the blockchain layer as an open ask.
+   * Requires the ask to not have been committed before (i.e. not be in the list of open or committed asks) and to be valid.
+   * Will otherwise not be successful.
+   *
+   * @param ask The bid to be committed to the blockchain
+   * @returns Returns true if the ask has not been committed before and to be valid
+   */
   submitAsk(ask: P2PBid): boolean {
     if (((this.openAsks.indexOf(ask) === -1) && (this.committedAsks.indexOf(ask) === -1)) && this.bvs.checkBidValidity(ask)) {
       this.openAsks.push(ask);

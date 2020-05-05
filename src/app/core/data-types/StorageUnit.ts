@@ -25,21 +25,6 @@ export class StorageUnit extends DispatchableAsset {
     super(model);
   }
 
-
-  // TODO include validation (?)
-  /**
-   * Method to charge or discharge the battery at a given time
-   *
-   * @param currentTime The time at which the battery charge is to be changed
-   * @param chargeChange The change in battery charge level requested. If negative, this represents a discharge of the battery
-   */
-  public changeStorage(currentTime: number, chargeChange: number) {
-    for (let i = currentTime; i < this.scheduledGeneration.length; i++) {
-      this.scheduledGeneration[i] = (this.scheduledGeneration[i] + chargeChange);
-    }
-    console.log('Updating storage unit ' + this.model + ' to ' + this.scheduledGeneration[currentTime]);
-  }
-
   /**
    * Initiated the schedule given the length of the experiment
    *

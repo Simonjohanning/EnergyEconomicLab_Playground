@@ -40,9 +40,6 @@ import { ExperimentStateService } from './core/experiment-state.service';
 })
 export class AppModule {
 
-  constructor(private ts: TimeService) {}
+  constructor() {}
 
-  private proceedTime(): void {
-    this.ts.advanceTime(1);
-  }
 }

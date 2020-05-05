@@ -58,7 +58,7 @@ export class TimeService {
     timeStepLength.subscribe(stepLength => {
       const intervalCounter = interval(1000 * stepLength);
       console.log(intervalCounter);
-      intervalCounter.subscribe(nextStep => {
+      intervalCounter.subscribe(() => {
         if (this.currentTime === 0) {
           this.timeEmitter.next(0);
         }
@@ -80,7 +80,7 @@ export class TimeService {
   private continuousPeriodicEmittance(accellerationFactor: Observable<number>) {
     accellerationFactor.subscribe(accFac => {
       const intervalCounter = interval(100);
-      intervalCounter.subscribe(nextStep => {
+      intervalCounter.subscribe(() => {
         if (this.endTime) {
           if (this.currentTime < this.endTime) {
             this.advanceTime(accFac / 10.0);

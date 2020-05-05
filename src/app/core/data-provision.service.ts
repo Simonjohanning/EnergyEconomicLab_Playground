@@ -149,14 +149,14 @@ export class DataProvisionService {
     return {x, y};
   }
 
-  static getStaticProsumers(): Prosumer[] {
+  /* static getStaticProsumers(): Prosumer[] {
     let prosumerArray: Prosumer[];
     prosumerArray = [
       { id: 1, name: 'Mr. Nice' },
       { id: 2, name: 'Hans'}
     ];
     return prosumerArray;
-  }
+  }*/
 
   static getProsumerData(id = 1): Observable<ProsumerInstance> {
     let prosumerInstance: ProsumerInstance;
@@ -174,7 +174,7 @@ export class DataProvisionService {
   static getExperimentDescription(experimentType: number): ExperimentDescription {
     if (experimentType === 0) {
       return {
-        prosumers: new Array(),
+        prosumers: [],
         p2pMarketDesign: {
           bidClosure: 10,
           askClosure: 10,
@@ -207,7 +207,7 @@ export class DataProvisionService {
 
   static getNCGenerator(): NonControllableGenerator {
     const pv =  new NonControllableGenerator('SolarPanel #3',
-      4.1)
+      4.1);
     this.getExperimentLength().subscribe(length => pv.initiateProjectedGeneration(length));
     return pv;
   }
@@ -300,7 +300,7 @@ export class DataProvisionService {
   getMockPublicActorData(): Set<TransactionFeeEntry> {
     const feeEntries = new Set<TransactionFeeEntry>();
     this.mockBids.forEach(currentBid => {
-      const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingBid: currentBid};
+      const entry = {payer: currentBid.provider, amount: currentBid.price * 0.1, correspondingTransaction: currentBid};
       feeEntries.add(entry);
     });
     return feeEntries;

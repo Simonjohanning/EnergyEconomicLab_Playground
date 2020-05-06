@@ -18,6 +18,10 @@ import { ExperimentInstance } from './data-types/ExperimentInstance';
   providedIn: 'root'
 })
 
+// TODO load as randomized SLP
+// TODO Strahlungsprofil?
+// TODO Coordinates --> any reasonable thing here?
+
 /**
  * Service to provide (stateless) data.
  * This service is predominantly used for providing mock data that will eventually be provided by the EDM service, and will be discarded at the latest in production.
@@ -135,6 +139,18 @@ export class DataProvisionService {
       minAskSize: 0.5,
       maxPrice: -1,
       feeAmount: .1
+    });
+  }
+
+  static getP2PMarketDescriptionExperiment(experimentId: number): Observable<P2PMarketDesign> {
+    return of({
+      bidClosure: 3,
+      askClosure: 3,
+      timeSliceLength: 1,
+      minBidSize: 0,
+      minAskSize: 0,
+      maxPrice: -1,
+      feeAmount: 0
     });
   }
 
@@ -270,6 +286,91 @@ export class DataProvisionService {
       DataProvisionService.getStorages(),
       DataProvisionService.getCoordinates(),
       100);
+  }
+
+  // todo needs to be prosumer 1
+  getMockProsumer1Instance(id = 1): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer1'),
+      [],
+      DataProvisionService.getNonControllableGenerators(),
+      [],
+      [],
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer2Instance(id = 2): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer2'),
+      [],
+      DataProvisionService.getNonControllableGenerators(),
+      [],
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer3Instance(id = 3): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer3'),
+      [],
+      DataProvisionService.getNonControllableGenerators(),
+      [],
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer4Instance(id = 4): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer4'),
+      [],
+      [],
+      [DataProvisionService.getLoad1()],
+      [],
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer5Instance(id = 5): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer5'),
+      [],
+      [],
+      [DataProvisionService.getLoad2()],
+      DataProvisionService.getStorages(),
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer6Instance(id = 6): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer6'),
+      [],
+      [],
+      [DataProvisionService.getLoad2()],
+      [],
+      DataProvisionService.getCoordinates(),
+      100
+    );
+  }
+
+  getMockProsumer7Instance(id = 7): ProsumerInstance {
+    return new ProsumerInstance(
+      new Prosumer(id, 'Prosumer7'),
+      [],
+      [],
+      [DataProvisionService.getLoad2()],
+      [],
+      DataProvisionService.getCoordinates(),
+      100
+    );
   }
 
   getMaxBidSize() {

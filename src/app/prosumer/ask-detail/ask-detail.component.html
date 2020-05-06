@@ -1,0 +1,22 @@
+<div *ngIf="ask">
+  <div id="ask">
+    <h4>Details for ask {{ask.id}}:</h4>
+    <tr>
+      <td><i>Delivery Time </i></td>
+      <td>{{ask.deliveryTime}}</td>
+    </tr>
+    <tr>
+      <td><i class=".icon-time">Duration </i></td>
+      <td>{{ask.duration}}</td>
+    </tr>
+    <tr>
+      <td><i class=".icon-shopping-cart">Price </i></td>
+      <td>{{ask.price}}</td>
+    </tr>
+    <tr>
+      <td><i>Power</i> </td>
+      <td>{{ask.power}}</td>
+    </tr>
+    <button class="btn btn-info" (click)="sell()">Sell</button>
+  </div>
+</div>

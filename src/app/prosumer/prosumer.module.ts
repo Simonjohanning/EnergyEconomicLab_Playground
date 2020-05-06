@@ -12,6 +12,7 @@ import { StoragePRDComponent } from './storage-prd/storage-prd.component';
 import { FeedInPointDisplayComponent } from './feed-in-point-display/feed-in-point-display.component';
 import { CommittedTransactionsComponent } from './committed-transactions/committed-transactions.component';
 import { BidDetailComponent } from './bid-detail/bid-detail.component';
+import { AskDetailComponent } from './ask-detail/ask-detail.component';
 import { MarketViewComponent } from './market-view/market-view.component';
 import { P2PBidEditorComponent } from './p2p-bid-editor/p2p-bid-editor.component';
 import { ResidualLoadComponent } from './residual-load/residual-load.component';
@@ -38,6 +39,7 @@ import { AskViewComponent } from './ask-view/ask-view.component';
         FeedInPointDisplayComponent,
         MarketViewComponent,
         BidDetailComponent,
+        AskDetailComponent,
         CommittedTransactionsComponent,
         P2PBidEditorComponent,
         ResidualLoadComponent,

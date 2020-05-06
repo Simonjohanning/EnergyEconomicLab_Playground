@@ -15,14 +15,21 @@ import { P2POption } from '../../core/data-types/P2POption';
 export class CommittedTransactionsComponent implements OnInit {
   /** array to holds the bids relevant for the view */
   respectiveBids: P2POption[] = [];
+  /** array to hold the asks relevant for the view */
+  respectiveAsks: P2POption[] = [];
+
   constructor(private bts: BlockchainTransactionService) {
     this.bts.getCommitedBids().forEach(bid => this.respectiveBids.push(bid));
+    this.bts.getCommitedAsks().forEach(ask => this.respectiveAsks.push(ask));
   }
 
   ngOnInit() {
     // subscribe to the respective component of the bts, in order to receive updates on the committed bids
     this.bts.committedBidSubject.subscribe(bid => {
       this.respectiveBids.push(bid);
+    });
+    this.bts.committedAskSubject.subscribe( ask => {
+      this.respectiveAsks.push(ask);
     });
   }
 }

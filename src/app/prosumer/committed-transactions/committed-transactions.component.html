@@ -11,11 +11,29 @@
       </tr>
       </thead>
       <tbody>
+      <tr *ngIf="respectiveBids.length===1" bgcolor="#d3d3d3">
+        <td>Bids</td> <td></td> <td></td> <td></td>
+      </tr>
+      <tr *ngIf="respectiveBids.length>1" bgcolor="#d3d3d3">
+        <td>Bids</td> <td></td> <td></td> <td></td>
+      </tr>
       <tr *ngFor="let bidToDisplay of respectiveBids">
         <td>{{bidToDisplay.deliveryTime}}</td>
         <td>{{bidToDisplay.duration}} </td>
         <td>{{bidToDisplay.price}} </td>
         <td>{{bidToDisplay.power}}</td>
+      </tr>
+      <tr *ngIf="respectiveAsks.length===1">
+        <td>Ask</td> <td></td> <td></td> <td></td>
+      </tr>
+      <tr *ngIf="respectiveAsks.length>1">
+        <td>Asks</td> <td></td> <td></td> <td></td>
+      </tr>
+      <tr *ngFor="let askToDisplay of respectiveAsks">
+        <td>{{askToDisplay.deliveryTime}}</td>
+        <td>{{askToDisplay.duration}} </td>
+        <td>{{askToDisplay.price}} </td>
+        <td>{{askToDisplay.power}}</td>
       </tr>
       </tbody>
     </table>

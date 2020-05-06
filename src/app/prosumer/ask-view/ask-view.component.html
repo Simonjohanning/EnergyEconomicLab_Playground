@@ -51,7 +51,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let askToDisplay of relevantAsks" [ngStyle]="{'background': (askToDisplay === selectedAsk) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedAsk(AskToDisplay)">
+      <tr *ngFor="let askToDisplay of relevantAsks" [ngStyle]="{'background': (askToDisplay === selectedAsk) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedAsk(askToDisplay)">
         <td>{{askToDisplay.deliveryTime}}</td>
         <td>{{askToDisplay.duration}} </td>
         <td>{{askToDisplay.price}} </td>
@@ -62,5 +62,5 @@
   </div>
 </div>
 <div class="panel panel-default">
-  <app-bid-detail [bid]="selectedAsk" (removeComponent)="resetAsk()"></app-bid-detail>
+  <app-ask-detail [ask]="selectedAsk" (removeComponent)="resetAsk()"></app-ask-detail>
 </div>

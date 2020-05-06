@@ -1,27 +1,41 @@
-<form [formGroup]="bidForm" (ngSubmit)="submitBid()">
+<form [formGroup]="optionForm" (ngSubmit)="submit()">
+  <div class="form-group">
+    <label class="col-sm-12">
+      <input type="radio" id="bid" formControlName="bid"
+           [value]="true" required> Bid
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-12">
+      <input type="radio" id="ask" formControlName="bid"
+             [value]="false" required> Ask
+    </label>
+  </div>
+
   <div class="form-group">
     <label for="feedInTime">Start</label>
     <input type="number" class="form-control" id="feedInTime" aria-describedby="fitHelp" placeholder="Feed In Time" formControlName="feedInTime" required>
-    <small id="fitHelp" *ngIf="(!bidForm.get('feedInTime').errors) || bidForm.get('feedInTime').untouched" class="form-text text-muted">The time the feed-in obligation starts</small>
-    <small *ngIf="(bidForm.get('feedInTime').errors) && bidForm.get('feedInTime').touched" class="form-text text-muted">Error: {{bidForm.get('feedInTime').errors.fitIssue}}</small>
+    <small id="fitHelp" *ngIf="(!optionForm.get('feedInTime').errors) || optionForm.get('feedInTime').untouched" class="form-text text-muted">The time the feed-in obligation starts</small>
+    <small *ngIf="(optionForm.get('feedInTime').errors) && optionForm.get('feedInTime').touched" class="form-text text-muted">Error: {{optionForm.get('feedInTime').errors.fitIssue}}</small>
   </div>
   <div class="form-group">
     <label for="duration">Duration</label>
     <input type="number" class="form-control" id="duration" aria-describedby="durationHelp" placeholder="Feed In Duration" formControlName="duration" required>
-    <small id="durationHelp" *ngIf="(!bidForm.get('duration').errors) || bidForm.get('duration').untouched" class="form-text text-muted">How long the power will be fed in</small>
-    <small *ngIf="bidForm.get('duration').errors  && bidForm.get('duration').touched" class="form-text text-muted">Error: {{bidForm.get('duration').errors.durationIssue}}</small>
+    <small id="durationHelp" *ngIf="(!optionForm.get('duration').errors) || optionForm.get('duration').untouched" class="form-text text-muted">How long the power will be fed in</small>
+    <small *ngIf="optionForm.get('duration').errors  && optionForm.get('duration').touched" class="form-text text-muted">Error: {{optionForm.get('duration').errors.durationIssue}}</small>
   </div>
   <div class="form-group">
     <label for="power">Power (kW)</label>
     <input type="number" class="form-control" id="power" aria-describedby="powerHelp" placeholder="Power (kW)" formControlName="power" required>
-    <small id="powerHelp" *ngIf="(!bidForm.get('power').errors)  || bidForm.get('power').untouched" class="form-text text-muted">How much power will be fed in</small>
-    <small *ngIf="bidForm.get('power').errors  && bidForm.get('power').touched" class="form-text text-muted">Error: {{bidForm.get('power').errors.powerIssue}}</small>
+    <small id="powerHelp" *ngIf="(!optionForm.get('power').errors)  || optionForm.get('power').untouched" class="form-text text-muted">How much power will be fed in</small>
+    <small *ngIf="optionForm.get('power').errors  && optionForm.get('power').touched" class="form-text text-muted">Error: {{optionForm.get('power').errors.powerIssue}}</small>
   </div>
   <div class="form-group">
     <label for="price">Price/kWh (€)</label>
     <input type="number" class="form-control" id="price" aria-describedby="priceHelp" placeholder="Price/kW (€)" formControlName="price" required>
-    <small id="priceHelp" *ngIf="(!bidForm.get('price').errors)  || bidForm.get('price').untouched" class="form-text text-muted">For how much every kWh is priceed</small>
-    <small *ngIf="bidForm.get('price').errors  && bidForm.get('price').touched" class="form-text text-muted">Error: {{bidForm.get('price').errors.priceIssue}}</small>
+    <small id="priceHelp" *ngIf="(!optionForm.get('price').errors)  || optionForm.get('price').untouched" class="form-text text-muted">For how much every kWh is priceed</small>
+    <small *ngIf="optionForm.get('price').errors  && optionForm.get('price').touched" class="form-text text-muted">Error: {{optionForm.get('price').errors.priceIssue}}</small>
   </div>
-  <button type="submit" class="btn btn-primary" *ngIf="bidForm.valid">Submit Offer</button>
+  <button type="submit" class="btn btn-primary" *ngIf="optionForm.valid">Submit Offer</button>
 </form>

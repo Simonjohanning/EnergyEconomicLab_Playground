@@ -91,6 +91,10 @@ export class DataProvisionService {
     return of(120);
   }
 
+  static getexperimentDesignLength(): Observable<number> {
+    return of(168);
+  }
+
   static getTimeRegime(): Observable<TimeRegime> {
     const regime = TimeRegime.DISCRETE;
     return of(regime);
@@ -142,7 +146,7 @@ export class DataProvisionService {
     });
   }
 
-  static getP2PMarketDescriptionExperiment(experimentId: number): Observable<P2PMarketDesign> {
+  static getP2PMarketDescriptionExperimentDesign(experimentId: number): Observable<P2PMarketDesign> {
     return of({
       bidClosure: 3,
       askClosure: 3,
@@ -215,6 +219,16 @@ export class DataProvisionService {
 
   static getLoads(): Load[] {
     return [this.getLoad1(), this.getLoad2()];
+  }
+
+  static getRandomizedLoad(): Load {
+    const model = 'Load1'; // TODO get good description for this?
+    const relativeControllability = 0;
+    const temporalShiftingCapability = 0;
+    const load1 = new Load(model, relativeControllability, temporalShiftingCapability);
+    this.getexperimentDesignLength().subscribe(length =>
+      load1.initiateRandomizedSLP(length)); // TODO insert SLP?
+    return load1;
   }
 
   static getStorages(): StorageUnit[] {
@@ -330,7 +344,7 @@ export class DataProvisionService {
       new Prosumer(id, 'Prosumer4'),
       [],
       [],
-      [DataProvisionService.getLoad1()],
+      [DataProvisionService.getRandomizedLoad()],
       [],
       DataProvisionService.getCoordinates(),
       100
@@ -342,7 +356,7 @@ export class DataProvisionService {
       new Prosumer(id, 'Prosumer5'),
       [],
       [],
-      [DataProvisionService.getLoad2()],
+      [DataProvisionService.getRandomizedLoad()],
       DataProvisionService.getStorages(),
       DataProvisionService.getCoordinates(),
       100
@@ -354,7 +368,7 @@ export class DataProvisionService {
       new Prosumer(id, 'Prosumer6'),
       [],
       [],
-      [DataProvisionService.getLoad2()],
+      [DataProvisionService.getRandomizedLoad()],
       [],
       DataProvisionService.getCoordinates(),
       100
@@ -366,7 +380,7 @@ export class DataProvisionService {
       new Prosumer(id, 'Prosumer7'),
       [],
       [],
-      [DataProvisionService.getLoad2()],
+      [DataProvisionService.getRandomizedLoad()],
       [],
       DataProvisionService.getCoordinates(),
       100

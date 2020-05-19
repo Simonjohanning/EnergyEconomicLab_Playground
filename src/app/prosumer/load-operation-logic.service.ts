@@ -9,6 +9,27 @@ import { Load } from '../core/data-types/Load';
 export class LoadOperationLogicService {
 
   /**
+   * Randomizes the standard load profile at initiation by shuffling around existing loads
+   *
+   * @param asset Load that is initiated
+   */
+  // TODO this needs testing
+  static randomizeSLP(asset: Load) {
+    let i;
+    let j;
+
+    for (let repeats = 0; repeats < 1000; repeats++) {
+      i = Math.round(Math.random() * asset.scheduledGeneration.length);
+      j = Math.round(Math.random() * asset.scheduledGeneration.length);
+      if (i !== j && i !== 0 && j !== 0) {
+        const shift = asset.scheduledGeneration[i] * 0.01;
+        asset.scheduledGeneration[i] -= shift;
+        asset.scheduledGeneration[i] += shift;
+      }
+    }
+  }
+
+  /**
    * Returns the maximum shiftable value at a given time step.
    *
    * @param asset The load that is shifted

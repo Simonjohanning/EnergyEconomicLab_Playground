@@ -227,7 +227,7 @@ export class DataProvisionService {
     const temporalShiftingCapability = 0;
     const load1 = new Load(model, relativeControllability, temporalShiftingCapability);
     this.getexperimentDesignLength().subscribe(length =>
-      load1.initiateRandomizedSLP(length)); // TODO insert SLP?
+      load1.initiateRandomizedSLP());
     return load1;
   }
 

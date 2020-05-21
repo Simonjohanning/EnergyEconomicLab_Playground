@@ -32,7 +32,15 @@ export class NonControllableGenerator {
       0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   }
 
-  public initializeWeekWithMaxGen(maxGen: number) {
+  /**
+   * initializes the weekly generation of a solar panel.
+   *
+   * @param kWp maximum possible generation.
+   */
+  public initializeWeekWithMaxGen(kWp: number) {
+
+    // TODO think about whether there should be the weather date as input?
+
     this.projectedGeneration = [0, 0, 0, 0, 0, 0, 0, 0, 0.00559108105393552, 0.0206233887977502, 0.0887542267903177,
       0.111654223442365, 0.0838662158090328, 0.0339817201781111, 0.0362248485051391, 0.0298302587967458,
       0.00197529210887542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0136596471257826, 0.0626736750477083,
@@ -90,7 +98,7 @@ export class NonControllableGenerator {
       0.198868391978305, 0.378720412467776, 0.352539422143359, 0.272724229133885, 0.181258160634772, 0.107603200642807,
       0.0141283605075496, 0, 0, 0, 0, 0, 0]; // transition times? */
     for (let generation of this.projectedGeneration) {
-      generation = generation * maxGen;
+      generation = generation * kWp;
     }
   }
 }

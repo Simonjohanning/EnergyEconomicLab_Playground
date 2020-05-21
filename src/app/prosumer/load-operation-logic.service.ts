@@ -167,7 +167,7 @@ export class LoadOperationLogicService {
       minColumn = this.getLeftBoundary(asset, timeStep, currentTime);
       while (minColumn <= maxTimeStep) {
         if (minRow !== timeStep && minColumn !== timeStep && asset.shiftingPotential[minRow][minColumn] !== undefined) {
-          const shiftValue =  Math.round((asset.shiftingPotential[minRow][minColumn] * relativeShift) * 100) / 100;
+          const shiftValue =  asset.shiftingPotential[minRow][minColumn] * relativeShift;
           asset.shiftingPotential[minRow][minColumn] -= shiftValue;
           asset.scheduledGeneration[minColumn] -= shiftValue;
 

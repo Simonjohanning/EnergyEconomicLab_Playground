@@ -34,10 +34,8 @@ export class NonControllableGenerator {
 
   /**
    * initializes the weekly generation of a solar panel.
-   *
-   * @param kWp maximum possible generation.
    */
-  public initializeWeekWithMaxGen(kWp: number) {
+  public initializeWeek() {
 
     // TODO think about whether there should be the weather date as input?
 
@@ -98,7 +96,7 @@ export class NonControllableGenerator {
       0.198868391978305, 0.378720412467776, 0.352539422143359, 0.272724229133885, 0.181258160634772, 0.107603200642807,
       0.0141283605075496, 0, 0, 0, 0, 0, 0]; // transition times? */
     for (let generation of this.projectedGeneration) {
-      generation = generation * kWp;
+      generation = generation * this.peakPower;
     }
   }
 }

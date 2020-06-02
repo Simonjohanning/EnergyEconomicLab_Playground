@@ -3,9 +3,11 @@ import { AppComponent } from './app.component';
 import { TimeService } from './core/time.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TimeComponent } from './core/time/time.component';
+import {By} from '@angular/platform-browser';
 
 class MockTimeService extends TimeService {
-
+  public advanceTime(amount: number): void {
+  }
 }
 
 describe('Component: App', () => {
@@ -72,13 +74,16 @@ describe('Component: App', () => {
     expect(compiled.querySelector('button').textContent).toContain('Proceed');
   }));
 
-  it('should have clickable proceed time', () => {
-    // TODO discrete time is shown
-    // TODO get the button
-    // TODO get the time shown
-    // TODO click button and check whether time shown has proceeded
+  it('should have proceed time button', () => {
+    spyOn(testBedService, 'advanceTime');
+
+    const proceedButton = fixture.debugElement.query(By.css('#proceedButton'));
+    expect(proceedButton).toBeTruthy();
+
+    proceedButton.triggerEventHandler('click', {});
+
+    fixture.whenStable().then( () => {
+      expect(testBedService.advanceTime).toHaveBeenCalled();
+    });
   });
-
-  // TODO check whether you can actually click it? HOW?
-
 });

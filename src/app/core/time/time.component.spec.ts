@@ -1,11 +1,10 @@
 import { ExperimentStateService } from '../experiment-state.service';
 import { MockEDMService } from '../mock-edm.service';
 import { TimeService } from '../time.service';
-import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { TimeComponent } from './time.component';
 import {DataProvisionService} from '../data-provision.service';
 import {By} from '@angular/platform-browser';
-import {timeInterval} from 'rxjs/operators';
 
 class MockExperimentStateService extends ExperimentStateService {}
 

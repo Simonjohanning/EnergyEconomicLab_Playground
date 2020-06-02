@@ -21,14 +21,4 @@ describe('Service: InMemoryData', () => {
     service.createDb();
     http = TestBed.get(HttpClient);
   });
-
-  // the data SHOULD be available under '/prosumers', yet it returns true for any possible datatype
-  it('should return the prosumers list', () => {
-    http.get('/prosumers').subscribe(prosumer  => {
-      expect(prosumer).toBeTruthy();
-      expect(prosumer).toBe(Array);
-      expect(prosumer).toBe(Prosumer);
-      // expect(prosumer).toEqual({ id: 11, name: 'Mr. Nice' }); // cannot test this unless you're logging in as some actual person
-    });
-  });
 });

@@ -2,6 +2,7 @@ import { InMemoryDataService } from './in-memory-data.service';
 import {TestBed} from '@angular/core/testing';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {Prosumer} from './core/data-types/Prosumer';
 
 describe('Service: InMemoryData', () => {
   let http: HttpClient;
@@ -22,10 +23,12 @@ describe('Service: InMemoryData', () => {
   });
 
   // the data SHOULD be available under '/prosumers', yet it returns true for any possible datatype
-  xit('should return the prosumers list', () => {
-    http.get('/prosumers').subscribe(prosumer => {
-      expect(prosumer).toEqual({id: 11, name: 'Mr. Nice'});
+  it('should return the prosumers list', () => {
+    http.get('/prosumers').subscribe(prosumer  => {
+      expect(prosumer).toBeTruthy();
+      expect(prosumer).toBe(Array);
+      expect(prosumer).toBe(Prosumer);
+      expect(prosumer).toEqual({ id: 11, name: 'Mr. Nice' });
     });
-
   });
 });

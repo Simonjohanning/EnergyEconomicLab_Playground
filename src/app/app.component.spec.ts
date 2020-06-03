@@ -74,7 +74,7 @@ describe('Component: App', () => {
     expect(compiled.querySelector('button').textContent).toContain('Proceed');
   }));
 
-  it('should have proceed time button', () => {
+  it('proceed button is clickable', () => {
     spyOn(testBedService, 'advanceTime');
 
     const proceedButton = fixture.debugElement.query(By.css('#proceedButton'));

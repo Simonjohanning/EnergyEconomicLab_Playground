@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DataProvisionService } from '../core/data-provision.service';
 import { TransactionFeeEntry } from '../core/data-types/TransactionFeeEntry';
 import { ExperimentStateService } from '../core/experiment-state.service';
-// import { TransactionClearingService } from '../core/transaction-clearing.service';
 
 @Component({
   selector: 'app-public-actor',
@@ -23,7 +22,6 @@ export class PublicActorComponent implements OnInit {
   constructor(
     private data: DataProvisionService,
     private ess: ExperimentStateService,
-    // private tcs: TransactionClearingService
     ) { }
 
   ngOnInit() {

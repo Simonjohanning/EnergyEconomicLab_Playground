@@ -63,7 +63,7 @@ describe('Component: ProsumerEditor', () => {
   });
 
   describe('ChildComponent: LoadEditorComponent', () => {
-    let fixtureLoadEditor: ComponentFixture<LoadEditorComponent>
+    let fixtureLoadEditor: ComponentFixture<LoadEditorComponent>;
     beforeEach(() => {
       fixtureLoadEditor = TestBed.createComponent(LoadEditorComponent);
       compProsumerEditor.loadEditor = fixtureLoadEditor.componentInstance;
@@ -326,5 +326,4 @@ describe('Component: ProsumerEditor', () => {
       expect(compProsumerEditor).toBeTruthy();
     });
   });
-  // TODO what about the provided service???
 });

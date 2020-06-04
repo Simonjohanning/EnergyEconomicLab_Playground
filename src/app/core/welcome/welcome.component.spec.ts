@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { WelcomeComponent } from './welcome.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ExperimentInstanceLoaderService } from '../experiment-instance-loader.service';
 import { DataProvisionService } from '../data-provision.service';
 import { ExperimentStateService } from '../experiment-state.service';
+import { Router } from '@angular/router';
+import {By} from '@angular/platform-browser';
 
 class MockExperimentInstanceLoaderService extends ExperimentInstanceLoaderService {}
 
@@ -24,12 +26,13 @@ describe('Component: WelcomeComponent', () => {
   let welcomeComponentExperimentStateService: ExperimentStateService;
 
   beforeEach(() => {
+
     TestBed.configureTestingModule({
       declarations: [WelcomeComponent],
       providers: [
         ExperimentInstanceLoaderService,
         DataProvisionService,
-        ExperimentStateService
+        ExperimentStateService,
       ],
       imports: [
         RouterTestingModule,
@@ -168,7 +171,47 @@ describe('Component: WelcomeComponent', () => {
 
   });
 
-  // TODO testing the clicks?
+  describe('click results in program responses', () => {
+    it('clicking participate button should result in error message from the program ', () => {
+      const participateButton = fixture.debugElement.query(By.css(' #ParticipationButton'));
 
-  // TODO test all routes? (not all routes might be defined yet)
+      fixture.whenStable().then( () => {
+        expect(participateButton.triggerEventHandler('click', {})).toThrowError('invalid login information');
+      });
+    });
+
+    it('clicking "Login 10_Prosumer_12" button should result in navigation to Prosumer View', inject([Router], (router: Router) => {
+      spyOn(router, 'navigate').and.stub();
+
+      const prosumerButton = fixture.debugElement.query(By.css('#ProsumerLoginButton'));
+      prosumerButton.triggerEventHandler('click', {});
+
+      fixture.whenStable().then( () => {
+        expect(router.navigate).toHaveBeenCalledWith(['ProsumerView/', '12']);
+      });
+    }));
+
+    it('clicking "Login 10_ExperimentDesigner" button should result in navigation to Experiment Designer View', inject([Router], (router: Router) => {
+      spyOn(router, 'navigate').and.stub();
+
+      const experimentDesignerButton = fixture.debugElement.query(By.css('#ExperimentDesignerLoginButton'));
+      experimentDesignerButton.triggerEventHandler('click', {});
+
+      fixture.whenStable().then( () => {
+        expect(router.navigate).toHaveBeenCalledWith(['ExperimentDesignerView/']);
+      });
+    }));
+
+    it('clicking the print rdf thing calls respective function', () => {
+      spyOn(welcomeComponent, 'printTestRDF');
+
+      const rdfButton = fixture.debugElement.query(By.css('.rdfButton'));
+      rdfButton.triggerEventHandler('click', {});
+
+      fixture.whenStable().then( () => {
+        expect(welcomeComponent.printTestRDF).toHaveBeenCalled();
+      });
+    });
+  });
+
 });

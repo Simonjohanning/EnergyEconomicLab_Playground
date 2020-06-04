@@ -43,6 +43,9 @@ export class WelcomeComponent implements OnInit {
   login(): void {
     this.errorCode = 'Attempting to login';
     // Constant to store the components of the login information
+    if (this.loginCode === undefined) {
+      throw new Error('invalid login information');
+    }
     const loginInformation = this.loginCode.split('_');
     // The experiment ID is stored in the first part of the login code
     this.state.experimentID = parseInt(loginInformation[0], 10);

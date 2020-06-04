@@ -22,10 +22,19 @@ export class ResearcherComponent implements OnInit {
   private editorToShow: string;
 
   constructor(
-    private state: ExperimentStateService) { }
+    private state: ExperimentStateService) {
+  }
 
   ngOnInit() {
     this.experimentId = this.state.experimentID;
     this.editorToShow = 'DesignEditor';
+  }
+
+  public toggle(str: string): void {
+    if (str === 'instance') {
+      this.editorToShow = 'InstanceEditor';
+    } else if (str === 'design') {
+      this.editorToShow = 'DesignEditor';
+    }
   }
 }

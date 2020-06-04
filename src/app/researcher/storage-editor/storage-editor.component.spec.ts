@@ -69,7 +69,6 @@ describe('Component: Storage Editor', () => {
     });
   }));
 
-  // TODO spy on save nach korrektem input
   it('after filling in the form the store button should be clickable but not before?', () => {
     spyOn(compStorageEditor, 'storeStorageTemplate');
 

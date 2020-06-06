@@ -1,5 +1,6 @@
 import { TimeService } from './time.service';
 import { tick } from '@angular/core/testing';
+import {DataProvisionService} from './data-provision.service';
 
 describe('Service: TimeService', () => {
 
@@ -41,10 +42,16 @@ describe('Service: TimeService', () => {
 
   it('should stop when time exceeds end time', () => {
     timeService.timeEmitter.subscribe(time => {
-      timeService.advanceTime(timeService.getEndTime() + 1);
-      // TODO: stops when time's up? with whenStable?
+      // todo is there any error message when surpassing the experiment length
+      let length;
+      DataProvisionService.getExperimentLength().subscribe(expLength =>
+        length = expLength);
+
+      expect(length).toEqual(timeService.getEndTime());
+
+      timeService.advanceTime(length);
+
+      expect(timeService.advanceTime(1)).toThrowError('the experiment ends before taking 1 time steps!');
     });
   });
-
-
 });

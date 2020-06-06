@@ -42,9 +42,14 @@ export class TimeService {
    * @param amount The amount the time should progress
    */
   public advanceTime(amount: number): void {
-    if (amount > 0) {
-      this.currentTime += amount;
-      this.timeEmitter.next(this.currentTime);
+    if (this.currentTime + amount <= this.endTime) {
+      if (amount > 0) {
+        this.currentTime += amount;
+        this.timeEmitter.next(this.currentTime);
+      }
+    } else {
+      throw new Error('the experiment ends before taking' + amount + ' time steps!');
+      // TODO end experiment
     }
   }
 

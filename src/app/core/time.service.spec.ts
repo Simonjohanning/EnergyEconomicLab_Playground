@@ -42,7 +42,6 @@ describe('Service: TimeService', () => {
 
   it('should stop when time exceeds end time', () => {
     timeService.timeEmitter.subscribe(time => {
-      // todo is there any error message when surpassing the experiment length
       let length;
       DataProvisionService.getExperimentLength().subscribe(expLength =>
         length = expLength);

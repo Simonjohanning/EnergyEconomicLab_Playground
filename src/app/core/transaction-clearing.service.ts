@@ -82,6 +82,7 @@ export class TransactionClearingService {
       // console.log('adding ' + committedAsk + ' to cleared ask');
       this.clearedAsks.add(committedAsk);
       // console.log('emitting transFee');
+      // TODO do we need a newlyClearedAskEmitter instead of Bid here?
       this.newlyClearedBidEmitter.next(transactionFee);
     } else {
       throw new Error('ask with id ' + committedAsk.id + ' has already been cleared before');

@@ -32,6 +32,7 @@ export class FeeLevyDisplayComponent implements OnInit {
   ngOnInit() {
     this.aggregatedFees = 0;
     // Subscribe to the respective emitter of the tcs for receiving newly cleared transactions (i.e. new information on paid fees and levies)
+    // TODO do we need the same thing for asks??
     this.tcs.newlyClearedBidEmitter.subscribe(transactionFeeEntry => {
       console.log('Receiving emission from bid emmitter, with payer being ' + transactionFeeEntry.payer.respectiveProsumer.name);
       // Filter out those fees that weren't paid by the respective prosumer

@@ -1,9 +1,32 @@
 import { TestBed } from '@angular/core/testing';
 
 import { TransactionClearingService } from './transaction-clearing.service';
+import { P2POption } from './data-types/P2POption';
+import { Prosumer } from './data-types/Prosumer';
+import { ProsumerInstance } from './data-types/ProsumerInstance';
+import {ConcreteCoordinates} from './data-types/ConcreteCoordinates';
 
 describe('TransactionClearingService', () => {
   let service: TransactionClearingService;
+
+  const dummyProsumer: ProsumerInstance =
+    new ProsumerInstance(
+      new Prosumer(10, 'mock prosumer'),
+      [],
+      [],
+      [],
+      [],
+      new ConcreteCoordinates(2, 4),
+      100);
+
+  const bid: P2POption = {
+    id: 1,
+    optionCreator: dummyProsumer,
+    deliveryTime: 81,
+    duration: 3,
+    price: 2,
+    power: 1.5
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -14,12 +37,25 @@ describe('TransactionClearingService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('bids:', () => {
-    it ('bid only cleared if it has not been cleared before', () => {
-      // todo add bid and then try clearing it again
-      // todo mock P2P option
+  describe('bids: ', () => {
+    it('bid should only be cleared if it has not been cleared before', () => {
+      service.clearBidCommitment(dummyProsumer, 10, bid, 1.0);
+      expect(() => {
+        service.clearBidCommitment(dummyProsumer, 10, bid, 1.0);
+      }).toThrowError('bid with id 1 has already been cleared before');
     });
   });
+
+  describe('asks: ', () => {
+    it('ask should only be cleared  if it has not been cleared before', () => {
+      service.clearAskCommitment(dummyProsumer, 10, bid, 1.0);
+      expect(() => {
+        service.clearAskCommitment(dummyProsumer, 10, bid, 1.0);
+      }).toThrowError('ask with id 1 has already been cleared before');
+    });
+  });
+});
+
   /*
   clearBidCommitment(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2POption, transactionFeeAmount: number): void {
     console.log('TCS being called');
@@ -40,4 +76,3 @@ describe('TransactionClearingService', () => {
   }
    */
   // TODO clear ask
-});

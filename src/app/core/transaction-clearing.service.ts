@@ -39,7 +39,7 @@ export class TransactionClearingService {
    * @param transactionFeeAmount The amount of transaction fee to be retained
    */
   clearBidCommitment(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2POption, transactionFeeAmount: number): void {
-    console.log('TCS being called');
+    // console.log('TCS being called');
     if (!this.clearedBids.has(committedBid)) {
       buyer.amountTokens -= committedBid.price;
       committedBid.optionCreator.amountTokens += (committedBid.price * (1 - transactionFeeAmount));
@@ -49,9 +49,9 @@ export class TransactionClearingService {
         correspondingTransaction: committedBid
       };
       committedBid.optionCreator.addIncurredFee(transactionFee);
-      console.log('adding ' + committedBid + ' to cleared bid');
+      // console.log('adding ' + committedBid + ' to cleared bid');
       this.clearedBids.add(committedBid);
-      console.log('emitting transFee');
+      // console.log('emitting transFee');
       this.newlyClearedBidEmitter.next(transactionFee);
     } else {
       throw new Error ('bid with id ' + committedBid.id + ' has already been cleared before');
@@ -69,7 +69,7 @@ export class TransactionClearingService {
    * @param transactionFeeAmount The amount of transaction fee to be retained
    */
   clearAskCommitment(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2POption, transactionFeeAmount: number): void {
-    console.log('TCS being called');
+    // console.log('TCS being called');
     if (!this.clearedAsks.has(committedAsk)) {
       seller.amountTokens += (committedAsk.price * (1 - transactionFeeAmount));
       committedAsk.optionCreator.amountTokens -= committedAsk.price;
@@ -79,9 +79,9 @@ export class TransactionClearingService {
         correspondingTransaction: committedAsk
       };
       committedAsk.optionCreator.addIncurredFee(transactionFee);
-      console.log('adding ' + committedAsk + ' to cleared bid');
-      this.clearedBids.add(committedAsk);
-      console.log('emitting transFee');
+      // console.log('adding ' + committedAsk + ' to cleared ask');
+      this.clearedAsks.add(committedAsk);
+      // console.log('emitting transFee');
       this.newlyClearedBidEmitter.next(transactionFee);
     } else {
       throw new Error('ask with id ' + committedAsk.id + ' has already been cleared before');

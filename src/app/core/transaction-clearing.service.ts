@@ -3,6 +3,7 @@ import { P2POption } from './data-types/P2POption';
 import { ProsumerInstance } from './data-types/ProsumerInstance';
 import { ReplaySubject } from 'rxjs';
 import { TransactionFeeEntry } from './data-types/TransactionFeeEntry';
+import {Err} from 'typedoc/dist/lib/utils/result';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,8 @@ export class TransactionClearingService {
       this.clearedBids.add(committedBid);
       console.log('emitting transFee');
       this.newlyClearedBidEmitter.next(transactionFee);
+    } else {
+      throw new Error ('bid with id ' + committedBid.id + ' has already been cleared before');
     }
   }
 
@@ -80,6 +83,8 @@ export class TransactionClearingService {
       this.clearedBids.add(committedAsk);
       console.log('emitting transFee');
       this.newlyClearedBidEmitter.next(transactionFee);
+    } else {
+      throw new Error('ask with id ' + committedAsk.id + ' has already been cleared before');
     }
   }
 }

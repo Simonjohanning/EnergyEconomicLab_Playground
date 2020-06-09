@@ -10,7 +10,10 @@ describe('Service: ExperimentInstanceLoaderService', () => {
   beforeEach( () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ExperimentInstanceLoaderService],
+      providers: [
+        // { provide: VIMEO_API_URL, useValue: 'http://example.com' },
+        ExperimentInstanceLoaderService,
+      ],
     });
     experimentInstanceLoaderService = TestBed.get(ExperimentInstanceLoaderService);
     httpTestingController = TestBed.get(HttpTestingController);

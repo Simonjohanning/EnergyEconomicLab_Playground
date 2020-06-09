@@ -20,13 +20,6 @@ export class ExperimentInstanceLoaderService {
   ) {  }
 
   /**
-   * Method to retrieve the prosumers
-   */
-  getProsumers(): Observable<Prosumer[]> {
-    return this.http.get<Prosumer[]>('api/prosumers');
-  }
-
-  /**
    * Method to retrieve a specific prosumer based on its id
    *
    * @param id The id of the prosumer to retrieve

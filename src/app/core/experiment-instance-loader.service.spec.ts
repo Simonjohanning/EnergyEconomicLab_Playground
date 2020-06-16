@@ -11,7 +11,6 @@ describe('Service: ExperimentInstanceLoaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        // { provide: VIMEO_API_URL, useValue: 'http://example.com' },
         ExperimentInstanceLoaderService,
       ],
     });
@@ -28,6 +27,6 @@ describe('Service: ExperimentInstanceLoaderService', () => {
     expect(experimentInstanceLoaderService).toBeTruthy();
   });
 
-  // TODO how to obtain the prosumer data?
+  // TODO test prosumer data once EDM is available
 
 });

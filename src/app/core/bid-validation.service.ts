@@ -36,7 +36,7 @@ export class BidValidationService {
     if (control.value < this.timeService.getCurrentTime()) {
       return { fitIssue: 'Proposed bid timing must lie in the future!'};
     } else if ((this.timeService.getCurrentTime() + this.p2pMarketDesign.bidClosure) > control.value) {
-      const fitIssueString = ('Bid horizon for P2P bids are ' + this.p2pMarketDesign.bidClosure.toString(10) + ', whereas the proposed time is only ' + (control.value - this.timeService.getCurrentTime()) + ' time steps ahead!');
+      const fitIssueString = ('Bid horizon for P2P bids are ' + this.p2pMarketDesign.bidClosure + ', whereas the proposed time is only ' + (control.value - this.timeService.getCurrentTime()) + ' time steps ahead!');
       return { fitIssue: fitIssueString };
     } else {
       return null;
@@ -52,7 +52,7 @@ export class BidValidationService {
    */
   public durationValidator(control: AbstractControl) {
     if ((control.value % this.p2pMarketDesign.timeSliceLength) !== 0) {
-      console.log('control: ' + control.value + ' timeSliceLength: ' + this.p2pMarketDesign.timeSliceLength);
+      // console.log('control: ' + control.value + ' timeSliceLength: ' + this.p2pMarketDesign.timeSliceLength);
       const durationIssueString = ('Duration of the bid must be a multiple of ' + this.p2pMarketDesign.timeSliceLength);
       return { durationIssue: durationIssueString};
     } else {
@@ -88,7 +88,7 @@ export class BidValidationService {
     if (this.p2pMarketDesign.maxPrice === -1) {
       return null;
     } else if (control.value > this.p2pMarketDesign.maxPrice) {
-      const priceIssueString = ('Price cannnot exceed ' + this.p2pMarketDesign.maxPrice + ' Euro/kWh in this market design');
+      const priceIssueString = ('Price cannot exceed ' + this.p2pMarketDesign.maxPrice + ' Euro/kWh in this market design');
       return { priceIssue: priceIssueString };
     } else if (control.value < 0) {
       return {powerIssue: 'Price has to be larger than 0'};
@@ -111,7 +111,7 @@ export class BidValidationService {
       return false;
     } else if (correspondingBid.power < this.p2pMarketDesign.minBidSize) {
       return false;
-    } else if (((correspondingBid.price > this.p2pMarketDesign.maxPrice) && (this.p2pMarketDesign.maxPrice > 0)) || ((correspondingBid.price < 0) && (correspondingBid.price !== -1))) {
+    } else if (((correspondingBid.price > this.p2pMarketDesign.maxPrice) && (this.p2pMarketDesign.maxPrice > 0)) || (correspondingBid.price < 0)) {
       return false;
     } else {
       return true;
@@ -129,7 +129,7 @@ export class BidValidationService {
     if (this.checkBidValidity(correspondingBid)) {
       return null;
     }
-    const bidIssues = String[6];
+    const bidIssues = new Array<string>();
     // check for FIT issues
     if (correspondingBid.deliveryTime < this.timeService.getCurrentTime()) {
       bidIssues.push('feed-in time issue: Proposed bid timing must lie in the future, but lies in the past');
@@ -148,7 +148,7 @@ export class BidValidationService {
     // check for price issues
     if (this.p2pMarketDesign.maxPrice !== -1) {
       if (correspondingBid.price > this.p2pMarketDesign.maxPrice) {
-        bidIssues.push('price issue: Price cannnot exceed ' + this.p2pMarketDesign.maxPrice + ' Euro/kWh in this market design');
+        bidIssues.push('price issue: Price cannot exceed ' + this.p2pMarketDesign.maxPrice + ' Euro/kWh in this market design');
       }
       if (correspondingBid.price < 0) {
         bidIssues.push('price issue: Price has to be larger than 0');

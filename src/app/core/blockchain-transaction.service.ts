@@ -42,7 +42,7 @@ export class BlockchainTransactionService {
   /** Subject to emit the open asks once their state changes in order to update the observers */
   public openAskSubject: Subject<P2POption[]> = new Subject<P2POption[]>();
   /** Array to keep track of all transactions sent to the blockchain layer as the respective data type */
-  private transactions: BCTransaction[] = [];
+  // private transactions: BCTransaction[] = [];
   /** Reference to the respective market design of the context the service is used in */
   private p2pMarketDesign: P2PMarketDesign;
 
@@ -80,15 +80,15 @@ export class BlockchainTransactionService {
    * @returns true if this was successful, false if anything out of the ordinary happened, and the bid could not be committed to
    */
   public commitToP2PBid(buyer: ProsumerInstance, timeOfPurchase: number, committedBid: P2POption): boolean {
-    this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
+    // this.transactions.push({author: buyer, p2pbid: committedBid, timestamp: timeOfPurchase});
     this.committedBids.push(committedBid);
     this.committedBidSubject.next(committedBid);
-    console.log(this.openBids.length);
+    // console.log(this.openBids.length);
     this.openBids = (this.openBids.slice(0, this.openBids.indexOf(committedBid)).concat(this.openBids.slice(this.openBids.indexOf(committedBid) + 1, this.openBids.length)));
-    console.log(this.openBids.length);
+    // console.log(this.openBids.length);
     this.openBidSubject.next(this.openBids);
-    console.log(this.transactions);
-    console.log(this.committedBids);
+    // console.log(this.transactions);
+    // console.log(this.committedBids);
     // TODO Think about whether this should be timed somewhere else
     this.tcs.clearBidCommitment(buyer, timeOfPurchase, committedBid, this.p2pMarketDesign.feeAmount);
     // TODO think about what could go wrong
@@ -106,15 +106,15 @@ export class BlockchainTransactionService {
    */
   // TODO implement ask-detail so this is used code
   public commitToP2PAsk(seller: ProsumerInstance, timeOfPurchase: number, committedAsk: P2POption): boolean {
-    this.transactions.push({author: seller, p2pbid: committedAsk, timestamp: timeOfPurchase});
+    // this.transactions.push({author: seller, p2pbid: committedAsk, timestamp: timeOfPurchase});
     this.committedAsks.push(committedAsk);
     this.committedAskSubject.next(committedAsk);
-    console.log(this.openAsks.length);
+    // console.log(this.openAsks.length);
     this.openAsks = (this.openAsks.slice(0, this.openAsks.indexOf(committedAsk)).concat(this.openAsks.slice(this.openAsks.indexOf(committedAsk) + 1, this.openAsks.length)));
-    console.log(this.openAsks.length);
+    // console.log(this.openAsks.length);
     this.openAskSubject.next(this.openAsks);
-    console.log(this.transactions);
-    console.log(this.committedAsks);
+    // console.log(this.transactions);
+    // console.log(this.committedAsks);
     // TODO Think about whether this should be timed somewhere else
     this.tcs.clearAskCommitment(seller, timeOfPurchase, committedAsk, this.p2pMarketDesign.feeAmount);
     // TODO think about what could go wrong
@@ -165,7 +165,7 @@ export class BlockchainTransactionService {
   }
 
   /**
-   * Method to submit a ask to the blockchain layer as an open ask.
+   * Method to submit an ask to the blockchain layer as an open ask.
    * Requires the ask to not have been committed before (i.e. not be in the list of open or committed asks) and to be valid.
    * Will otherwise not be successful.
    *

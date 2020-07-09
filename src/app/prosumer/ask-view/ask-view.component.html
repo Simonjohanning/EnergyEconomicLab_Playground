@@ -5,37 +5,37 @@
       <form [formGroup]="askFilterForm" class="range-field my-4 w-25">
         <div class="form-group">
           <label for="maxPrice">Maximum price</label>
-          <input type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{askFilterForm.get('maxPrice').value}}
+          <input id="maxPrice" type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{askFilterForm.get('maxPrice').value}}
           <small id="maxPriceHelp" class="form-text text-muted">The maximum price willing to pay</small>
         </div>
         <div class="form-group">
           <label for="minFeedOutTime">Minimal feed-out-time</label>
-          <input type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedOutTime" aria-describedby="minFeedOutTimeHelp" formControlName="minFeedOutTime" (change)="latestChangeSlider = 'minFeedOutƒTime'">{{askFilterForm.get('minFeedOutTime').value}}
+          <input id="minFeedOutTime" type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedOutTime" aria-describedby="minFeedOutTimeHelp" formControlName="minFeedOutTime" (change)="latestChangeSlider = 'minFeedOutƒTime'">{{askFilterForm.get('minFeedOutTime').value}}
           <small id="minFeedOutTimeHelp" class="form-text text-muted">The earliest time of the feed in</small>
         </div>
         <div class="form-group">
           <label for="maxFeedOutTime">Maximum feed-out-time</label>
-          <input type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedOutTime" aria-describedby="maxFeedOutTimeHelp" formControlName="maxFeedOutTime" (change)="latestChangeSlider = 'maxFeedOutTime'">{{askFilterForm.get('maxFeedOutTime').value}}
+          <input id="maxFeedOutTime" type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedOutTime" aria-describedby="maxFeedOutTimeHelp" formControlName="maxFeedOutTime" (change)="latestChangeSlider = 'maxFeedOutTime'">{{askFilterForm.get('maxFeedOutTime').value}}
           <small id="maxFeedOutTimeHelp" class="form-text text-muted">The latest time of the feed in</small>
         </div>
         <div class="form-group">
           <label for="minDuration">Minimal duration</label>
-          <input type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="minDuration" aria-describedby="minDurationHelp" formControlName="minDuration" (change)="latestChangeSlider = 'minDuration'">{{askFilterForm.get('minDuration').value}}
+          <input id="minDuration" type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="minDuration" aria-describedby="minDurationHelp" formControlName="minDuration" (change)="latestChangeSlider = 'minDuration'">{{askFilterForm.get('minDuration').value}}
           <small id="minDurationHelp" class="form-text text-muted">The minimal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="maxDuration">Maximum duration</label>
-          <input type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" defaultValue="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="maxDuration" aria-describedby="maxDurationHelp" formControlName="maxDuration" (change)="latestChangeSlider = 'maxDuration'">{{askFilterForm.get('maxDuration').value}}
+          <input id="maxDuration" type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" defaultValue="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="maxDuration" aria-describedby="maxDurationHelp" formControlName="maxDuration" (change)="latestChangeSlider = 'maxDuration'">{{askFilterForm.get('maxDuration').value}}
           <small id="maxDurationHelp" class="form-text text-muted">The maximal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="minPower">Minimal power</label>
-          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{askFilterForm.get('minPower').value}}
+          <input id="minPower" type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{askFilterForm.get('minPower').value}}
           <small id="minPowerHelp" class="form-text text-muted">The minimal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="maxPower">Maximum power</label>
-          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="maxAskSize" class="form-control" id="maxPower" aria-describedby="maxPowerHelp" formControlName="maxPower" (change)="latestChangeSlider = 'maxPower'">{{askFilterForm.get('maxPower').value}}
+          <input id="maxPower" type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxAskSize" defaultValue="maxAskSize" class="form-control" id="maxPower" aria-describedby="maxPowerHelp" formControlName="maxPower" (change)="latestChangeSlider = 'maxPower'">{{askFilterForm.get('maxPower').value}}
           <small id="maxPowerHelp" class="form-text text-muted">The maximal time electricity is fed in</small>
         </div>
       </form>
@@ -51,7 +51,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let askToDisplay of relevantAsks" [ngStyle]="{'background': (askToDisplay === selectedAsk) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedAsk(askToDisplay)">
+      <tr id="asks" *ngFor="let askToDisplay of relevantAsks" [ngStyle]="{'background': (askToDisplay === selectedAsk) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedAsk(askToDisplay)">
         <td>{{askToDisplay.deliveryTime}}</td>
         <td>{{askToDisplay.duration}} </td>
         <td>{{askToDisplay.price}} </td>

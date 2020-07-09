@@ -5,37 +5,37 @@
       <form [formGroup]="bidFilterForm" class="range-field my-4 w-25">
         <div class="form-group">
           <label for="maxPrice">Maximum price</label>
-          <input type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{bidFilterForm.get('maxPrice').value}}
+          <input id="maxPrice" type="range" min="0" [attr.max]="marketMaxPrice" defaultValue="marketMaxPrice" class="form-control" id="maxPrice" aria-describedby="maxPriceHelp" formControlName="maxPrice" (change)="latestChangeSlider = 'maxPrice'">{{bidFilterForm.get('maxPrice').value}}
           <small id="maxPriceHelp" class="form-text text-muted">The maximum price willing to pay</small>
         </div>
         <div class="form-group">
           <label for="minFeedInTime">Minimal feed-in-time</label>
-          <input type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedInTime" aria-describedby="minFeedInTimeHelp" formControlName="minFeedInTime" (change)="latestChangeSlider = 'minFeedInTime'">{{bidFilterForm.get('minFeedInTime').value}}
+          <input id="minFeedInTime" type="range" [attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getCurrentTime()" class="form-control" id="minFeedInTime" aria-describedby="minFeedInTimeHelp" formControlName="minFeedInTime" (change)="latestChangeSlider = 'minFeedInTime'">{{bidFilterForm.get('minFeedInTime').value}}
           <small id="minFeedInTimeHelp" class="form-text text-muted">The earliest time of the feed in</small>
         </div>
         <div class="form-group">
           <label for="maxFeedInTime">Maximum feed-in-time</label>
-          <input type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedInTime" aria-describedby="maxFeedInTimeHelp" formControlName="maxFeedInTime" (change)="latestChangeSlider = 'maxFeedInTime'">{{bidFilterForm.get('maxFeedInTime').value}}
+          <input id="maxFeedInTime" type="range"[attr.min]="timeService.getCurrentTime()" [attr.max]="timeService.getEndTime()" defaultValue="timeService.getEndTime()" class="form-control" id="maxFeedInTime" aria-describedby="maxFeedInTimeHelp" formControlName="maxFeedInTime" (change)="latestChangeSlider = 'maxFeedInTime'">{{bidFilterForm.get('maxFeedInTime').value}}
           <small id="maxFeedInTimeHelp" class="form-text text-muted">The latest time of the feed in</small>
         </div>
         <div class="form-group">
           <label for="minDuration">Minimal duration</label>
-          <input type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="minDuration" aria-describedby="minDurationHelp" formControlName="minDuration" (change)="latestChangeSlider = 'minDuration'">{{bidFilterForm.get('minDuration').value}}
+          <input id="minDuration" type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="minDuration" aria-describedby="minDurationHelp" formControlName="minDuration" (change)="latestChangeSlider = 'minDuration'">{{bidFilterForm.get('minDuration').value}}
           <small id="minDurationHelp" class="form-text text-muted">The minimal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="maxDuration">Maximum duration</label>
-          <input type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" defaultValue="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="maxDuration" aria-describedby="maxDurationHelp" formControlName="maxDuration" (change)="latestChangeSlider = 'maxDuration'">{{bidFilterForm.get('maxDuration').value}}
+          <input id="maxDuration" type="range" min="1" [attr.max]="timeService.getEndTime() - timeService.getCurrentTime()" defaultValue="timeService.getEndTime() - timeService.getCurrentTime()" class="form-control" id="maxDuration" aria-describedby="maxDurationHelp" formControlName="maxDuration" (change)="latestChangeSlider = 'maxDuration'">{{bidFilterForm.get('maxDuration').value}}
           <small id="maxDurationHelp" class="form-text text-muted">The maximal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="minPower">Minimal power</label>
-          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxBidSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{bidFilterForm.get('minPower').value}}
+          <input id="minPower" type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxBidSize" defaultValue="p2pMarketDesign.minBidSize"  class="form-control" id="minPower" aria-describedby="minPowerHelp" formControlName="minPower" (change)="latestChangeSlider = 'minPower'">{{bidFilterForm.get('minPower').value}}
           <small id="minPowerHelp" class="form-text text-muted">The minimal time electricity is fed in</small>
         </div>
         <div class="form-group">
           <label for="maxPower">Maximum power</label>
-          <input type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxBidSize" defaultValue="maxBidSize" class="form-control" id="maxPower" aria-describedby="maxPowerHelp" formControlName="maxPower" (change)="latestChangeSlider = 'maxPower'">{{bidFilterForm.get('maxPower').value}}
+          <input id="maxPower" type="range" [attr.min]="p2pMarketDesign.minBidSize" [attr.max]="maxBidSize" defaultValue="maxBidSize" class="form-control" id="maxPower" aria-describedby="maxPowerHelp" formControlName="maxPower" (change)="latestChangeSlider = 'maxPower'">{{bidFilterForm.get('maxPower').value}}
           <small id="maxPowerHelp" class="form-text text-muted">The maximal time electricity is fed in</small>
         </div>
       </form>
@@ -51,7 +51,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let bidToDisplay of relevantBids" [ngStyle]="{'background': (bidToDisplay === selectedBid) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedBid(bidToDisplay)">
+      <tr id="bids" *ngFor="let bidToDisplay of relevantBids" [ngStyle]="{'background': (bidToDisplay === selectedBid) ? '#42A948' : '#FFFFFF'}" (click)="setSelectedBid(bidToDisplay)">
         <td>{{bidToDisplay.deliveryTime}}</td>
         <td>{{bidToDisplay.duration}} </td>
         <td>{{bidToDisplay.price}} </td>

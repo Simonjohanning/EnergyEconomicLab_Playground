@@ -138,7 +138,7 @@ export class DataProvisionService {
     return of({
       bidClosure: 5,
       askClosure: 5,
-      timeSliceLength: 2,
+      timeSliceLength: 1,
       minBidSize: 0.5,
       minAskSize: 0.5,
       maxPrice: -1,

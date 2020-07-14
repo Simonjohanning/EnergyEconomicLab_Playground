@@ -184,7 +184,7 @@ describe('BidViewComponent', () => {
 
   it('clicking on a bid results in function call', () => {
     const spy = spyOn(component, 'setSelectedBid');
-    const element = fixture.debugElement.query(By.css('#bidss'));
+    const element = fixture.debugElement.query(By.css('#bids'));
     element.triggerEventHandler('click', {});
 
     fixture.detectChanges();

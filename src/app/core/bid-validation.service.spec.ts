@@ -205,11 +205,12 @@ describe('Service: BidValidation', () => {
       correspondingBid = {
         id: 1,
         optionCreator: dataProvisionService.getMockProsumerInstance(),
-        deliveryTime: timeService.getCurrentTime() + p2pMarketDesign.bidClosure,
+        deliveryTime: timeService.getCurrentTime() + p2pMarketDesign.bidClosure - 1,
         duration: 3,
         price: 2,
         power: 1.5
       };
+      console.log(timeService.getCurrentTime() + p2pMarketDesign.bidClosure + ' ' + correspondingBid.deliveryTime);
       expect(bidValidationService.checkBidValidity(correspondingBid)).toEqual(false);
     });
 

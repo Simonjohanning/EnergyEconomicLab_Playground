@@ -10,11 +10,11 @@
         <div class="col-md-8">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h5 class="panel-title" (click)="selectedAsset = currentCG.model">{{currentCG.model}}</h5>
+              <h5 id="controllableGenerator" class="panel-title" (click)="selectedAsset = currentCG.model">{{currentCG.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentCG.model" class="panel-body">
               <app-cgdispatch [asset]="currentCG" [timeService]="timeService" (cgGenerationScheduling)="updateAssetScheduling($event)"></app-cgdispatch>
-              <button (click)="printSchedule(currentCG)">Show Schedule</button>
+              <button id="controllableGeneratorButton" (click)="printSchedule(currentCG)">Show Schedule</button>
             </div>
           </div>
         </div>
@@ -27,11 +27,11 @@
         <div class="col-md-8">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h5 class="panel-title" (click)="selectedAsset = currentStorage.model">{{currentStorage.model}}</h5>
+              <h5 id="storage" class="panel-title" (click)="selectedAsset = currentStorage.model">{{currentStorage.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentStorage.model" class="panel-body">
               <app-storage-dispatch [asset]="currentStorage" [timeService]="timeService" (storageScheduling)="updateAssetScheduling($event)"></app-storage-dispatch>
-              <button (click)="printSchedule(currentStorage)">Show Schedule</button>
+              <button id="storageButton" (click)="printSchedule(currentStorage)">Show Schedule</button>
             </div>
           </div>
         </div>
@@ -44,11 +44,11 @@
         <div class="col-md-8">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h5 class="panel-title" (click)="selectedAsset = currentLoad.model">{{currentLoad.model}}</h5>
+              <h5 id="load" class="panel-title" (click)="selectedAsset = currentLoad.model">{{currentLoad.model}}</h5>
             </div>
             <div *ngIf="selectedAsset === currentLoad.model" class="panel-body">
               <app-load-dispatch [asset]="currentLoad" [timeService]="timeService" (loadScheduling)="updateAssetScheduling($event)"></app-load-dispatch>
-              <button (click)="printSchedule(currentLoad)">Show Schedule</button>
+              <button id="loadButton" (click)="printSchedule(currentLoad)">Show Schedule</button>
             </div>
           </div>
         </div>

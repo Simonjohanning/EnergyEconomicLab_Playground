@@ -22,7 +22,7 @@
     "@angular/router": "^7.2.15",
     "angular-in-memory-web-api": "^0.8.0",
     "bootstrap": "^4.3.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "core-js": "^2.6.9",
     "rxjs": "~6.3.3",
     "tslib": "^1.10.0",
